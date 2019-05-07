@@ -1,3 +1,6 @@
+build/
+
+
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 
@@ -70,4 +73,3 @@ Thumbs.db
 # --------
 *.dll
 *.exe
-
