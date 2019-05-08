@@ -222,6 +222,7 @@ col_t spaceRoundtrip( const col_t& rgb1 )
     std::cout << "lab2:	" << glm::to_string( lab2 ) << std::endl;
     std::cout << "xyz2:	" << glm::to_string( xyz2 ) << std::endl;
     std::cout << "rgb2:	" << glm::to_string( rgb2 ) << std::endl;
+    std::cout << std::endl;
 
     return rgb2;
 }
@@ -237,6 +238,7 @@ col_t typeRoundtrip( const col_t& rgb1 )
     std::cout << "rgb1: " << glm::to_string( rgb1 ) << std::endl;
     std::cout << "rgb8: " << glm::to_string( rgb8 ) << std::endl;
     std::cout << "rgb2: " << glm::to_string( rgb2 ) << std::endl;
+    std::cout << std::endl;
 
     return rgb2;
 }
