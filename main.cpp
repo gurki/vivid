@@ -1,5 +1,7 @@
-#include "vivid/color.h"
 #include "vivid/colormap.h"
+#include "vivid/conversion.h"
+
+#include <glm/gtx/string_cast.hpp>
 
 #include <QImage>
 #include <QColor>
@@ -7,10 +9,11 @@
 #include <iostream>
 
 
-int main( int argc, char* argv[] )
+int main( int, char*[] )
 {
     tq::ColorMap cm;
     cm.load( "C:/Users/tgurdan/disk/code/ATL/vivid/res/colormaps/viridis.json" );
+    cm.interpolation = tq::ColorMap::Linear;
 
     QImage img( 4096, 128, QImage::Format_RGB32 );
 
@@ -26,6 +29,10 @@ int main( int argc, char* argv[] )
     }
 
     img.save( "viridis.png" );
+
+    tq::col_t col( 1.f, 0.7f, 0.5f );
+    tq::rgb::spaceRoundtrip( col );
+    tq::rgb::typeRoundtrip( col );
 
     return EXIT_SUCCESS;
 }

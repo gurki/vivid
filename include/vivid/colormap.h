@@ -26,6 +26,13 @@ class ColorMap
 {
     public:
 
+        enum Interpolation {
+            Nearest,
+            Linear,
+            HSV,
+            CIELCh
+        };
+
         ColorMap();
 
         bool load( const std::string& file );
@@ -33,6 +40,8 @@ class ColorMap
         bool empty() const { return stops_.empty(); }
         size_t numStops() const { return stops_.size(); }
         glm::vec3 at( const float t );
+
+        Interpolation interpolation = Linear;
 
     private:
 

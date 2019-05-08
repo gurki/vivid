@@ -9,11 +9,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     src/colormap.cpp \
-    src/color.cpp
+    src/conversion.cpp
 
 HEADERS += \
     include/vivid/colormap.h \
-    include/vivid/color.h
+    include/vivid/conversion.h
 
 INCLUDEPATH += \
     $$PWD/include/ \
