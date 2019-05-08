@@ -18,7 +18,6 @@
 #include <glm/vec3.hpp>
 #include <vector>
 
-
 namespace tq {
 
 
@@ -33,7 +32,7 @@ class ColorMap
             CIELCh
         };
 
-        ColorMap();
+        ColorMap() = default;
 
         bool load( const std::string& file );
 

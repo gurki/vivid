@@ -20,9 +20,14 @@ using col_t = glm::vec3;
 using col8_t = glm::vec<3, uint8_t>;
 
 
-namespace ciexyz {
+namespace ciexyz
+{
     col_t fromCIELab( const col_t& lab );
     col_t fromRGB( const col_t& rgb );
+
+    //  observer 2°, illuminant D65
+    //  [1] http://www.easyrgb.com/index.php?X=MATH&H=08#text8
+    static const col_t xyz_ref = col_t( 0.95047f, 1.f, 1.08883f );
 }
 
 namespace cielab {

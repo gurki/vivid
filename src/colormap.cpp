@@ -10,11 +10,6 @@ namespace tq {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-ColorMap::ColorMap()
-{}
-
-
-////////////////////////////////////////////////////////////////////////////////
 bool ColorMap::load( const std::string& file )
 {
     stops_.clear();
@@ -48,7 +43,7 @@ glm::vec3 ColorMap::at( const float t )
         return stops_.back();
     }
 
-    const float u = std::fmodf( sf, 1.f );
+    const auto u = std::fmodf( sf, 1.f );
 
     switch ( interpolation )
     {
@@ -57,6 +52,8 @@ glm::vec3 ColorMap::at( const float t )
         case HSV: return tq::rgb::lerpHSV( stops_[ k ], stops_[ k + 1 ], u );
         case CIELCh: return tq::rgb::lerpCIELCh( stops_[ k ], stops_[ k + 1 ], u );
     }
+
+    return {};
 }
 
 

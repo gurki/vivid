@@ -1,20 +1,13 @@
 #include "vivid/conversion.h"
 
 #include <glm/glm.hpp>
-#include <glm/common.hpp>
-#include <glm/gtc/constants.hpp>
+#include <glm/common.hpp>           //  clamp
+#include <glm/gtc/constants.hpp>    //  pi
 #include <glm/gtx/string_cast.hpp>
 
 #include <iostream>
 
-namespace tq {
-
-//  observer = 2°, illuminant= D65
-//  [1] http://www.easyrgb.com/index.php?X=MATH&H=08#text8
-static const col_t xyz_ref = col_t( 0.95047f, 1.f, 1.08883f );
-
-
-namespace rgb {
+namespace tq::rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -190,7 +183,7 @@ col_t fromCIEXYZ( const col_t& xyz )
             ( 1.055f * std::pow( x, 1.f / 2.4f ) - 0.055f );
     };
 
-    const col_t sxyz = xyz * xyz_ref;
+    const col_t sxyz = xyz * ciexyz::xyz_ref;
 
     col_t rgb = {};
     rgb.x = glm::dot( { 3.2404542f,-1.5371385f,-0.4985134f }, sxyz );
@@ -221,6 +214,7 @@ col_t spaceRoundtrip( const col_t& rgb1 )
     const col_t xyz2 = ciexyz::fromCIELab( lab2 );
     const col_t rgb2 = rgb::fromCIEXYZ( xyz2 );
 
+    std::cout << "color space roundtrip test" << std::endl;
     std::cout << "rgb1:	" << glm::to_string( rgb1 ) << std::endl;
     std::cout << "xyz1:	" << glm::to_string( xyz1 ) << std::endl;
     std::cout << "lab1:	" << glm::to_string( lab1 ) << std::endl;
@@ -239,6 +233,7 @@ col_t typeRoundtrip( const col_t& rgb1 )
     const auto rgb8 = rgb8::fromRGB( rgb1 );
     const auto rgb2 = rgb::fromRGB8( rgb8 );
 
+    std::cout << "color type roundtrip test" << std::endl;
     std::cout << "rgb1: " << glm::to_string( rgb1 ) << std::endl;
     std::cout << "rgb8: " << glm::to_string( rgb8 ) << std::endl;
     std::cout << "rgb2: " << glm::to_string( rgb2 ) << std::endl;
@@ -248,203 +243,3 @@ col_t typeRoundtrip( const col_t& rgb1 )
 
 
 }   //  ::tq::rgb
-
-
-namespace rgb8 {
-
-
-////////////////////////////////////////////////////////////////////////////////
-col8_t fromRGB( const col_t& rgb )
-{
-    col8_t rgb8;
-    rgb8.x = rgb.x * 255;
-    rgb8.y = rgb.y * 255;
-    rgb8.z = rgb.z * 255;
-
-    return rgb8;
-}
-
-
-}   //  ::tq::rgb8
-
-
-namespace hsv {
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  r: [0, 1], g: [0, 1], b: [0, 1]
-//  [2] https://www.cs.rit.edu/~ncs/color/t_convert.html
-col_t fromRGB( float r, float g, float b )
-{
-    const float cmax = glm::max( glm::max( r, g ), b );
-    const float cmin = glm::min( glm::min( r, g ), b );
-    const float delta = cmax - cmin;
-
-    col_t col;
-    col.z = cmax;
-
-    if ( cmax != 0.f ) {
-        col.y = delta / cmax;
-    } else {
-        col.x =-1;
-        col.y = 0;
-        return col;
-    }
-
-    if ( glm::epsilonEqual( r, cmax, glm::epsilon<float>() ) ) {
-        col.x = ( g - b ) / delta;		// between yellow & magenta
-    } else if ( glm::epsilonEqual( g, cmax, glm::epsilon<float>() ) ) {
-        col.x = 2 + ( b - r ) / delta;	// between cyan & yellow
-    } else {
-        col.x = 4 + ( r - g ) / delta;	// between magenta & cyan
-    }
-
-    col.x *= 60;    // degrees
-
-    if ( col.x < 0 ) {
-        col.x += 360;
-    }
-
-    col.x /= 360.0f;
-    return col;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromRGB( const col_t& rgb ) {
-    return fromRGB( rgb.x, rgb.y, rgb.z );
-}
-
-
-}   //  ::tq::hsv
-
-
-namespace cielab {
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  xyz \in [ 0, 1 ]
-//  l \in [ 0, 100 ]
-//  ab \in [ -128, 128 ]
-//  [3] http://docs.opencv.org/3.1.0/de/d25/imgproc_color_conversions.html#gsc.tab=0
-//  [4] https://github.com/mbostock/d3/blob/master/src/color/rgb.js
-col_t fromCIEXYZ( const col_t& xyz )
-{
-    auto xyz2lab = []( const float x ) -> float {
-        return ( x > 0.008856f ) ?
-            std::cbrtf( x ) :
-            ( 7.787f * x + 16.f / 116.f );
-    };
-
-    col_t sxyz;
-    sxyz.x = xyz2lab( xyz.x );
-    sxyz.y = xyz2lab( xyz.y );
-    sxyz.z = xyz2lab( xyz.z );
-
-    col_t lab;
-    lab.x = 116.f * sxyz.y - 16.f;
-    lab.y = 500.f * ( sxyz.x - sxyz.y );
-    lab.z = 200.f * ( sxyz.y - sxyz.z );
-
-    return lab;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromCIELCh( const col_t& lch)
-{
-    col_t lab;
-    lab.x = lch.x;
-    lab.y = std::cosf( lch.z ) * lch.y;
-    lab.z = std::sinf( lch.z ) * lch.y;
-
-    return lab;
-}
-
-
-}   //  ::tq::cielab
-
-
-namespace ciexyz {
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromCIELab( const col_t& lab )
-{
-    col_t xyz;
-    xyz.y = ( lab.x + 16.f ) / 116.f;
-    xyz.x = xyz.y + lab.y / 500.0f;
-    xyz.z = xyz.y - lab.z / 200.0f;
-
-    auto lab2xyz = []( const float x ) -> float {
-        return ( x > 0.206893034f ) ?
-            ( x * x * x ) :
-            ( ( x - 16.f / 116.f ) / 7.787037f );
-    };
-
-    xyz.x = lab2xyz( xyz.x );
-    xyz.y = lab2xyz( xyz.y );
-    xyz.z = lab2xyz( xyz.z );
-
-    return xyz;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  rgb \in [ 0, 1 ]
-//  xyz \in [ 0, 1 ]
-col_t fromRGB( const col_t& rgb )
-{
-    auto rgb2xyz = []( const float x ) -> float {
-        return ( x <= 0.04045f ) ?
-            ( x / 12.92f ) :
-            ( std::powf( ( x + 0.055f ) / 1.055f, 2.4f ) );
-    };
-
-    col_t sxyz;
-    sxyz.x = rgb2xyz( rgb.x );
-    sxyz.y = rgb2xyz( rgb.y );
-    sxyz.z = rgb2xyz( rgb.z );
-
-    col_t xyz;
-    xyz.x = glm::dot( { 0.4124564f, 0.3575761f, 0.1804375f }, sxyz );
-    xyz.y = glm::dot( { 0.2126729f, 0.7151522f, 0.0721750f }, sxyz );
-    xyz.z = glm::dot( { 0.0193339f, 0.1191920f, 0.9503041f }, sxyz );
-
-    xyz = xyz / xyz_ref;
-
-    return xyz;
-}
-
-
-}   //  ::tq::ciexyz
-
-
-namespace cielch {
-
-
-////////////////////////////////////////////////////////////////////////////////
-//  l \in [ 0, 100 ]
-col_t fromCIELab( const col_t& lab )
-{
-    const float h = std::atan2f( lab.z, lab.y );
-
-    col_t lch;
-    lch.x = lab.x;
-    lch.y = std::sqrtf( lab.y * lab.y + lab.z * lab.z );
-    lch.z = h;
-
-    return lch;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromRGB( const col_t& rgb ) {
-    return cielch::fromCIELab( cielab::fromCIEXYZ( ciexyz::fromRGB( rgb ) ) );
-}
-
-
-}   //  ::tq::cielch
-
-
-}   //  ::tq
