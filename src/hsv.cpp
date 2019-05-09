@@ -16,39 +16,44 @@ col_t fromRGB( float r, float g, float b )
     const float cmin = glm::min( glm::min( r, g ), b );
     const float delta = cmax - cmin;
 
-    col_t col;
-    col.z = cmax;
+    col_t hsv = { 0.f, 0.f, cmax };
 
     if ( cmax != 0.f ) {
-        col.y = delta / cmax;
+        hsv.y = delta / cmax;
     } else {
-        col.x =-1;
-        col.y = 0;
-        return col;
+        hsv.x =-1;
+        hsv.y = 0;
+        return hsv;
     }
 
     if ( glm::epsilonEqual( r, cmax, glm::epsilon<float>() ) ) {
-        col.x = ( g - b ) / delta;		// between yellow & magenta
+        hsv.x = ( g - b ) / delta;		// between yellow & magenta
     } else if ( glm::epsilonEqual( g, cmax, glm::epsilon<float>() ) ) {
-        col.x = 2 + ( b - r ) / delta;	// between cyan & yellow
+        hsv.x = 2 + ( b - r ) / delta;	// between cyan & yellow
     } else {
-        col.x = 4 + ( r - g ) / delta;	// between magenta & cyan
+        hsv.x = 4 + ( r - g ) / delta;	// between magenta & cyan
     }
 
-    col.x *= 60;    // degrees
+    hsv.x *= 60;    // degrees
 
-    if ( col.x < 0 ) {
-        col.x += 360;
+    if ( hsv.x < 0 ) {
+        hsv.x += 360;
     }
 
-    col.x /= 360.0f;
-    return col;
+    hsv.x /= 360.0f;
+    return hsv;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromRGB( const col_t& rgb ) {
     return fromRGB( rgb.x, rgb.y, rgb.z );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+col_t fromHSL( const col_t& hsl ) {
+    return hsv::fromRGB( rgb::fromHSL( hsl ) );
 }
 
 

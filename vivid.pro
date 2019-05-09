@@ -9,29 +9,9 @@ DEFINES += \
     VIVID_ROOT_PATH=\\\"$$_PRO_FILE_PWD_\\\"
 
 SOURCES += \
-    main.cpp \
-    src/colormap.cpp \
-    src/ciexyz.cpp \
-    src/cielab.cpp \
-    src/hsv.cpp \
-    src/rgb8.cpp \
-    src/rgb.cpp \
-    src/cielch.cpp
+    main.cpp
 
-HEADERS += \
-    include/vivid/colormap.h \
-    include/vivid/conversion.h
-
-INCLUDEPATH += \
-    $$PWD/include/ \
-    $$PWD/dependencies/json/single_include \
-    $$PWD/dependencies/glm
-
-DISTFILES += \
-    res/colormaps/inferno.json \
-    res/colormaps/magma.json \
-    res/colormaps/plasma.json \
-    res/colormaps/viridis.json
+include( $$PWD/vivid.pri )
 
 #  default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

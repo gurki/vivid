@@ -11,6 +11,12 @@ namespace tq::rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
+col_t lerp( const col_t& rgb1, const col_t& rgb2, const float t ) {
+    return glm::mix( rgb1, rgb2, t );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 col_t lerpHSV(
     const col_t& rgb1,
     const col_t& rgb2,
@@ -18,8 +24,6 @@ col_t lerpHSV(
 {
     col_t hsv1 = hsv::fromRGB( rgb1 );
     col_t hsv2 = hsv::fromRGB( rgb2 );
-
-    col_t hsv;
 
     if ( std::abs( hsv1.x - hsv2.x ) > 0.5f )
     {
@@ -30,10 +34,35 @@ col_t lerpHSV(
         }
     }
 
-    hsv = glm::mix( hsv1, hsv2, t );
+    col_t hsv = glm::mix( hsv1, hsv2, t );
     hsv.x = std::fmodf( hsv.x, 1.0f );
 
     return rgb::fromHSV( hsv );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+col_t lerpHSL(
+    const col_t& rgb1,
+    const col_t& rgb2,
+    const float t )
+{
+    col_t hsl1 = hsl::fromRGB( rgb1 );
+    col_t hsl2 = hsl::fromRGB( rgb2 );
+
+    if ( std::abs( hsl1.x - hsl2.x ) > 0.5f )
+    {
+        if( hsl1.x > hsl2.x ) {
+            hsl1.x -= 1.0f;
+        } else {
+            hsl1.x += 1.0f;
+        }
+    }
+
+    col_t hsl = glm::mix( hsl1, hsl2, t );
+    hsl.x = std::fmodf( hsl.x, 1.0f );
+
+    return rgb::fromHSL( hsl );
 }
 
 
@@ -115,62 +144,92 @@ col_t saturate( const col_t& rgb )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRGB8( const col8_t& rgb8 )
+col_t fromRGB888( const colu8_t& rgb888 )
 {
     col_t rgb;
-    rgb.x = rgb8.x / 255.f;
-    rgb.y = rgb8.y / 255.f;
-    rgb.z = rgb8.z / 255.f;
+    rgb.x = rgb888.x / 255.f;
+    rgb.y = rgb888.y / 255.f;
+    rgb.z = rgb888.z / 255.f;
 
     return rgb;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  h: [0, 1], s: [0, 1], v: [0, 1]
+col_t fromRGBu32( const uint32_t rgbu32 )
+{
+    const uint8_t r = ( rgbu32 >> 16 ) & 0xff;
+    const uint8_t g = ( rgbu32 >> 8 ) & 0xff;
+    const uint8_t b = rgbu32 & 0xff;
+
+    return fromRGB888( { r, g, b } );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 col_t fromHSV( float h, float s, float v )
 {
     h = ( h > 0.f ) ? ( std::fmodf( h, 1.f ) ) : ( 1.f + std::fmodf( h, 1.f ) );   //  wrap
     s = glm::clamp( s, 0.f, 1.f );
     v = glm::clamp( v, 0.f, 1.f );
 
-    col_t col;
-
     if( s == 0.f ) {
-        col[ 0 ] = v;
-        col[ 1 ] = v;
-        col[ 2 ] = v;
+        return { v, v, v };
     }
-    else
+
+    col_t rgb = {};
+
+    const float k = h * 6.f;
+    const int d = int( std::floorf( k ) );
+    const float C = v * s;
+    const float X = C * ( 1.f - std::fabsf( std::fmodf( k, 2.f ) - 1.f ) );
+    const float m = v - C;
+
+    switch( d )
     {
-        const float k = h * 6.f;
-        const int d = int( std::floorf( k ) );
-        const float c = v * s;
-        const float x = c * ( 1.f - std::fabsf( std::fmodf( k, 2.f ) - 1.f ) );
-
-        switch( d )
-        {
-            case 0:  col = col_t( c, x, 0.f ); break;
-            case 1:  col = col_t( x, c, 0.f ); break;
-            case 2:  col = col_t( 0.f, c, x ); break;
-            case 3:  col = col_t( 0.f, x, c ); break;
-            case 4:  col = col_t( x, 0.f, c ); break;
-            default: col = col_t( c, 0.f, x ); break;
-        }
-
-        const float m = v - c;
-        col[ 0 ] += m;
-        col[ 1 ] += m;
-        col[ 2 ] += m;
+        case 0: rgb = col_t( C, X, 0.f ); break;
+        case 1: rgb = col_t( X, C, 0.f ); break;
+        case 2: rgb = col_t( 0.f, C, X ); break;
+        case 3: rgb = col_t( 0.f, X, C ); break;
+        case 4: rgb = col_t( X, 0.f, C ); break;
+        default: rgb = col_t( C, 0.f, X ); break;
     }
 
-    return col;
+    rgb += m;
+    return rgb;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromHSV( const col_t& hsv ) {
     return rgb::fromHSV( hsv.x, hsv.y, hsv.z );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+//  [1] https://www.rapidtables.com/convert/color/hsl-to-rgb.html
+col_t fromHSL( const col_t& hsl )
+{
+    const float k = hsl.x * 6.f;
+    const float C = ( 1.f - std::abs( 2.f * hsl.z - 1.f ) ) * hsl.y;
+    const float X = C * ( 1.f - std::abs( std::fmodf( k, 2.f ) - 1.f ) );
+    const float m = hsl.z - C / 2.f;
+    const int d = int( std::floorf( k ) );
+
+    col_t rgb = {};
+
+    switch( d )
+    {
+        case 0: rgb = col_t( C, X, 0.f ); break;
+        case 1: rgb = col_t( X, C, 0.f ); break;
+        case 2: rgb = col_t( 0.f, C, X ); break;
+        case 3: rgb = col_t( 0.f, X, C ); break;
+        case 4: rgb = col_t( X, 0.f, C ); break;
+        default: rgb = col_t( C, 0.f, X ); break;
+    }
+
+    rgb += m;
+    return rgb;
 }
 
 
@@ -205,6 +264,12 @@ col_t fromCIELCh( const col_t& lch ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
+col_t fromHex( const std::string& hexStr ) {
+    return rgb::fromRGBu32( rgbu32::fromHex( hexStr ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 col_t spaceRoundtrip( const col_t& rgb1 )
 {
     const col_t xyz1 = ciexyz::fromRGB( rgb1 );
@@ -231,12 +296,12 @@ col_t spaceRoundtrip( const col_t& rgb1 )
 ////////////////////////////////////////////////////////////////////////////////
 col_t typeRoundtrip( const col_t& rgb1 )
 {
-    const auto rgb8 = rgb8::fromRGB( rgb1 );
-    const auto rgb2 = rgb::fromRGB8( rgb8 );
+    const auto rgb888 = rgb888::fromRGB( rgb1 );
+    const auto rgb2 = rgb::fromRGB888( rgb888 );
 
     std::cout << "color type roundtrip test" << std::endl;
     std::cout << "rgb1: " << glm::to_string( rgb1 ) << std::endl;
-    std::cout << "rgb8: " << glm::to_string( rgb8 ) << std::endl;
+    std::cout << "rgb888: " << glm::to_string( rgb888 ) << std::endl;
     std::cout << "rgb2: " << glm::to_string( rgb2 ) << std::endl;
     std::cout << std::endl;
 
