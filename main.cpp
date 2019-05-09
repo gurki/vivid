@@ -13,7 +13,7 @@
 
 int main( int, char*[] )
 {
-    tq::ColorTable::load( VIVID_ROOT_PATH "/res/colors.json" );
+    tq::ColorTable::initialize();
 
     //  colormaps
 

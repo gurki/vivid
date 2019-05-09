@@ -91,8 +91,8 @@ namespace rgbu32 {
 }
 
 
-//  ansi 6x6x6 rgb color index (for use in e.g. ansi escape codes)
-namespace ansi {
+//  ansi color index (for use in e.g. ansi escape codes)
+namespace indexed {
     uint8_t fromRGB( const col_t& rgb );
     uint8_t fromRGB888( const colu8_t& rgb888 );
 }

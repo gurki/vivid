@@ -18,6 +18,12 @@ std::unordered_map<uint32_t, uint8_t> ColorTable::lookup_ = {};
 
 
 ////////////////////////////////////////////////////////////////////////////////
+void ColorTable::initialize() {
+    load( VIVID_ROOT_PATH "/res/colors.json" );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 bool ColorTable::load( const std::string& path )
 {
     std::ifstream fin( path );
@@ -45,39 +51,39 @@ bool ColorTable::load( const std::string& path )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string ColorTable::hex( const uint8_t ansi ) {
+std::string ColorTable::hex( const uint8_t index ) {
     assert( ! empty() );
-    return table_.at( ansi ).at( "hexString" );
+    return table_.at( index ).at( "hexString" );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string ColorTable::name( const uint8_t ansi )  {
+std::string ColorTable::name( const uint8_t index )  {
     assert( ! empty() );
-    return table_.at( ansi ).at( "name" );
+    return table_.at( index ).at( "name" );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t ColorTable::rgb( const uint8_t ansi ) {
-    return rgb::fromRGB888( rgb888( ansi ) );
+col_t ColorTable::rgb( const uint8_t index ) {
+    return rgb::fromRGB888( rgb888( index ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-colu8_t ColorTable::rgb888( const uint8_t ansi ) {
+colu8_t ColorTable::rgb888( const uint8_t index ) {
     assert( ! empty() );
-    const auto& arr = table_.at( ansi ).at( "rgb" );
+    const auto& arr = table_.at( index ).at( "rgb" );
     return colu8_t( arr[ "r" ], arr[ "g" ], arr[ "b" ] );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t  ColorTable::hsl( const uint8_t ansi )
+col_t  ColorTable::hsl( const uint8_t index )
 {
     assert( ! empty() );
 
-    const auto& arr = table_.at( ansi ).at( "hsl" );
+    const auto& arr = table_.at( index ).at( "hsl" );
 
     return col_t(
         arr[ "h" ].get<uint8_t>() / 360.f,
@@ -157,7 +163,7 @@ void ColorTable::printTestTable(
                 const uint8_t b8 = uint8_t( std::round( b ) );
                 const uint32_t val = ( r8 << 16 ) + ( g8 << 8 ) + b8;
 
-                std::cout << escapeCode( ansi::fromRGB( rgb::fromRGBu32( val ) ));
+                std::cout << escapeCode( indexed::fromRGB( rgb::fromRGBu32( val ) ));
             }
 
             std::cout << std::endl;

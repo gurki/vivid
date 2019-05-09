@@ -30,6 +30,7 @@ class ColorTable
             const bool background = true
         );
 
+        static void initialize();
         static bool load( const std::string& path );
         static bool empty() { return table_.empty(); }
 
