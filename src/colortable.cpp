@@ -43,7 +43,7 @@ bool ColorTable::load( const std::string& path )
     for ( uint16_t id = 0; id < 255; id++ ) {
         const auto rgbu8 = rgb888( uint8_t( id ) );
         const auto rgbu32 = rgbu32::fromRGB888( rgbu8 );
-        lookup_[ rgbu32 ] = id;
+        lookup_[ rgbu32 ] = uint8_t( id );
     }
 
     return ! empty();

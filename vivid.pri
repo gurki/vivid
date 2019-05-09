@@ -12,11 +12,11 @@ SOURCES += \
     src/rgb.cpp \
     src/cielch.cpp \
     src/colortable.cpp \
-    $$PWD/src/ansi.cpp \
     $$PWD/src/xterm.cpp \
     $$PWD/src/rgb32.cpp \
     $$PWD/src/hsl.cpp \
-    $$PWD/src/hex.cpp
+    $$PWD/src/hex.cpp \
+    $$PWD/src/indexed.cpp
 
 HEADERS += \
     include/vivid/colormap.h \
