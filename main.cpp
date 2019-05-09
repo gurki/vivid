@@ -58,7 +58,7 @@ int main( int, char*[] )
 
     //  escape codes
 
-//    tq::ColorTable::printTestTable();
+    tq::ColorTable::printTestTable();
 
     //  interpolation
 

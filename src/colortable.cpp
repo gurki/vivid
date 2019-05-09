@@ -14,6 +14,7 @@ namespace tq {
 
 nlohmann::json ColorTable::table_ = {};
 ColorTable ColorTable::instance_ = {};
+std::unordered_map<uint32_t, uint8_t> ColorTable::lookup_ = {};
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,6 +31,15 @@ bool ColorTable::load( const std::string& path )
     }
 
     assert( table_.size() == 256 );
+
+    lookup_.clear();
+
+    for ( uint16_t id = 0; id < 255; id++ ) {
+        const auto rgbu8 = rgb888( uint8_t( id ) );
+        const auto rgbu32 = rgbu32::fromRGB888( rgbu8 );
+        lookup_[ rgbu32 ] = id;
+    }
+
     return ! empty();
 }
 
@@ -49,52 +59,89 @@ std::string ColorTable::name( const uint8_t ansi )  {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t  ColorTable::rgb( const uint8_t ansi ) {
-    assert( ! empty() );
-    const std::array<uint8_t, 3>& arr = table_.at( ansi ).at( "rgb" );
-    return col_t( arr[ 0 ], arr[ 1 ], arr[ 2 ] ) / 255.f;
+col_t ColorTable::rgb( const uint8_t ansi ) {
+    return rgb::fromRGB888( rgb888( ansi ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t  ColorTable::hsl( const uint8_t ansi ) {
+colu8_t ColorTable::rgb888( const uint8_t ansi ) {
     assert( ! empty() );
-    const std::array<uint8_t, 3>& arr = table_.at( ansi ).at( "hsl" );
-    return col_t( arr[ 0 ] / 255.f, arr[ 1 ] / 100.f, arr[ 2 ] / 100.f );
+    const auto& arr = table_.at( ansi ).at( "rgb" );
+    return colu8_t( arr[ "r" ], arr[ "g" ], arr[ "b" ] );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+col_t  ColorTable::hsl( const uint8_t ansi )
+{
+    assert( ! empty() );
+
+    const auto& arr = table_.at( ansi ).at( "hsl" );
+
+    return col_t(
+        arr[ "h" ].get<uint8_t>() / 360.f,
+        arr[ "s" ].get<uint8_t>() / 100.f,
+        arr[ "l" ].get<uint8_t>() / 100.f
+    );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////////
-void ColorTable::printTestTable( const uint8_t numSteps )
+std::optional<uint8_t> ColorTable::findRGBu32( const uint32_t rgbu32 )
 {
-    static const std::string sym = "\xe2\x97\x8f";
+    const auto it = lookup_.find( rgbu32 );
 
-    if ( numSteps == 0 ) {
-        return;
+    if ( it == lookup_.end() ) {
+        return {};
     }
 
+    return it->second;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+//  layout by gawin's kool xterm color demo
+//  [1] https://github.com/gawin/bash-colors-256
+void ColorTable::printTestTable(
+    const bool foreground,
+    const bool background )
+{
     std::cout << std::endl;
 
-    auto escapeCode = []( const uint8_t& id ) -> std::string {
-       return "\x1b[38;5;" + std::to_string( id ) + "m";
+    auto escapeCode = [=]( const uint8_t& id ) -> std::string
+    {
+        char idstr[ 3 ];
+        std::sprintf( idstr, "%03d", id );
+
+        const std::string bgstr = "\x1b[48;5;" + std::to_string( id ) + "m\x1b[38;5;15m " + idstr + " \x1b[0m";
+        const std::string fgstr = " \x1b[38;5;" + std::to_string( id ) + "m" + idstr + "\x1b[0m ";
+
+        if ( ! background ) {
+            return fgstr;
+        }
+
+        if ( ! foreground ) {
+            return bgstr;
+        }
+
+        return bgstr + fgstr;
     };
 
     for ( uint8_t i = 0; i < 8; i++ ) {
-        std::cout << escapeCode( i ) << sym;
+        std::cout << escapeCode( i );
     }
 
-    std::cout << " ";
-    std::cout << escapeCode( ansi::fromRGB( rgb::fromHex( "#000000" ) )) << sym;
-    std::cout << escapeCode( ansi::fromRGB( rgb::fromHex( "#ff0000" ) )) << sym;
-    std::cout << escapeCode( ansi::fromRGB( rgb::fromHex( "#00ff00" ) )) << sym;
-    std::cout << escapeCode( ansi::fromRGB( rgb::fromHex( "#ffff00" ) )) << sym;
-    std::cout << escapeCode( ansi::fromRGB( rgb::fromHex( "#0000ff" ) )) << sym;
-    std::cout << escapeCode( ansi::fromRGB( rgb::fromHex( "#ff00ff" ) )) << sym;
-    std::cout << escapeCode( ansi::fromRGB( rgb::fromHex( "#00ffff" ) )) << sym;
-    std::cout << escapeCode( ansi::fromRGB( rgb::fromHex( "#ffffff" ) )) << sym;
+    std::cout << std::endl;
+
+    for ( uint8_t i = 8; i < 16; i++ ) {
+        std::cout << escapeCode( i );
+    }
+
     std::cout << std::endl;
     std::cout << std::endl;
 
+    const size_t numSteps = 6;
     const float step = ( numSteps == 1 ) ? 255.f : ( 255.f / ( numSteps - 1 ) );
 
     for ( float r = 0.f; r <= 255.f; r += step )
@@ -110,10 +157,10 @@ void ColorTable::printTestTable( const uint8_t numSteps )
                 const uint8_t b8 = uint8_t( std::round( b ) );
                 const uint32_t val = ( r8 << 16 ) + ( g8 << 8 ) + b8;
 
-                std::cout << escapeCode( ansi::fromRGB( rgb::fromRGBu32( val ) )) << sym;
+                std::cout << escapeCode( ansi::fromRGB( rgb::fromRGBu32( val ) ));
             }
 
-            std::cout << " ";
+            std::cout << std::endl;
         }
 
         std::cout << std::endl;
@@ -122,8 +169,13 @@ void ColorTable::printTestTable( const uint8_t numSteps )
     std::cout << std::endl;
 
     //  NOTE(tgurdan): uint8_t causes endless loop here
-    for ( uint16_t i = 232; i <= 255; i++ ) {
-        std::cout << escapeCode( uint8_t( i ) ) << sym;
+    for ( uint16_t i = 232; i <= 255; i++ )
+    {
+        std::cout << escapeCode( uint8_t( i ) );
+
+        if ( i % 6 == 3 ) {
+            std::cout << std::endl;
+        }
     }
 
     std::cout << std::endl << std::endl;
