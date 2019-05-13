@@ -2,7 +2,7 @@
 #include "vivid/colortable.h"
 #include <glm/common.hpp>
 
-namespace tq::indexed {
+namespace tq::index {
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@ uint8_t fromRGB888( const colu8_t& rgb888 )
 
 //////////////////////////////////////////////////////////////////////////////////
 uint8_t fromRGB( const col_t& rgb ) {
-    return indexed::fromRGB888( rgb888::fromRGB( rgb ) );
+    return index::fromRGB888( rgb888::fromRGB( rgb ) );
 }
 
 

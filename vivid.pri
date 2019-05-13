@@ -4,6 +4,8 @@ INCLUDEPATH += \
     $$PWD/dependencies/glm
 
 SOURCES += \
+    $$PWD/src/functions.cpp \
+    $$PWD/src/index.cpp \
     src/colormap.cpp \
     src/ciexyz.cpp \
     src/cielab.cpp \
@@ -15,10 +17,11 @@ SOURCES += \
     $$PWD/src/xterm.cpp \
     $$PWD/src/rgb32.cpp \
     $$PWD/src/hsl.cpp \
-    $$PWD/src/hex.cpp \
-    $$PWD/src/indexed.cpp
+    $$PWD/src/hex.cpp
 
 HEADERS += \
+    $$PWD/include/vivid/functions.h \
+    $$PWD/include/vivid/vivid.h \
     include/vivid/colormap.h \
     include/vivid/conversion.h \
     include/vivid/colortable.h \

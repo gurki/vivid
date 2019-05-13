@@ -1,5 +1,6 @@
 #include "vivid/colormap.h"
 #include "vivid/conversion.h"
+#include "vivid/functions.h"
 
 #include <glm/common.hpp>
 #include <nlohmann/json.hpp>
@@ -48,7 +49,7 @@ glm::vec3 ColorMap::at( const float t )
     switch ( interpolation )
     {
         case Nearest: return stops_[ k ];
-        case Linear: return glm::mix( stops_[ k ], stops_[ k + 1 ], u );
+        case Linear: return tq::rgb::lerp( stops_[ k ], stops_[ k + 1 ], u );
         case HSV: return tq::rgb::lerpHSV( stops_[ k ], stops_[ k + 1 ], u );
         case CIELCh: return tq::rgb::lerpCIELCh( stops_[ k ], stops_[ k + 1 ], u );
     }

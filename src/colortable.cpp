@@ -65,12 +65,6 @@ std::string ColorTable::name( const uint8_t index )  {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t ColorTable::rgb( const uint8_t index ) {
-    return rgb::fromRGB888( rgb888( index ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 colu8_t ColorTable::rgb888( const uint8_t index ) {
     assert( ! empty() );
     const auto& arr = table_.at( index ).at( "rgb" );
@@ -79,7 +73,7 @@ colu8_t ColorTable::rgb888( const uint8_t index ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t  ColorTable::hsl( const uint8_t index )
+col_t ColorTable::hsl( const uint8_t index )
 {
     assert( ! empty() );
 
@@ -163,7 +157,7 @@ void ColorTable::printTestTable(
                 const uint8_t b8 = uint8_t( std::round( b ) );
                 const uint32_t val = ( r8 << 16 ) + ( g8 << 8 ) + b8;
 
-                std::cout << escapeCode( indexed::fromRGB( rgb::fromRGBu32( val ) ));
+                std::cout << escapeCode( index::fromRGB( rgb::fromRGBu32( val ) ));
             }
 
             std::cout << std::endl;

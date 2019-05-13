@@ -49,6 +49,7 @@ namespace hsv {
 namespace hsl {
     col_t fromHSV( const col_t& hsv );
     col_t fromRGB( const col_t& rgb );
+    col_t fromIndex( const uint8_t index );
 }
 
 
@@ -63,23 +64,14 @@ namespace rgb
     col_t fromCIEXYZ( const col_t& xyz );
     col_t fromCIELCh( const col_t& lch );  //  convenience function
     col_t fromHex( const std::string& hexStr );
-
-    col_t lerp( const col_t& rgb1, const col_t& rgb2, const float t );
-    col_t lerpHSV( const col_t& rgb1, const col_t& rgb2, const float t );
-    col_t lerpHSL( const col_t& rgb1, const col_t& rgb2, const float t );
-    col_t lerpCIELCh( const col_t& rgb1, const col_t& rgb2, const float t );
-
-    col_t saturate( const col_t& rgb );
-    col_t rainbow( const int c );
-
-    col_t spaceRoundtrip( const col_t& rgb );
-    col_t typeRoundtrip( const col_t& rgb );
+    col_t fromIndex( const uint8_t index );
 }
 
 
 //  rgb888 \in [0;255]
 namespace rgb888 {
     colu8_t fromRGB( const col_t& rgb );
+    colu8_t fromIndex( const uint8_t index );
 }
 
 
@@ -92,7 +84,7 @@ namespace rgbu32 {
 
 
 //  ansi color index (for use in e.g. ansi escape codes)
-namespace indexed {
+namespace index {
     uint8_t fromRGB( const col_t& rgb );
     uint8_t fromRGB888( const colu8_t& rgb888 );
 }
@@ -100,13 +92,15 @@ namespace indexed {
 
 //  hex string
 namespace hex {
-    std::string fromRGB( const col_t& rgb );
+    std::string fromRGB888( const colu8_t& rgb888 );
+    std::string fromIndex( const uint8_t index );
 }
 
 
-//  xterm color name
+//  (nearest) xterm color name
 namespace xterm {
-    const std::string& fromRGB( const col_t& rgb );
+    std::string fromRGB( const col_t& rgb );
+    std::string fromIndex( const uint8_t index );
 }
 
 

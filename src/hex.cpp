@@ -1,7 +1,24 @@
 #include "vivid/conversion.h"
+#include "vivid/colortable.h"
+
 #include <regex>
+#include <sstream>
 
 namespace tq::hex {
+
+
+//////////////////////////////////////////////////////////////////////////////////
+std::string fromIndex( const uint8_t index ) {
+    return ColorTable::hex( index );
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+std::string fromRGB888( const colu8_t& rgb888 ) {
+    std::stringstream ss;
+    ss << "#" << std::hex << rgb888.x << rgb888.y << rgb888.z;
+    return ss.str();
+}
 
 
 //////////////////////////////////////////////////////////////////////////////////

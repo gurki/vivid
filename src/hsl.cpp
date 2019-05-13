@@ -1,4 +1,6 @@
 #include "vivid/conversion.h"
+#include "vivid/colortable.h"
+
 #include <glm/common.hpp>
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtc/constants.hpp>
@@ -47,6 +49,12 @@ col_t fromRGB( const col_t& rgb )
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromHSV( const col_t& hsv ) {
     return hsl::fromRGB( rgb::fromHSV( hsv ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+col_t fromIndex( const uint8_t index ) {
+    return ColorTable::hsl( index );
 }
 
 

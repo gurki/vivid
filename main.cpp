@@ -1,7 +1,4 @@
-#include "vivid/colormap.h"
-#include "vivid/conversion.h"
-#include "vivid/colortable.h"
-
+#include "vivid/vivid.h"
 #include <glm/gtx/string_cast.hpp>
 
 #include <QImage>
@@ -58,7 +55,7 @@ int main( int, char*[] )
 
     //  escape codes
 
-    tq::ColorTable::printTestTable();
+//    tq::ColorTable::printTestTable();
 
     //  interpolation
 
