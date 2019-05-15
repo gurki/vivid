@@ -10,7 +10,8 @@ DEFINES += \
 SOURCES += \
     main.cpp
 
-include( $$PWD/../../vivid.pri )
+dependency_path = $$PWD/../../../
+include( $${dependency_path}/vivid/vivid.pri )
 
 
 #  install

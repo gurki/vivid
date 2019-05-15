@@ -1,5 +1,5 @@
 DEFINES += \
-    VIVID_ROOT_PATH=\\\"$$PWD\\\"
+    VIVID_ROOT_PATH=\\\"$$PWD\\\" \
 
 INCLUDEPATH += \
     $$PWD/include/ \
@@ -36,11 +36,3 @@ DISTFILES += \
     $$PWD/res/colormaps/magma.json \
     $$PWD/res/colormaps/plasma.json \
     $$PWD/res/colormaps/viridis.json
-
-
-#  install
-
-resources.files = $${DESTDIR}/res/*
-resources.path = data/
-
-INSTALLS += resources
