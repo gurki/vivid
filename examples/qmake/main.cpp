@@ -53,7 +53,7 @@ int main( int, char* argv[] )
     dir.mkdir( "interps/" );
     dir.cd( "interps/" );
 
-    tq::col_t col( 1.f, 0.7f, 0.5f );
+    static const tq::col_t col( 1.f, 0.7f, 0.5f );
     tq::rgb::spaceRoundtrip( col );
     tq::rgb::typeRoundtrip( col );
 
@@ -69,17 +69,18 @@ int main( int, char* argv[] )
     using colorlerp_t = std::function< tq::col_t( const tq::col_t&, const tq::col_t&, const float ) >;
     using annotated_colorlerp_t = std::pair<colorlerp_t, std::string>;
     const std::vector<annotated_colorlerp_t> lerps = {
-        { tq::rgb::lerp, "lerp" },
-        { tq::rgb::lerpHSV, "lerpHSV" },
-        { tq::rgb::lerpHSL, "lerpHSL" },
-        { tq::rgb::lerpCIELCh, "lerpCIELCh" }
+        { tq::rgb::lerp, "lerpRgb" },
+        { tq::rgb::lerpHSV, "lerpHsv" },
+        { tq::rgb::lerpHSL, "lerpHsl" },
+        { tq::rgb::lerpCIELCh, "lerpCielch" }
     };
+
+    static const tq::col_t c1( 0.7f, 0.3f, 0.3f );
+    static const tq::col_t c2( 0.1f, 0.6f, 0.4f );
 
     for ( const auto& lerp: lerps )
     {
         QImage img( 512, 128, QImage::Format_RGB32 );
-        tq::col_t c1( 0.7f, 0.3f, 0.3f );
-        tq::col_t c2( 0.1f, 0.6f, 0.4f );
 
         for ( int c = 0; c < img.width(); c++ )
         {
