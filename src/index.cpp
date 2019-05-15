@@ -13,7 +13,7 @@ uint8_t fromRGB888( const colu8_t& rgb888 )
     const auto rgbu32 = rgbu32::fromRGB888( rgb888 );
 
     if ( const auto res = ColorTable::findRGBu32( rgbu32 ) ) {
-        return res.value();
+        return res.value_or( 0 );
     }
 
     //  snap to closest 6x6x6 rgb cube

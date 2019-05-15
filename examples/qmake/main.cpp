@@ -10,6 +10,8 @@
 
 int main( int, char*[] )
 {
+    std::cout << VIVID_ROOT_PATH << std::endl;
+
     tq::ColorTable::initialize();
 
     //  colormaps

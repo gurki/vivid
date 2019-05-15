@@ -1,4 +1,5 @@
 #include "vivid/conversion.h"
+#include <cmath>
 
 namespace tq::cielch {
 
