@@ -19,6 +19,7 @@ std::unordered_map<uint32_t, uint8_t> ColorTable::lookup_ = {};
 
 ////////////////////////////////////////////////////////////////////////////////
 void ColorTable::initialize() {
+    std::cout << VIVID_ROOT_PATH "/res/colors.json" << std::endl;
     load( VIVID_ROOT_PATH "/res/colors.json" );
 }
 
@@ -111,7 +112,7 @@ void ColorTable::printTestTable(
 
     auto escapeCode = [=]( const uint8_t& id ) -> std::string
     {
-        char idstr[ 3 ];
+        char idstr[ 4 ];
         std::sprintf( idstr, "%03d", id );
 
         const std::string bgstr = "\x1b[48;5;" + std::to_string( id ) + "m\x1b[38;5;15m " + idstr + " \x1b[0m";

@@ -3,18 +3,23 @@
 
 #include <QImage>
 #include <QColor>
+#include <QDir>
 
 #include <iostream>
 #include <functional>
 
 
-int main( int, char*[] )
+int main( int, char* argv[] )
 {
-    std::cout << VIVID_ROOT_PATH << std::endl;
-
     tq::ColorTable::initialize();
 
+    QDir dir( argv[ 0 ] );
+
     //  colormaps
+
+    dir.cdUp();
+    dir.mkdir( "colmaps/" );
+    dir.cd( "colmaps/" );
 
     std::vector<std::string> cmapNames = {
         "inferno", "magma", "plasma", "viridis"
@@ -31,7 +36,7 @@ int main( int, char*[] )
         for ( int c = 0; c < img.width(); c++ )
         {
             const float t = c / ( img.width() - 1.f );
-            const auto col = cmap.at( t );
+            const auto col = glm::vec<3, double>( cmap.at( t ) );
             const QColor qcol = QColor::fromRgbF( col.x, col.y, col.z );
 
             for ( int r = 0; r < img.height(); r++ ) {
@@ -39,10 +44,14 @@ int main( int, char*[] )
             }
         }
 
-        img.save( QString::fromStdString( name + ".png" ) );
+        img.save( dir.filePath( QString::fromStdString( name + ".png" ) ));
     }
 
     //  conversions
+
+    dir.cdUp();
+    dir.mkdir( "interps/" );
+    dir.cd( "interps/" );
 
     tq::col_t col( 1.f, 0.7f, 0.5f );
     tq::rgb::spaceRoundtrip( col );
@@ -55,13 +64,9 @@ int main( int, char*[] )
     std::cout << "hsl:  " << glm::to_string( hsl ) << std::endl;
     std::cout << "rgb2: " << glm::to_string( rgb2 ) << std::endl;
 
-    //  escape codes
-
-//    tq::ColorTable::printTestTable();
-
     //  interpolation
 
-    using colorlerp_t = std::function< tq::col_t(const tq::col_t&, const tq::col_t&, const float) >;
+    using colorlerp_t = std::function< tq::col_t( const tq::col_t&, const tq::col_t&, const float ) >;
     using annotated_colorlerp_t = std::pair<colorlerp_t, std::string>;
     const std::vector<annotated_colorlerp_t> lerps = {
         { tq::rgb::lerp, "lerp" },
@@ -79,7 +84,7 @@ int main( int, char*[] )
         for ( int c = 0; c < img.width(); c++ )
         {
             const float t = c / ( img.width() - 1.f );
-            const auto col = lerp.first( c1, c2, t );
+            const auto col = glm::vec<3, double>( lerp.first( c1, c2, t ) );
             const QColor qcol = QColor::fromRgbF( col.x, col.y, col.z );
 
             for ( int r = 0; r < img.height(); r++ ) {
@@ -87,8 +92,12 @@ int main( int, char*[] )
             }
         }
 
-        img.save( QString::fromStdString( lerp.second + ".png" ) );
+        img.save( dir.filePath( QString::fromStdString( lerp.second + ".png" ) ));
     }
+
+    //  escape codes
+
+    tq::ColorTable::printTestTable();
 
     return EXIT_SUCCESS;
 }

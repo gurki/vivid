@@ -11,3 +11,14 @@ SOURCES += \
     main.cpp
 
 include( $$PWD/../../vivid.pri )
+
+
+#  install
+
+DESTDIR = $$PWD/build/install/
+
+package.path = $${DESTDIR}
+package.files += vivid.exe
+package.CONFIG = no_check_exist
+
+INSTALLS += package

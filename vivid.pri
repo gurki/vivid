@@ -31,7 +31,16 @@ HEADERS += \
     $$PWD/include/vivid/types.h
 
 DISTFILES += \
+    $$PWD/res/colors.json \
     $$PWD/res/colormaps/inferno.json \
     $$PWD/res/colormaps/magma.json \
     $$PWD/res/colormaps/plasma.json \
     $$PWD/res/colormaps/viridis.json
+
+
+#  install
+
+resources.files = $${DESTDIR}/res/*
+resources.path = data/
+
+INSTALLS += resources
