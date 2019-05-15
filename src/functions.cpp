@@ -145,6 +145,12 @@ col_t saturate( const col_t& rgb )
 
 
 ////////////////////////////////////////////////////////////////////////////////
+col_t clamp( const col_t& rgb ) {
+    return tq::rgb::fromIndex( tq::index::fromRGB( rgb ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 col_t spaceRoundtrip( const col_t& rgb1 )
 {
     const col_t xyz1 = ciexyz::fromRGB( rgb1 );
