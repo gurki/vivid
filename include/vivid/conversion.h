@@ -92,6 +92,7 @@ namespace index {
 
 //  hex string
 namespace hex {
+    std::string fromRGB( const col_t& rgb );
     std::string fromRGB888( const colu8_t& rgb888 );
     std::string fromIndex( const uint8_t index );
 }

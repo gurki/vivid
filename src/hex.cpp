@@ -14,9 +14,15 @@ std::string fromIndex( const uint8_t index ) {
 
 
 //////////////////////////////////////////////////////////////////////////////////
+std::string fromRGB( const col_t& rgb ) {
+    return hex::fromRGB888( rgb888::fromRGB( rgb ) );
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
 std::string fromRGB888( const colu8_t& rgb888 ) {
     std::stringstream ss;
-    ss << "#" << std::hex << rgb888.x << rgb888.y << rgb888.z;
+    ss << "#" << std::hex << int( rgb888.x ) << int( rgb888.y ) << int( rgb888.z );
     return ss.str();
 }
 
