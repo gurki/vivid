@@ -104,7 +104,7 @@ Rainbow     | ![vivid](docs/images/colormaps/rainbow.png)
 Blue-Yellow | ![vivid](docs/images/colormaps/blue-yellow.png)
 Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
 
-[\^2] [Stefan & Nathaniel - MPL Colormaps](http://bids.github.io/colormap/)
+[\^2] [Stefan & Nathaniel - MPL Colormaps](http://bids.github.io/colormap/) <br>
 [\^3] [SciVisColor](https://sciviscolor.org/)
 
 ## Console Support
