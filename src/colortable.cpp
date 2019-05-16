@@ -169,7 +169,6 @@ void printColorTable( const bool foreground, const bool background )
 
     std::cout << std::endl;
     std::cout << std::endl;
-    std::cout << std::endl;
 
     const size_t numSteps = 6;
     const float step = ( numSteps == 1 ) ? 255.f : ( 255.f / ( numSteps - 1 ) );
@@ -195,8 +194,6 @@ void printColorTable( const bool foreground, const bool background )
 
         std::cout << std::endl;
     }
-
-    std::cout << std::endl;
 
     //  NOTE(tgurdan): uint8_t causes endless loop here
     for ( uint16_t i = 232; i <= 255; i++ )

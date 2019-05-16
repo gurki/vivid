@@ -30,11 +30,11 @@ glm::vec3 ColorMap::at( const float t ) const
 
     switch ( interpolation )
     {
-        case Nearest: return stops_[ k ];
-        case Linear: return tq::rgb::lerp( stops_[ k ], stops_[ k + 1 ], u );
-        case Hsv: return tq::rgb::lerpHsv( stops_[ k ], stops_[ k + 1 ], u );
-        case Hsl: return tq::rgb::lerpHsl( stops_[ k ], stops_[ k + 1 ], u );
-        case Hcl: return tq::rgb::lerpHcl( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationNearest: return stops_[ k ];
+        case InterpolationLinear: return tq::rgb::lerp( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationHsv: return tq::rgb::lerpHsv( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationHsl: return tq::rgb::lerpHsl( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationHcl: return tq::rgb::lerpHcl( stops_[ k ], stops_[ k + 1 ], u );
     }
 
     return {};
@@ -46,15 +46,16 @@ std::string ColorMap::nameForPreset( const Preset preset )
 {
     switch ( preset )
     {
-        case BlueYellow: return "blue-yellow";
-        case CoolWarm: return "cool-warm";
-        case Inferno: return "inferno";
-        case Magma: return "magma";
-        case Plasma: return "plasma";
-        case Rainbow: return "rainbow";
-        case RainbowHsl: return "rainbow-hsl";
-        case Viridis: return "viridis";
-        case Vivid: return "vivid";
+        case PresetBlueYellow: return "blue-yellow";
+        case PresetCoolWarm: return "cool-warm";
+        case PresetInferno: return "inferno";
+        case PresetMagma: return "magma";
+        case PresetPlasma: return "plasma";
+        case PresetRainbow: return "rainbow";
+        case PresetHsl: return "hsl";
+        case PresetHslPastel: return "hsl-pastel";
+        case PresetViridis: return "viridis";
+        case PresetVivid: return "vivid";
     }
 
     return {};

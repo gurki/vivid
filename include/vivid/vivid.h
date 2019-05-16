@@ -11,6 +11,7 @@
 //  [6] https://github.com/mbostock/d3/blob/master/src/color/rgb.js
 //  [7] https://github.com/gawin/bash-colors-256
 //  [8] https://jonasjacek.github.io/colors/
+//  [9] https://github.com/BIDS/colormap
 //
 
 #include "vivid/colormap.h"

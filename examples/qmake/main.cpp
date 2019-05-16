@@ -18,8 +18,8 @@ int main( int, char* argv[] )
 
     //  introduction
 
-    const auto rainbowMap = tq::ColorMap::fromPreset( tq::ColorMap::RainbowHsl );
-    std::cout << tq::ansi::colorize( "vivid", rainbowMap ) << std::endl;
+    const auto hslMap = tq::ColorMap::fromPreset( tq::ColorMap::PresetHsl );
+    std::cout << tq::ansi::colorize( "vivid", hslMap ) << std::endl;
     std::cout << std::endl;
 
     //  colormaps
@@ -29,15 +29,16 @@ int main( int, char* argv[] )
     dir.cd( "colmaps/" );
 
     std::vector<tq::ColorMap::Preset> defaults = {
-        tq::ColorMap::BlueYellow,
-        tq::ColorMap::CoolWarm,
-        tq::ColorMap::Inferno,
-        tq::ColorMap::Magma,
-        tq::ColorMap::Plasma,
-        tq::ColorMap::Rainbow,
-        tq::ColorMap::RainbowHsl,
-        tq::ColorMap::Viridis,
-        tq::ColorMap::Vivid
+        tq::ColorMap::PresetBlueYellow,
+        tq::ColorMap::PresetCoolWarm,
+        tq::ColorMap::PresetInferno,
+        tq::ColorMap::PresetMagma,
+        tq::ColorMap::PresetPlasma,
+        tq::ColorMap::PresetRainbow,
+        tq::ColorMap::PresetHsl,
+        tq::ColorMap::PresetHslPastel,
+        tq::ColorMap::PresetViridis,
+        tq::ColorMap::PresetVivid
     };
 
     for ( const auto& type : defaults )
@@ -127,6 +128,7 @@ int main( int, char* argv[] )
 
     //  rainbow text
 
+    const auto rainbowMap = tq::ColorMap::fromPreset( tq::ColorMap::PresetRainbow );
     const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
     std::cout << tq::ansi::colorize( text, rainbowMap ) << std::endl;
 

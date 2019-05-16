@@ -112,15 +112,17 @@ auto mid = cmap.at( 0.5f );
 ```
 
 Name        | Image
-------------|------------------------------------------------
+------------|----------------------------------------------------
 Inferno     | ![inferno](docs/images/colormaps/inferno.png)
 Magma       | ![magma](docs/images/colormaps/magma.png)
 Plasma      | ![plasma](docs/images/colormaps/plasma.png)
 Viridis     | ![viridis](docs/images/colormaps/viridis.png)
 Vivid       | ![vivid](docs/images/colormaps/vivid.png)
 Rainbow     | ![vivid](docs/images/colormaps/rainbow.png)
+Hsl         | ![hsl](docs/images/colormaps/hsl.png)
+Hsl Pastel  | ![hsl-pastel](docs/images/colormaps/hsl-pastel.png)
 Blue-Yellow | ![vivid](docs/images/colormaps/blue-yellow.png)
-Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
+Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)  |  
 
 [\^2] [Stefan & Nathaniel - MPL Colormaps](http://bids.github.io/colormap/) <br>
 [\^3] [SciVisColor](https://sciviscolor.org/)
@@ -130,14 +132,24 @@ Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
 
 `vivid` provides encodings for **ansi** escape codes (pretty console <3) and **html** using spans.
 
-### Console
-Call `printColorTable()` to get the following output and see if your console supports 8-bit colors:
+### ANSI
+
+You can colorize console messages very simply using the `tq::ansi` helpers.
+
+```cpp
+std::cout << tq::ansi::fg( 136 ) << "and tada, colorized font" << tq::ansi::reset;
+```
+
+To get an overview of all color codes or quickly check if your console has 8-bit color support, you can call `printColorTable()` (shoutout to Gawin [^4] for the layout idea).
 
 ![colortable](docs/images/console/colortable.png)
 
-Escape codes can also be used in conjunction with colormaps to create some joyful effects.
+Escape codes can also be used in conjunction with `ColorMaps` to create some joyful effects.
 
 ```cpp
+const auto rainbowMap = tq::ColorMap::fromPreset( tq::ColorMap::PresetRainbow );
+const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
+std::cout << tq::ansi::colorize( text, rainbowMap ) << std::endl;
 ```
 
 ![rainbows](docs/images/console/rainbow-text.png)
@@ -145,8 +157,12 @@ Escape codes can also be used in conjunction with colormaps to create some joyfu
 
 ### HTML
 
+One of my side projects is a tagged logging system, where one of the sinks goes to html. This has become very handy.
+
 ```cpp
 auto col = tq::rgb8::fromName( "LightSteelBlue" );
 fout << tq::html::fg( col ) << "colorized html text!" << tq::html::close;
 //  <span style='color:rgb(175, 175, 255)'>colorized html text!</span>
 ```
+
+[^4] [Gawin's xterm color demo](https://github.com/gawin/bash-colors-256)

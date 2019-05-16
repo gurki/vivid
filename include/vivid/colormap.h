@@ -3,7 +3,7 @@
 //  colormaps from [1], great job guys!
 
 /*
-    [1] https://github.com/BIDS/colormap
+    [9] https://github.com/BIDS/colormap
 
     mpl-colormaps by Nathaniel Smith & Stefan van der Walt
 
@@ -26,23 +26,24 @@ class ColorMap
     public:
 
         enum Preset {
-            BlueYellow,
-            CoolWarm,
-            Inferno,
-            Magma,
-            Plasma,
-            Rainbow,
-            RainbowHsl,
-            Viridis,
-            Vivid
+            PresetBlueYellow,
+            PresetCoolWarm,
+            PresetInferno,
+            PresetMagma,
+            PresetPlasma,
+            PresetRainbow,
+            PresetHsl,
+            PresetHslPastel,
+            PresetViridis,
+            PresetVivid
         };
 
         enum Interpolation {
-            Nearest,
-            Linear,
-            Hsv,
-            Hsl,
-            Hcl
+            InterpolationNearest,
+            InterpolationLinear,
+            InterpolationHsv,
+            InterpolationHsl,
+            InterpolationHcl
         };
 
         ColorMap() = default;
@@ -51,7 +52,7 @@ class ColorMap
         size_t numStops() const { return stops_.size(); }
         glm::vec3 at( const float t ) const;
 
-        Interpolation interpolation = Linear;
+        Interpolation interpolation = InterpolationLinear;
 
         static ColorMap fromPreset( const Preset type );
         static ColorMap fromFile( const std::string& file );
