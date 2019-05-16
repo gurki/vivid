@@ -50,8 +50,8 @@ glm::vec3 ColorMap::at( const float t )
     {
         case Nearest: return stops_[ k ];
         case Linear: return tq::rgb::lerp( stops_[ k ], stops_[ k + 1 ], u );
-        case HSV: return tq::rgb::lerpHSV( stops_[ k ], stops_[ k + 1 ], u );
-        case CIELCh: return tq::rgb::lerpCIELCh( stops_[ k ], stops_[ k + 1 ], u );
+        case HSV: return tq::rgb::lerpHsv( stops_[ k ], stops_[ k + 1 ], u );
+        case CIELCh: return tq::rgb::lerpHcl( stops_[ k ], stops_[ k + 1 ], u );
     }
 
     return {};

@@ -17,4 +17,5 @@
 #include "vivid/colortable.h"
 #include "vivid/conversion.h"
 #include "vivid/functions.h"
+#include "vivid/stream.h"
 #include "vivid/types.h"

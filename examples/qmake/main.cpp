@@ -70,9 +70,9 @@ int main( int, char* argv[] )
     using annotated_colorlerp_t = std::pair<colorlerp_t, std::string>;
     const std::vector<annotated_colorlerp_t> lerps = {
         { tq::rgb::lerp, "lerpRgb" },
-        { tq::rgb::lerpHSV, "lerpHsv" },
-        { tq::rgb::lerpHSL, "lerpHsl" },
-        { tq::rgb::lerpCIELCh, "lerpCielch" }
+        { tq::rgb::lerpHsv, "lerpHsv" },
+        { tq::rgb::lerpHsl, "lerpHsl" },
+        { tq::rgb::lerpHcl, "lerpHcl" }
     };
 
     static const tq::col_t c1( 0.7f, 0.3f, 0.3f );

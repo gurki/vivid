@@ -18,7 +18,7 @@ col_t lerp( const col_t& rgb1, const col_t& rgb2, const float t ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t lerpHSV(
+col_t lerpHsv(
     const col_t& rgb1,
     const col_t& rgb2,
     const float t )
@@ -43,7 +43,7 @@ col_t lerpHSV(
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t lerpHSL(
+col_t lerpHsl(
     const col_t& rgb1,
     const col_t& rgb2,
     const float t )
@@ -68,7 +68,7 @@ col_t lerpHSL(
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t lerpCIELCh(
+col_t lerpHcl(
     const col_t& rgb1,
     const col_t& rgb2,
     const float t )

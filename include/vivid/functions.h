@@ -6,9 +6,9 @@
 namespace tq::rgb
 {
     col_t lerp( const col_t& rgb1, const col_t& rgb2, const float t );
-    col_t lerpHSV( const col_t& rgb1, const col_t& rgb2, const float t );
-    col_t lerpHSL( const col_t& rgb1, const col_t& rgb2, const float t );
-    col_t lerpCIELCh( const col_t& rgb1, const col_t& rgb2, const float t );
+    col_t lerpHsv( const col_t& rgb1, const col_t& rgb2, const float t );
+    col_t lerpHsl( const col_t& rgb1, const col_t& rgb2, const float t );
+    col_t lerpHcl( const col_t& rgb1, const col_t& rgb2, const float t );
 
     col_t saturate( const col_t& rgb );
     col_t clamp( const col_t& rgb );

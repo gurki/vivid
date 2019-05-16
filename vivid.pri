@@ -24,6 +24,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/include/vivid/functions.h \
+    $$PWD/include/vivid/stream.h \
     $$PWD/include/vivid/vivid.h \
     $$PWD/include/vivid/colormap.h \
     $$PWD/include/vivid/conversion.h \
