@@ -10,7 +10,8 @@ SOURCES += \
     $$PWD/src/*
 
 HEADERS += \
-    $$PWD/include/vivid/*
+    $$PWD/include/vivid/* \
+    $$PWD/include/vivid/encoding.h
 
 DISTFILES += \
     $$PWD/res/*

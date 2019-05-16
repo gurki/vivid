@@ -22,9 +22,6 @@ auto cmap = ColorMap::loadDefault( ColorMap::Viridis );
 col_t mid = cmap.at( 0.5f );
 ```
 
-
-## Content
-
 <!-- TOC depthFrom:2 depthTo:2 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Content](#content)

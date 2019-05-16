@@ -1,5 +1,6 @@
 #include "vivid/colortable.h"
 #include "vivid/conversion.h"
+#include "vivid/encoding.h"
 
 #include <iostream>
 #include <fstream>
@@ -142,8 +143,8 @@ void printColorTable( const bool foreground, const bool background )
         char idstr[ 4 ];
         std::sprintf( idstr, "%03d", id );
 
-        const std::string bgstr = "\x1b[48;5;" + std::to_string( id ) + "m\x1b[38;5;15m " + idstr + " \x1b[0m";
-        const std::string fgstr = " \x1b[38;5;" + std::to_string( id ) + "m" + idstr + "\x1b[0m ";
+        const std::string bgstr = tq::ansi::bg( id ) + " " + idstr + " " + tq::ansi::reset;
+        const std::string fgstr = tq::ansi::fg( id ) + " " + idstr + " " + tq::ansi::reset;
 
         if ( ! background ) {
             return fgstr;

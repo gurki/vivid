@@ -114,6 +114,14 @@ int main( int, char* argv[] )
         img.save( dir.filePath( QString::fromStdString( lerp.second + ".png" ) ));
     }
 
+    //  encoding
+
+    std::cout << std::endl;
+    std::cout << tq::ansi::fg( 3 ) << "yay colors" << tq::ansi::reset << std::endl;
+    std::cout << tq::html::fg( "#abc123" ) << "hex hex!" << tq::html::close << std::endl;
+    std::cout << tq::html::fg( tq::col8_t( 100, 144, 159 ) ) << "html, aw yes" << tq::html::close << std::endl;
+    std::cout << std::endl;
+
     //  escape codes
 
     tq::printColorTable();
