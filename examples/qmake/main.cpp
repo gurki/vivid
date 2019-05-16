@@ -29,7 +29,7 @@ int main( int, char* argv[] )
     {
         tq::ColorMap cmap;
         cmap.load( VIVID_ROOT_PATH "/res/colormaps/" + name + ".json" );
-        cmap.interpolation = tq::ColorMap::Linear;
+        cmap.interpolation = tq::ColorMap::Hcl;
 
         QImage img( 512, 128, QImage::Format_RGB32 );
 

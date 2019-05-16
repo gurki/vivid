@@ -28,8 +28,9 @@ class ColorMap
         enum Interpolation {
             Nearest,
             Linear,
-            HSV,
-            CIELCh
+            Hsv,
+            Hsl,
+            Hcl
         };
 
         ColorMap() = default;

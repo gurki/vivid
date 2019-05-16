@@ -2,14 +2,23 @@
 A simple-to-use `cpp` color library
 
 ```cpp
-tq::col_t c1 = tq::rgb::fromName( "indianred" );
-tq::col_t c2 = tq::rgb::fromHsl( { 0.f, 0.4f, 0.5f } );
+using namespace tq;
 
-const auto rgb = tq::rgb::lerp( c1, c2, 0.5 );
-const auto hsv = tq::rgb::lerpHsv( c1, c2, 0.5 );
-const auto lch = tq::rgb::lerpHcl( c1, c2, 0.5 );
+col_t c1 = rgb::fromName( "indianred" );
+col_t c2 = rgb::fromHsl( { 0.f, 0.4f, 0.5f } );
 
-const auto hex = tq::hex::fromRgb( lch );
+col_t rgb = rgb::lerp( c1, c2, 0.5f );
+col_t hsv = rgb::lerpHsv( c1, c2, 0.5f );
+col_t lch = rgb::lerpHcl( c1, c2, 0.5f );
+
+std::string hex = hex::fromRgb( lch );
+
+//  color map
+ColorMap cmap;
+cmap.load( VIVID_ROOT_PATH "/res/colormaps/viridian.json" );
+cmap.interpolation = ColorMap::Interpolation::Hcl;
+
+col_t c3 = cmap.at( 0.5f );
 ```
 
 
