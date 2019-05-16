@@ -1,4 +1,4 @@
-# vivid
+# vivid 🌈
 A simple-to-use `cpp` color library
 
 - color space **conversions**
@@ -24,13 +24,12 @@ col_t mid = cmap.at( 0.5f );
 
 <!-- TOC depthFrom:2 depthTo:2 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Content](#content)
 - [Motivation](#motivation)
 - [Get Started](#get-started)
 - [Color Spaces](#color-spaces)
 - [Interpolation](#interpolation)
 - [Color Maps](#color-maps)
-- [Console Support](#console-support)
+- [Encodings](#encodings)
 
 <!-- /TOC -->
 
@@ -126,10 +125,28 @@ Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
 [\^2] [Stefan & Nathaniel - MPL Colormaps](http://bids.github.io/colormap/) <br>
 [\^3] [SciVisColor](https://sciviscolor.org/)
 
-## Console Support
 
-### Color Table
+## Encodings
+
+`vivid` provides encodings for **ansi** escape codes (pretty console <3) and **html** using spans.
+
+### Console
+Call `printColorTable()` to get the following output and see if your console supports 8-bit colors:
+
 ![colortable](docs/images/console/colortable.png)
 
-### Rainbows
+Escape codes can also be used in conjunction with colormaps to create some joyful effects.
+
+```cpp
+```
+
 ![rainbows](docs/images/console/rainbow-text.png)
+
+
+### HTML
+
+```cpp
+auto col = tq::rgb8::fromName( "LightSteelBlue" );
+fout << tq::html::fg( col ) << "colorized html text!" << tq::html::close;
+//  <span style='color:rgb(175, 175, 255)'>colorized html text!</span>
+```

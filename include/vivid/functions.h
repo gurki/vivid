@@ -1,6 +1,9 @@
 #pragma once
 
 #include "vivid/types.h"
+#include <string>
+
+class ColorMap;
 
 
 namespace tq::rgb
@@ -12,8 +15,23 @@ namespace tq::rgb
 
     col_t saturate( const col_t& rgb );
     col_t clamp( const col_t& rgb );
-    col_t rainbow( const int c );
+    col_t rainbow( const uint8_t k );
 
     col_t spaceRoundtrip( const col_t& rgb );
     col_t typeRoundtrip( const col_t& rgb );
+}
+
+
+namespace tq::hsl
+{
+    col_t rainbow(
+        const uint8_t k,
+        const float s = 1.f,
+        const float l = 0.5f
+    );
+}
+
+
+namespace tq::ansi {
+    std::string colorize( const std::string& text, const ColorMap& cmap );
 }

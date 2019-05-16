@@ -10,9 +10,6 @@
 #include <sstream>
 
 
-std::string rainbowText( const std::string& text );
-
-
 int main( int, char* argv[] )
 {
     tq::ColorTable::initialize();
@@ -21,7 +18,8 @@ int main( int, char* argv[] )
 
     //  introduction
 
-    std::cout << rainbowText( "vivid" ) << std::endl;
+    const auto rainbowMap = tq::ColorMap::fromPreset( tq::ColorMap::RainbowHsl );
+    std::cout << tq::ansi::colorize( "vivid", rainbowMap ) << std::endl;
     std::cout << std::endl;
 
     //  colormaps
@@ -30,20 +28,21 @@ int main( int, char* argv[] )
     dir.mkdir( "colmaps/" );
     dir.cd( "colmaps/" );
 
-    std::vector<tq::ColorMap::DefaultType> defaults = {
+    std::vector<tq::ColorMap::Preset> defaults = {
         tq::ColorMap::BlueYellow,
         tq::ColorMap::CoolWarm,
         tq::ColorMap::Inferno,
         tq::ColorMap::Magma,
         tq::ColorMap::Plasma,
         tq::ColorMap::Rainbow,
+        tq::ColorMap::RainbowHsl,
         tq::ColorMap::Viridis,
         tq::ColorMap::Vivid
     };
 
     for ( const auto& type : defaults )
     {
-        const auto cmap = tq::ColorMap::loadDefault( type );
+        const auto cmap = tq::ColorMap::fromPreset( type );
         QImage img( 512, 32, QImage::Format_RGB32 );
 
         for ( int c = 0; c < img.width(); c++ )
@@ -57,7 +56,7 @@ int main( int, char* argv[] )
             }
         }
 
-        img.save( dir.filePath( QString::fromStdString( tq::ColorMap::nameForDefault( type ) + ".png" ) ));
+        img.save( dir.filePath( QString::fromStdString( tq::ColorMap::nameForPreset( type ) + ".png" ) ));
     }
 
     //  conversions
@@ -128,26 +127,8 @@ int main( int, char* argv[] )
 
     //  rainbow text
 
-    std::cout << rainbowText( "How can you tell? - Raaaaaaiiiinbooooooowwws." ) << std::endl;;
+    const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
+    std::cout << tq::ansi::colorize( text, rainbowMap ) << std::endl;
 
     return EXIT_SUCCESS;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-std::string rainbowText( const std::string& text )
-{
-    using namespace tq;
-
-    std::stringstream ss;
-    const float n = text.size();
-
-    for ( size_t i = 0; i < n; i++ ) {
-        const auto k = uint8_t( ( i / n ) * 255.f );
-        const auto id = index::fromRgb( rgb::clamp( rgb::rainbow( k ) ));
-        ss << "\x1b[38;5;" + std::to_string( id ) + "m" << text[ i ];
-    }
-
-    ss << "\x1b[0m";
-    return ss.str();
 }

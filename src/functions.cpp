@@ -1,6 +1,8 @@
 #include "vivid/functions.h"
 #include "vivid/conversion.h"
 #include "vivid/stream.h"
+#include "vivid/encoding.h"
+#include "vivid/colormap.h"
 
 #include <glm/glm.hpp>
 #include <glm/common.hpp>           //  clamp
@@ -8,6 +10,7 @@
 #include <glm/gtx/string_cast.hpp>
 
 #include <iostream>
+#include <sstream>
 
 namespace tq::rgb {
 
@@ -93,9 +96,8 @@ col_t lerpHcl(
 
 ////////////////////////////////////////////////////////////////////////////////
 // input 0..255 for rainbow colors!
-col_t rainbow( const int c )
+col_t rainbow( const uint8_t k )
 {
-    const int k = c % 255;
     col_t col;
 
     if ( k < 42 ) {
@@ -192,3 +194,43 @@ col_t typeRoundtrip( const col_t& rgb1 )
 
 
 }   //  ::tq::rgb
+
+
+namespace tq::hsl {
+
+
+////////////////////////////////////////////////////////////////////////////////
+col_t rainbow( const uint8_t k, const float s, const float l ) {
+    const float t = k / 256.f;
+    return { t, s, l };
+}
+
+
+}   //  ::tq::hsl
+
+
+namespace tq::ansi {
+
+
+////////////////////////////////////////////////////////////////////////////////
+std::string colorize( const std::string& text, const ColorMap& cmap )
+{
+    if ( cmap.empty() ) {
+        return text;
+    }
+
+    const float n = text.size();
+    std::stringstream ss;
+
+    for ( size_t i = 0; i < n; i++ ) {
+        const float t = i / n;
+        const uint8_t id= tq::index::fromRgb( cmap.at( t ) );
+        ss << tq::ansi::fg( id ) << text[ i ];
+    }
+
+    ss << tq::ansi::reset;
+    return ss.str();
+}
+
+
+}   //  ::tq::ansi

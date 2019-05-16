@@ -7,7 +7,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 inline std::ostream& operator << ( std::ostream& out, const tq::col_t& col ) {
-    out << "col(" << std::setprecision( 2 ) << col.x << ", " << col.y << ", " << col.z << ")";
+    out << "col(" << std::setprecision( 3 ) << col.x << ", " << col.y << ", " << col.z << ")";
     return out;
 }
 
