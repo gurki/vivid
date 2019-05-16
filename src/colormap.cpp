@@ -42,9 +42,9 @@ glm::vec3 ColorMap::at( const float t ) const
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string ColorMap::nameForDefault( const DefaultType type )
+std::string ColorMap::nameForPreset( const Preset preset )
 {
-    switch ( type )
+    switch ( preset )
     {
         case BlueYellow: return "blue-yellow";
         case CoolWarm: return "cool-warm";
@@ -52,6 +52,7 @@ std::string ColorMap::nameForDefault( const DefaultType type )
         case Magma: return "magma";
         case Plasma: return "plasma";
         case Rainbow: return "rainbow";
+        case RainbowHsl: return "rainbow-hsl";
         case Viridis: return "viridis";
         case Vivid: return "vivid";
     }
@@ -61,14 +62,14 @@ std::string ColorMap::nameForDefault( const DefaultType type )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-ColorMap ColorMap::loadDefault( const DefaultType type ) {
-    const std::string name = nameForDefault( type );
-    return loadFromFile( VIVID_ROOT_PATH "/res/colormaps/" + name + ".json" );
+ColorMap ColorMap::fromPreset( const Preset preset ) {
+    const std::string name = nameForPreset( preset );
+    return fromFile( VIVID_ROOT_PATH "/res/colormaps/" + name + ".json" );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-ColorMap ColorMap::loadFromFile( const std::string& file )
+ColorMap ColorMap::fromFile( const std::string& file )
 {
     std::ifstream fin;
     fin.open( file );

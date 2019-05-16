@@ -25,13 +25,14 @@ class ColorMap
 {
     public:
 
-        enum DefaultType {
+        enum Preset {
             BlueYellow,
             CoolWarm,
             Inferno,
             Magma,
             Plasma,
             Rainbow,
+            RainbowHsl,
             Viridis,
             Vivid
         };
@@ -52,9 +53,9 @@ class ColorMap
 
         Interpolation interpolation = Linear;
 
-        static ColorMap loadDefault( const DefaultType type );
-        static ColorMap loadFromFile( const std::string& file );
-        static std::string nameForDefault( const DefaultType type );
+        static ColorMap fromPreset( const Preset type );
+        static ColorMap fromFile( const std::string& file );
+        static std::string nameForPreset( const Preset type );
 
     private:
 
