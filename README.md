@@ -20,12 +20,20 @@ std::string hex = hex::fromRgb( interp );
 //  quick access to popular colormaps for data visualization
 auto cmap = ColorMap::loadDefault( ColorMap::Viridis );
 col_t mid = cmap.at( 0.5f );
+
+//  ansi and html encodings
+std::cout << tq::ansi::fg( 163 ) << "woah!!" << tq::ansi::reset;
+fout << tq::html::bg( "#abc123" ) << "styled background color" << tq::html::close;
 ```
+
+##  Content
 
 <!-- TOC depthFrom:2 depthTo:2 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+- [Content](#content)
 - [Motivation](#motivation)
 - [Get Started](#get-started)
+- [Dependencies](#dependencies)
 - [Color Spaces](#color-spaces)
 - [Interpolation](#interpolation)
 - [Color Maps](#color-maps)
@@ -48,7 +56,12 @@ git clone git@github.com:gurki/vivid.git
 git submodule update --init
 ```
 
-This repository comes with support for both `Qt` (_vivid.pri_) and `cmake` (_CMakeList_) projects.
+This repository comes with support for ~~both~~ `Qt` (_vivid.pri_) ~~and `cmake` (_CMakeList_)~~ projects.
+You can start by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`.
+
+
+## Dependencies
+
 `vivid` depends on a small number of header-only libraries, which are included as submodules.
 
 - Nlohmann's great [Json for Modern C++](https://github.com/nlohmann/json) to load color names and color maps
