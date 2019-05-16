@@ -14,6 +14,7 @@
 //  [9] https://github.com/BIDS/colormap
 //
 
+#include "vivid/color.h"
 #include "vivid/colormap.h"
 #include "vivid/colortable.h"
 #include "vivid/conversion.h"

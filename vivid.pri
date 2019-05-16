@@ -7,10 +7,12 @@ INCLUDEPATH += \
     $$PWD/dependencies/glm
 
 SOURCES += \
-    $$PWD/src/*
+    $$PWD/src/* \
+    $$PWD/src/color.cpp
 
 HEADERS += \
     $$PWD/include/vivid/* \
+    $$PWD/include/vivid/color.h \
     $$PWD/include/vivid/encoding.h
 
 DISTFILES += \

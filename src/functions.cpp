@@ -29,20 +29,7 @@ col_t lerpHsv(
 {
     col_t hsv1 = hsv::fromRgb( rgb1 );
     col_t hsv2 = hsv::fromRgb( rgb2 );
-
-    if ( std::abs( hsv1.x - hsv2.x ) > 0.5f )
-    {
-        if( hsv1.x > hsv2.x ) {
-            hsv1.x -= 1.0f;
-        } else {
-            hsv1.x += 1.0f;
-        }
-    }
-
-    col_t hsv = glm::mix( hsv1, hsv2, t );
-    hsv.x = std::fmodf( hsv.x, 1.0f );
-
-    return rgb::fromHsv( hsv );
+    return rgb::fromHsv( tq::hsv::lerp( hsv1, hsv2, t ) );
 }
 
 
@@ -54,20 +41,7 @@ col_t lerpHsl(
 {
     col_t hsl1 = hsl::fromRgb( rgb1 );
     col_t hsl2 = hsl::fromRgb( rgb2 );
-
-    if ( std::abs( hsl1.x - hsl2.x ) > 0.5f )
-    {
-        if( hsl1.x > hsl2.x ) {
-            hsl1.x -= 1.0f;
-        } else {
-            hsl1.x += 1.0f;
-        }
-    }
-
-    col_t hsl = glm::mix( hsl1, hsl2, t );
-    hsl.x = std::fmodf( hsl.x, 1.0f );
-
-    return rgb::fromHsl( hsl );
+    return rgb::fromHsl( tq::hsl::lerp( hsl1, hsl2, t ) );
 }
 
 
@@ -79,18 +53,7 @@ col_t lerpHcl(
 {
     col_t lch1 = hcl::fromRgb( rgb1 );
     col_t lch2 = hcl::fromRgb( rgb2 );
-
-    col_t delta = lch2 - lch1;
-
-    if ( delta.z > glm::pi<float>() ) {
-        delta.z -= glm::two_pi<float>();
-    } else if ( delta.z < - glm::pi<float>() ) {
-        delta.z += glm::two_pi<float>();
-    }
-
-    col_t lch = lch1 + t * delta;
-
-    return rgb::fromHcl( lch );
+    return rgb::fromHcl( tq::hcl::lerp( lch1, lch2, t ) );
 }
 
 
@@ -198,7 +161,6 @@ col_t typeRoundtrip( const col_t& rgb1 )
 
 namespace tq::hsl {
 
-
 ////////////////////////////////////////////////////////////////////////////////
 col_t rainbow( const uint8_t k, const float s, const float l ) {
     const float t = k / 256.f;
@@ -206,11 +168,83 @@ col_t rainbow( const uint8_t k, const float s, const float l ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
+col_t lerp(
+    const col_t& hsl1,
+    const col_t& hsl2,
+    const float t )
+{
+    col_t hsl1a = hsl1;
+
+    if ( std::abs( hsl1a.x - hsl2.x ) > 0.5f )
+    {
+        if( hsl1a.x > hsl2.x ) {
+            hsl1a.x -= 1.0f;
+        } else {
+            hsl1a.x += 1.0f;
+        }
+    }
+
+    col_t hsl = glm::mix( hsl1a, hsl2, t );
+    hsl.x = std::fmodf( hsl.x, 1.0f );
+
+    return hsl;
+}
+
 }   //  ::tq::hsl
 
 
-namespace tq::ansi {
+namespace tq::hsv {
 
+////////////////////////////////////////////////////////////////////////////////
+col_t lerp(
+    const col_t& hsv1,
+    const col_t& hsv2,
+    const float t )
+{
+    col_t hsv1a = hsv1;
+
+    if ( std::abs( hsv1a.x - hsv2.x ) > 0.5f )
+    {
+        if( hsv1a.x > hsv2.x ) {
+            hsv1a.x -= 1.0f;
+        } else {
+            hsv1a.x += 1.0f;
+        }
+    }
+
+    col_t hsv = glm::mix( hsv1a, hsv2, t );
+    hsv.x = std::fmodf( hsv.x, 1.0f );
+
+    return hsv;
+}
+
+}   //  ::tq::hsv
+
+
+namespace tq::hcl {
+
+////////////////////////////////////////////////////////////////////////////////
+col_t lerp(
+    const col_t& hcl1,
+    const col_t& hcl2,
+    const float t )
+{
+    col_t delta = hcl2 - hcl1;
+
+    if ( delta.x > glm::pi<float>() ) {
+        delta.x -= glm::two_pi<float>();
+    } else if ( delta.x < - glm::pi<float>() ) {
+        delta.x += glm::two_pi<float>();
+    }
+
+    return hcl1 + t * delta;
+}
+
+}   //  ::tq::hcl
+
+
+namespace tq::ansi {
 
 ////////////////////////////////////////////////////////////////////////////////
 std::string colorize( const std::string& text, const ColorMap& cmap )
@@ -231,6 +265,5 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
     ss << tq::ansi::reset;
     return ss.str();
 }
-
 
 }   //  ::tq::ansi
