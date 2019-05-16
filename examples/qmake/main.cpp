@@ -30,15 +30,20 @@ int main( int, char* argv[] )
     dir.mkdir( "colmaps/" );
     dir.cd( "colmaps/" );
 
-    std::vector<std::string> cmapNames = {
-        "inferno", "magma", "plasma", "viridis", "vivid", "rainbow", "cool-warm", "blue-yellow"
+    std::vector<tq::ColorMap::DefaultType> defaults = {
+        tq::ColorMap::BlueYellow,
+        tq::ColorMap::CoolWarm,
+        tq::ColorMap::Inferno,
+        tq::ColorMap::Magma,
+        tq::ColorMap::Plasma,
+        tq::ColorMap::Rainbow,
+        tq::ColorMap::Viridis,
+        tq::ColorMap::Vivid
     };
 
-    for ( const auto& name : cmapNames )
+    for ( const auto& type : defaults )
     {
-        tq::ColorMap cmap;
-        cmap.load( VIVID_ROOT_PATH "/res/colormaps/" + name + ".json" );
-
+        const auto cmap = tq::ColorMap::loadDefault( type );
         QImage img( 512, 32, QImage::Format_RGB32 );
 
         for ( int c = 0; c < img.width(); c++ )
@@ -52,7 +57,7 @@ int main( int, char* argv[] )
             }
         }
 
-        img.save( dir.filePath( QString::fromStdString( name + ".png" ) ));
+        img.save( dir.filePath( QString::fromStdString( tq::ColorMap::nameForDefault( type ) + ".png" ) ));
     }
 
     //  conversions
@@ -66,11 +71,11 @@ int main( int, char* argv[] )
     tq::rgb::typeRoundtrip( col );
 
     const auto hsl = tq::hsl::fromRgb( col );
-    const auto rgb2 = tq::rgb::fromHsl( hsl );
+    const auto rgb_2 = tq::rgb::fromHsl( hsl );
 
-    std::cout << "rgb1: " << glm::to_string( col ) << std::endl;
-    std::cout << "hsl:  " << glm::to_string( hsl ) << std::endl;
-    std::cout << "rgb2: " << glm::to_string( rgb2 ) << std::endl;
+    std::cout << "rgb_1: " << col << std::endl;
+    std::cout << "hsl:   " << hsl << std::endl;
+    std::cout << "rgb_2: " << rgb_2 << std::endl;
 
     //  interpolation
 

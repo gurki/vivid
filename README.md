@@ -12,11 +12,10 @@ col_t interp = rgb::lerp( c1, c2, 0.5f );
 std::string hex = hex::fromRgb( interp );
 
 //  quick access to popular colormaps for data visualization
-ColorMap cmap;
-cmap.load( VIVID_ROOT_PATH "/res/colormaps/viridian.json" );
-
+auto cmap = ColorMap::loadDefault( ColorMap::Viridis );
 col_t mid = cmap.at( 0.5f );
 ```
+
 
 ## Content
 
@@ -29,6 +28,7 @@ col_t mid = cmap.at( 0.5f );
 - [Color Maps](#color-maps)
 
 <!-- /TOC -->
+
 
 ## Motivation
 
@@ -59,7 +59,7 @@ Over time, I gathered all the little snippets and helpers I had created, and thu
 ## Interpolation
 
 ```cpp
-//  pseudo-code example to generate the images in this section
+//  pseudo-code to generate the images in this section
 for ( auto& pixel : image ) {
     const float t = pixel.x / image.width;
     const auto col = tq::rgb::lerpHcl( c1, c2, t );
@@ -71,8 +71,6 @@ Color interpolation is an interesting topic. What should the color halfway in-be
 
 Compare the images in the table below to get an idea of interpolating in different color spaces.
 
-[^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
-
 Color Space   | Linear Interpolation
 --------------|-------------------------------------------------------------------
 RGB           | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
@@ -80,10 +78,21 @@ HCL           | ![lerp-cielch](docs/images/interpolations/lerpHcl.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
 
+[\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
+
 
 ## Color Maps
 
-`vivid` comes with a set of pre-defined color maps. Thanks to the awesome community
+`vivid` comes with a set of pre-defined color maps, which I conveniently gathered under one umbrella. Thanks to the awesome community out there for their great work! [\^2,\^3]
+
+As shown in the example in the beginning, it's quick and easy to query colors from a certain color map. You can also create your own maps by simply loading an according _*.json_ file.
+
+```cpp
+//  loading a custom color map
+auto cmap = ColorMap::loadFromFile( VIVID_ROOT_PATH "res/colormaps/mycolormap.json" );
+auto mid = cmap.at( 0.5f );
+```
+
 Name        | Image
 ------------|------------------------------------------------
 Inferno     | ![inferno](docs/images/colormaps/inferno.png)
@@ -95,6 +104,8 @@ Rainbow     | ![vivid](docs/images/colormaps/rainbow.png)
 Blue-Yellow | ![vivid](docs/images/colormaps/blue-yellow.png)
 Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
 
+[\^2] [Stefan & Nathaniel - MPL Colormaps](http://bids.github.io/colormap/)
+[\^3] [SciVisColor](https://sciviscolor.org/)
 
 ## Console Support
 

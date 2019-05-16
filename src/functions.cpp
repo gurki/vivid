@@ -1,5 +1,6 @@
 #include "vivid/functions.h"
 #include "vivid/conversion.h"
+#include "vivid/stream.h"
 
 #include <glm/glm.hpp>
 #include <glm/common.hpp>           //  clamp
@@ -151,26 +152,26 @@ col_t clamp( const col_t& rgb ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t spaceRoundtrip( const col_t& rgb1 )
+col_t spaceRoundtrip( const col_t& rgb_1 )
 {
-    const col_t xyz1 = xyz::fromRgb( rgb1 );
-    const col_t lab1 = lab::fromXyz( xyz1 );
-    const col_t lch1 = hcl::fromLab( lab1 );
-    const col_t lab2 = lab::fromHcl( lch1 );
-    const col_t xyz2 = xyz::fromLab( lab2 );
-    const col_t rgb2 = rgb::fromXyz( xyz2 );
+    const col_t xyz_1 = xyz::fromRgb( rgb_1 );
+    const col_t lab_1 = lab::fromXyz( xyz_1 );
+    const col_t lch_1 = hcl::fromLab( lab_1 );
+    const col_t lab_2 = lab::fromHcl( lch_1 );
+    const col_t xyz_2 = xyz::fromLab( lab_2 );
+    const col_t rgb_2 = rgb::fromXyz( xyz_2 );
 
     std::cout << "color space roundtrip test" << std::endl;
-    std::cout << "rgb1:	" << glm::to_string( rgb1 ) << std::endl;
-    std::cout << "xyz1:	" << glm::to_string( xyz1 ) << std::endl;
-    std::cout << "lab1:	" << glm::to_string( lab1 ) << std::endl;
-    std::cout << "lch1:	" << glm::to_string( lch1 ) << std::endl;
-    std::cout << "lab2:	" << glm::to_string( lab2 ) << std::endl;
-    std::cout << "xyz2:	" << glm::to_string( xyz2 ) << std::endl;
-    std::cout << "rgb2:	" << glm::to_string( rgb2 ) << std::endl;
+    std::cout << "rgb_1: " << rgb_1 << std::endl;
+    std::cout << "xyz_1: " << xyz_1 << std::endl;
+    std::cout << "lab_1: " << lab_1 << std::endl;
+    std::cout << "lch_1: " << lch_1 << std::endl;
+    std::cout << "lab_2: " << lab_2 << std::endl;
+    std::cout << "xyz_2: " << xyz_2 << std::endl;
+    std::cout << "rgb_2: " << rgb_2 << std::endl;
     std::cout << std::endl;
 
-    return rgb2;
+    return rgb_2;
 }
 
 
@@ -178,15 +179,15 @@ col_t spaceRoundtrip( const col_t& rgb1 )
 col_t typeRoundtrip( const col_t& rgb1 )
 {
     const auto rgb8 = rgb8::fromRgb( rgb1 );
-    const auto rgb2 = rgb::fromRgb8( rgb8 );
+    const auto rgb_2 = rgb::fromRgb8( rgb8 );
 
     std::cout << "color type roundtrip test" << std::endl;
-    std::cout << "rgb1: " << glm::to_string( rgb1 ) << std::endl;
-    std::cout << "rgb8: " << glm::to_string( rgb8 ) << std::endl;
-    std::cout << "rgb2: " << glm::to_string( rgb2 ) << std::endl;
+    std::cout << "rgb_1: " << rgb1 << std::endl;
+    std::cout << "rgb8:  " << rgb8 << std::endl;
+    std::cout << "rgb_2: " << rgb_2 << std::endl;
     std::cout << std::endl;
 
-    return rgb2;
+    return rgb_2;
 }
 
 

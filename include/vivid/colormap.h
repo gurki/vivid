@@ -25,6 +25,17 @@ class ColorMap
 {
     public:
 
+        enum DefaultType {
+            BlueYellow,
+            CoolWarm,
+            Inferno,
+            Magma,
+            Plasma,
+            Rainbow,
+            Viridis,
+            Vivid
+        };
+
         enum Interpolation {
             Nearest,
             Linear,
@@ -35,13 +46,15 @@ class ColorMap
 
         ColorMap() = default;
 
-        bool load( const std::string& file );
-
         bool empty() const { return stops_.empty(); }
         size_t numStops() const { return stops_.size(); }
-        glm::vec3 at( const float t );
+        glm::vec3 at( const float t ) const;
 
         Interpolation interpolation = Linear;
+
+        static ColorMap loadDefault( const DefaultType type );
+        static ColorMap loadFromFile( const std::string& file );
+        static std::string nameForDefault( const DefaultType type );
 
     private:
 
