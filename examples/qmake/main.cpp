@@ -7,6 +7,10 @@
 
 #include <iostream>
 #include <functional>
+#include <sstream>
+
+
+std::string rainbowText( const std::string& text );
 
 
 int main( int, char* argv[] )
@@ -100,5 +104,28 @@ int main( int, char* argv[] )
 
     tq::printColorTable();
 
+    //  rainbow text
+
+    std::cout << rainbowText( "How can you tell? - Raaaaaaiiiinbooooooowwws." ) << std::endl;;
+
     return EXIT_SUCCESS;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+std::string rainbowText( const std::string& text )
+{
+    using namespace tq;
+
+    std::stringstream ss;
+    const float n = text.size();
+
+    for ( size_t i = 0; i < n; i++ ) {
+        const auto k = uint8_t( ( i / n ) * 255.f );
+        const auto id = index::fromRgb( rgb::clamp( rgb::rainbow( k ) ));
+        ss << "\x1b[38;5;" + std::to_string( id ) + "m" << text[ i ];
+    }
+
+    ss << "\x1b[0m";
+    return ss.str();
 }
