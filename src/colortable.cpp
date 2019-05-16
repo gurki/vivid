@@ -19,7 +19,6 @@ std::unordered_map<uint32_t, uint8_t> ColorTable::lookup_ = {};
 
 ////////////////////////////////////////////////////////////////////////////////
 void ColorTable::initialize() {
-    std::cout << VIVID_ROOT_PATH "/res/colors.json" << std::endl;
     load( VIVID_ROOT_PATH "/res/colors.json" );
 }
 
@@ -42,9 +41,9 @@ bool ColorTable::load( const std::string& path )
     lookup_.clear();
 
     for ( uint16_t id = 0; id < 255; id++ ) {
-        const auto rgbu8 = rgb888( uint8_t( id ) );
-        const auto rgbu32 = rgbu32::fromRGB888( rgbu8 );
-        lookup_[ rgbu32 ] = uint8_t( id );
+        const auto rgb3b = rgb8( uint8_t( id ) );
+        const auto rgb32 = rgb32::fromRgb8( rgb3b );
+        lookup_[ rgb32 ] = uint8_t( id );
     }
 
     return ! empty();
@@ -66,10 +65,10 @@ std::string ColorTable::name( const uint8_t index )  {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-colu8_t ColorTable::rgb888( const uint8_t index ) {
+col8_t ColorTable::rgb8( const uint8_t index ) {
     assert( ! empty() );
     const auto& arr = table_.at( index ).at( "rgb" );
-    return colu8_t( arr[ "r" ], arr[ "g" ], arr[ "b" ] );
+    return col8_t( arr[ "r" ], arr[ "g" ], arr[ "b" ] );
 }
 
 
@@ -89,9 +88,9 @@ col_t ColorTable::hsl( const uint8_t index )
 
 
 ////////////////////////////////////////////////////////////////////////////////////
-std::optional<uint8_t> ColorTable::findRGBu32( const uint32_t rgbu32 )
+std::optional<uint8_t> ColorTable::findRgb32( const uint32_t rgb32 )
 {
-    const auto it = lookup_.find( rgbu32 );
+    const auto it = lookup_.find( rgb32 );
 
     if ( it == lookup_.end() ) {
         return {};
@@ -102,11 +101,38 @@ std::optional<uint8_t> ColorTable::findRGBu32( const uint32_t rgbu32 )
 
 
 ////////////////////////////////////////////////////////////////////////////////////
+std::optional<uint8_t> ColorTable::findName( const std::string& name )
+{
+    static auto iequals = []( const std::string& a, const std::string& b ) -> bool
+    {
+        return std::equal(
+            a.begin(), a.end(),
+            b.begin(), b.end(),
+            []( char a, char b ) {
+                return std::tolower( a ) == std::tolower( b );
+            }
+        );
+    };
+
+    const auto iter = std::find_if(
+        table_.begin(), table_.end(),
+        [ &name ]( const auto& entry ) {
+            return iequals( entry[ "name" ], name );
+        }
+    );
+
+    if ( iter == table_.end() ) {
+        return {};
+    }
+
+    return iter.value()[ "colorId" ];
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
 //  layout by gawin's kool xterm color demo
-//  [1] https://github.com/gawin/bash-colors-256
-void ColorTable::printTestTable(
-    const bool foreground,
-    const bool background )
+//  [7] https://github.com/gawin/bash-colors-256
+void printColorTable( const bool foreground, const bool background )
 {
     std::cout << std::endl;
 
@@ -156,9 +182,9 @@ void ColorTable::printTestTable(
             for ( float b = 0.f; b <= 255.f; b += step )
             {
                 const uint8_t b8 = uint8_t( std::round( b ) );
-                const uint32_t val = ( r8 << 16 ) + ( g8 << 8 ) + b8;
+                const uint32_t val = uint32_t( ( r8 << 16 ) + ( g8 << 8 ) + b8 );
 
-                std::cout << escapeCode( index::fromRGB( rgb::fromRGBu32( val ) ));
+                std::cout << escapeCode( index::fromRgb( rgb::fromRgb32( val ) ));
             }
 
             std::cout << std::endl;
@@ -183,74 +209,4 @@ void ColorTable::printTestTable(
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////
-//Color::Color( const uint8_t index ) :
-//    id_( index )
-//{}
-
-
-////////////////////////////////////////////////////////////////////////////////////
-//Color::Color( const std::string& hexOrName )
-//{
-//    //  try hex
-//    std::regex re( "^#((?:[0-9a-fA-F]{3}){1,2})$" );
-//    std::smatch match;
-//    std::regex_match( hexOrName, match, re );
-
-//    //  revert to name
-//    if ( match.empty() ) {
-//        id_ = ColorTable::findName( hexOrName );
-//        return;
-//    }
-
-//    //  parse hex
-
-//    std::stringstream ss;
-//    const std::string& hexstr = match[ 1 ];
-
-//    ss << std::hex;
-
-//    if ( hexstr.size() == 3 )  {
-//        //  unpack 3-digit hex
-//        for ( const auto& c : hexstr ) {
-//            ss << c << c;
-//        }
-//    } else {
-//        ss << hexstr;
-//    }
-
-//    uint32_t rgba;
-//    ss >> rgba;
-
-//    id_ = fromRGBA( rgba );
-//}
-
-
-////////////////////////////////////////////////////////////////////////////////////
-//std::string Color::hex() const {
-//    return ColorTable::hex( id_ );
-//}
-
-
-////////////////////////////////////////////////////////////////////////////////////
-//std::string Color::name() const {
-//    return ColorTable::name( id_ );
-//}
-
-
-////////////////////////////////////////////////////////////////////////////////////
-//uint8_t Color::fromRGBA( const uint32_t rgba )
-//{
-//    auto conv = []( const int v ) -> int {
-//        return int( std::roundf( 5.f * v / 255.f ) );
-//    };
-
-//    const int r = conv( ( rgba >> 16 ) & 0xff );
-//    const int g = conv( ( rgba >> 8 ) & 0xff );
-//    const int b = conv( rgba & 0xff  );
-
-//    return ( 16 + 36 * r + 6 * g + b );
-//}
-
-
-}   //  mc
+}   //  ::tq

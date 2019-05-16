@@ -13,36 +13,31 @@ namespace tq::rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRGB888( const colu8_t& rgb888 )
+col_t fromRgb8( const col8_t& rgb8 )
 {
     col_t rgb;
-    rgb.x = rgb888.x / 255.f;
-    rgb.y = rgb888.y / 255.f;
-    rgb.z = rgb888.z / 255.f;
+    rgb.x = rgb8.x / 255.f;
+    rgb.y = rgb8.y / 255.f;
+    rgb.z = rgb8.z / 255.f;
 
     return rgb;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRGBu32( const uint32_t rgbu32 )
-{
-    const uint8_t r = ( rgbu32 >> 16 ) & 0xff;
-    const uint8_t g = ( rgbu32 >> 8 ) & 0xff;
-    const uint8_t b = rgbu32 & 0xff;
-
-    return fromRGB888( { r, g, b } );
+col_t fromRgb32( const uint32_t rgb32 ) {
+    return rgb::fromRgb8( rgb8::fromRgb32( rgb32 ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHSV( float h, float s, float v )
+col_t fromHsv( const col_t& hsv )
 {
-    h = ( h > 0.f ) ? ( std::fmodf( h, 1.f ) ) : ( 1.f + std::fmodf( h, 1.f ) );   //  wrap
-    s = glm::clamp( s, 0.f, 1.f );
-    v = glm::clamp( v, 0.f, 1.f );
+    float h = ( hsv.x > 0.f ) ? ( std::fmodf( hsv.x, 1.f ) ) : ( 1.f + std::fmodf( hsv.x, 1.f ) );   //  wrap
+    float s = glm::clamp( hsv.y, 0.f, 1.f );
+    float v = glm::clamp( hsv.z, 0.f, 1.f );
 
-    if( s == 0.f ) {
+    if(  s == 0.f ) {
         return { v, v, v };
     }
 
@@ -70,14 +65,8 @@ col_t fromHSV( float h, float s, float v )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHSV( const col_t& hsv ) {
-    return rgb::fromHSV( hsv.x, hsv.y, hsv.z );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 //  [1] https://www.rapidtables.com/convert/color/hsl-to-rgb.html
-col_t fromHSL( const col_t& hsl )
+col_t fromHsl( const col_t& hsl )
 {
     const float k = hsl.x * 6.f;
     const float C = ( 1.f - std::abs( 2.f * hsl.z - 1.f ) ) * hsl.y;
@@ -103,7 +92,7 @@ col_t fromHSL( const col_t& hsl )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromCIEXYZ( const col_t& xyz )
+col_t fromXyz( const col_t& xyz )
 {
     auto xyz2rgb = []( const float x ) -> float {
         return ( x <= 0.00304f ) ?
@@ -111,7 +100,7 @@ col_t fromCIEXYZ( const col_t& xyz )
             ( 1.055f * std::pow( x, 1.f / 2.4f ) - 0.055f );
     };
 
-    const col_t sxyz = xyz * ciexyz::xyz_ref;
+    const col_t sxyz = xyz * xyz::xyz_ref;
 
     col_t rgb = {};
     rgb.x = glm::dot( { 3.2404542f,-1.5371385f,-0.4985134f }, sxyz );
@@ -127,22 +116,27 @@ col_t fromCIEXYZ( const col_t& xyz )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromCIELCh( const col_t& lch ) {
-    return rgb::fromCIEXYZ( ciexyz::fromCIELab( cielab::fromCIELCh( lch ) ) );
+col_t fromHcl( const col_t& lch ) {
+    return rgb::fromXyz( xyz::fromLab( lab::fromHcl( lch ) ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromHex( const std::string& hexStr ) {
-    return rgb::fromRGBu32( rgbu32::fromHex( hexStr ) );
+    return rgb::fromRgb32( rgb32::fromHex( hexStr ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromIndex( const uint8_t code ) {
-    return rgb::fromRGB888( ColorTable::rgb888( code ) );
+    return rgb::fromRgb8( ColorTable::rgb8( code ) );
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+col_t fromName( const std::string& name ) {
+    return rgb::fromIndex( index::fromName( name ) );
+}
 
 
 }   //  ::tq::rgb

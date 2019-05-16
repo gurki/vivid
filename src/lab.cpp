@@ -1,16 +1,14 @@
 #include "vivid/conversion.h"
 #include <cmath>
 
-namespace tq::cielab {
+namespace tq::lab {
 
 
 ////////////////////////////////////////////////////////////////////////////////
 //  xyz \in [ 0, 1 ]
 //  l \in [ 0, 100 ]
 //  ab \in [ -128, 128 ]
-//  [3] http://docs.opencv.org/3.1.0/de/d25/imgproc_color_conversions.html#gsc.tab=0
-//  [4] https://github.com/mbostock/d3/blob/master/src/color/rgb.js
-col_t fromCIEXYZ( const col_t& xyz )
+col_t fromXyz( const col_t& xyz )
 {
     auto xyz2lab = []( const float x ) -> float {
         return ( x > 0.008856f ) ?
@@ -33,12 +31,12 @@ col_t fromCIEXYZ( const col_t& xyz )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromCIELCh( const col_t& lch)
+col_t fromHcl( const col_t& hcl )
 {
     col_t lab;
-    lab.x = lch.x;
-    lab.y = std::cosf( lch.z ) * lch.y;
-    lab.z = std::sinf( lch.z ) * lch.y;
+    lab.x = hcl.z;
+    lab.y = std::cosf( hcl.x ) * hcl.y;
+    lab.z = std::sinf( hcl.x ) * hcl.y;
 
     return lab;
 }

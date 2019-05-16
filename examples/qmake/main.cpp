@@ -57,8 +57,8 @@ int main( int, char* argv[] )
     tq::rgb::spaceRoundtrip( col );
     tq::rgb::typeRoundtrip( col );
 
-    const auto hsl = tq::hsl::fromRGB( col );
-    const auto rgb2 = tq::rgb::fromHSL( hsl );
+    const auto hsl = tq::hsl::fromRgb( col );
+    const auto rgb2 = tq::rgb::fromHsl( hsl );
 
     std::cout << "rgb1: " << glm::to_string( col ) << std::endl;
     std::cout << "hsl:  " << glm::to_string( hsl ) << std::endl;
@@ -98,7 +98,7 @@ int main( int, char* argv[] )
 
     //  escape codes
 
-    tq::ColorTable::printTestTable();
+    tq::printColorTable();
 
     return EXIT_SUCCESS;
 }

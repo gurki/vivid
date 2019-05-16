@@ -2,24 +2,24 @@
 #include <regex>
 #include <sstream>
 
-namespace tq::rgbu32 {
+namespace tq::rgb32 {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-uint32_t fromRGB( const col_t& rgb ) {
-    return rgbu32::fromRGB888( rgb888::fromRGB( rgb ) );
+uint32_t fromRgb( const col_t& rgb ) {
+    return rgb32::fromRgb8( rgb8::fromRgb( rgb ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-uint32_t fromRGB888( const colu8_t& rgb888 )
+uint32_t fromRgb8( const col8_t& rgb8 )
 {
-    uint32_t rgbu32 = 0xff000000;
-    rgbu32 |= rgb888.r << 16;
-    rgbu32 |= rgb888.g << 8;
-    rgbu32 |= rgb888.b;
+    uint32_t rgb32 = 0xff000000;
+    rgb32 |= uint32_t( rgb8.r << 16 );
+    rgb32 |= uint32_t( rgb8.g << 8 );
+    rgb32 |= rgb8.b;
 
-    return rgbu32;
+    return rgb32;
 }
 
 
@@ -47,11 +47,11 @@ uint32_t fromHex( const std::string& hexStr )
         ss << hexstr;
     }
 
-    uint32_t rgbu32;
-    ss >> rgbu32;
+    uint32_t rgb32;
+    ss >> rgb32;
 
-    return rgbu32;
+    return rgb32;
 }
 
 
-}   //  ::tq::rgbu32
+}   //  ::tq::rgb32

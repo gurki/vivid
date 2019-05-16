@@ -8,19 +8,19 @@ INCLUDEPATH += \
 
 SOURCES += \
     $$PWD/src/functions.cpp \
+    $$PWD/src/hcl.cpp \
     $$PWD/src/index.cpp \
     $$PWD/src/colormap.cpp \
-    $$PWD/src/ciexyz.cpp \
-    $$PWD/src/cielab.cpp \
     $$PWD/src/hsv.cpp \
+    $$PWD/src/lab.cpp \
+    $$PWD/src/name.cpp \
     $$PWD/src/rgb8.cpp \
     $$PWD/src/rgb.cpp \
-    $$PWD/src/cielch.cpp \
     $$PWD/src/colortable.cpp \
-    $$PWD/src/xterm.cpp \
     $$PWD/src/rgb32.cpp \
     $$PWD/src/hsl.cpp \
-    $$PWD/src/hex.cpp
+    $$PWD/src/hex.cpp \
+    $$PWD/src/xyz.cpp
 
 HEADERS += \
     $$PWD/include/vivid/functions.h \

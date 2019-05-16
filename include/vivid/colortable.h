@@ -5,8 +5,8 @@
 #include "vivid/types.h"
 
 //  c.f.
-//    https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
-//    https://jonasjacek.github.io/colors/
+//    [3] https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
+//    [8] https://jonasjacek.github.io/colors/
 
 
 namespace tq {
@@ -17,18 +17,16 @@ class ColorTable
 {
     public:
 
+        static const std::unordered_map<uint32_t, uint8_t>& lookup() { return lookup_; }
+        static const nlohmann::json& table() { return table_; }
+
         static std::string hex( const uint8_t id );
         static std::string name( const uint8_t id );
         static col_t hsl( const uint8_t id );
-        static col_t rgb( const uint8_t id );
-        static colu8_t rgb888( const uint8_t id );
+        static col8_t rgb8( const uint8_t id );
 
-        static std::optional<uint8_t> findRGBu32( const uint32_t rgbu32 );
-
-        static void printTestTable(
-            const bool foreground = true,
-            const bool background = true
-        );
+        static std::optional<uint8_t> findRgb32( const uint32_t rgb32 );
+        static std::optional<uint8_t> findName( const std::string& name );
 
         static void initialize();
         static bool load( const std::string& path );
@@ -39,10 +37,16 @@ class ColorTable
         ColorTable() = default;
         ~ColorTable() = default;
 
-        static std::unordered_map<uint32_t, uint8_t> lookup_;   //  RGBu32 -> id
+        static std::unordered_map<uint32_t, uint8_t> lookup_;   //  rgb32 -> index
         static nlohmann::json table_;
-        static ColorTable instance_;    //  trigger population of table_
+        static ColorTable instance_;
 };
+
+
+void printColorTable(
+    const bool foreground = true,
+    const bool background = true
+);
 
 
 }   //  ::tq

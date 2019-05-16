@@ -23,8 +23,8 @@ col_t lerpHSV(
     const col_t& rgb2,
     const float t )
 {
-    col_t hsv1 = hsv::fromRGB( rgb1 );
-    col_t hsv2 = hsv::fromRGB( rgb2 );
+    col_t hsv1 = hsv::fromRgb( rgb1 );
+    col_t hsv2 = hsv::fromRgb( rgb2 );
 
     if ( std::abs( hsv1.x - hsv2.x ) > 0.5f )
     {
@@ -38,7 +38,7 @@ col_t lerpHSV(
     col_t hsv = glm::mix( hsv1, hsv2, t );
     hsv.x = std::fmodf( hsv.x, 1.0f );
 
-    return rgb::fromHSV( hsv );
+    return rgb::fromHsv( hsv );
 }
 
 
@@ -48,8 +48,8 @@ col_t lerpHSL(
     const col_t& rgb2,
     const float t )
 {
-    col_t hsl1 = hsl::fromRGB( rgb1 );
-    col_t hsl2 = hsl::fromRGB( rgb2 );
+    col_t hsl1 = hsl::fromRgb( rgb1 );
+    col_t hsl2 = hsl::fromRgb( rgb2 );
 
     if ( std::abs( hsl1.x - hsl2.x ) > 0.5f )
     {
@@ -63,7 +63,7 @@ col_t lerpHSL(
     col_t hsl = glm::mix( hsl1, hsl2, t );
     hsl.x = std::fmodf( hsl.x, 1.0f );
 
-    return rgb::fromHSL( hsl );
+    return rgb::fromHsl( hsl );
 }
 
 
@@ -73,8 +73,8 @@ col_t lerpCIELCh(
     const col_t& rgb2,
     const float t )
 {
-    col_t lch1 = cielch::fromRGB( rgb1 );
-    col_t lch2 = cielch::fromRGB( rgb2 );
+    col_t lch1 = hcl::fromRgb( rgb1 );
+    col_t lch2 = hcl::fromRgb( rgb2 );
 
     col_t delta = lch2 - lch1;
 
@@ -86,7 +86,7 @@ col_t lerpCIELCh(
 
     col_t lch = lch1 + t * delta;
 
-    return rgb::fromCIELCh( lch );
+    return rgb::fromHcl( lch );
 }
 
 
@@ -146,19 +146,19 @@ col_t saturate( const col_t& rgb )
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t clamp( const col_t& rgb ) {
-    return tq::rgb::fromIndex( tq::index::fromRGB( rgb ) );
+    return tq::rgb::fromIndex( tq::index::fromRgb( rgb ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t spaceRoundtrip( const col_t& rgb1 )
 {
-    const col_t xyz1 = ciexyz::fromRGB( rgb1 );
-    const col_t lab1 = cielab::fromCIEXYZ( xyz1 );
-    const col_t lch1 = cielch::fromCIELab( lab1 );
-    const col_t lab2 = cielab::fromCIELCh( lch1 );
-    const col_t xyz2 = ciexyz::fromCIELab( lab2 );
-    const col_t rgb2 = rgb::fromCIEXYZ( xyz2 );
+    const col_t xyz1 = xyz::fromRgb( rgb1 );
+    const col_t lab1 = lab::fromXyz( xyz1 );
+    const col_t lch1 = hcl::fromLab( lab1 );
+    const col_t lab2 = lab::fromHcl( lch1 );
+    const col_t xyz2 = xyz::fromLab( lab2 );
+    const col_t rgb2 = rgb::fromXyz( xyz2 );
 
     std::cout << "color space roundtrip test" << std::endl;
     std::cout << "rgb1:	" << glm::to_string( rgb1 ) << std::endl;
@@ -177,12 +177,12 @@ col_t spaceRoundtrip( const col_t& rgb1 )
 ////////////////////////////////////////////////////////////////////////////////
 col_t typeRoundtrip( const col_t& rgb1 )
 {
-    const auto rgb888 = rgb888::fromRGB( rgb1 );
-    const auto rgb2 = rgb::fromRGB888( rgb888 );
+    const auto rgb8 = rgb8::fromRgb( rgb1 );
+    const auto rgb2 = rgb::fromRgb8( rgb8 );
 
     std::cout << "color type roundtrip test" << std::endl;
     std::cout << "rgb1: " << glm::to_string( rgb1 ) << std::endl;
-    std::cout << "rgb888: " << glm::to_string( rgb888 ) << std::endl;
+    std::cout << "rgb8: " << glm::to_string( rgb8 ) << std::endl;
     std::cout << "rgb2: " << glm::to_string( rgb2 ) << std::endl;
     std::cout << std::endl;
 

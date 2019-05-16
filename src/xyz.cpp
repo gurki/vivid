@@ -1,11 +1,11 @@
 #include "vivid/conversion.h"
 #include <glm/glm.hpp>
 
-namespace tq::ciexyz {
+namespace tq::xyz {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromCIELab( const col_t& lab )
+col_t fromLab( const col_t& lab )
 {
     col_t xyz;
     xyz.y = ( lab.x + 16.f ) / 116.f;
@@ -29,7 +29,7 @@ col_t fromCIELab( const col_t& lab )
 ////////////////////////////////////////////////////////////////////////////////
 //  rgb \in [ 0, 1 ]
 //  xyz \in [ 0, 1 ]
-col_t fromRGB( const col_t& rgb )
+col_t fromRgb( const col_t& rgb )
 {
     auto rgb2xyz = []( const float x ) -> float {
         return ( x <= 0.04045f ) ?

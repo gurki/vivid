@@ -1,27 +1,27 @@
 #include "vivid/conversion.h"
 #include <cmath>
 
-namespace tq::cielch {
+namespace tq::hcl {
 
 
 ////////////////////////////////////////////////////////////////////////////////
 //  l \in [ 0, 100 ]
-col_t fromCIELab( const col_t& lab )
+col_t fromLab( const col_t& lab )
 {
     const float h = std::atan2f( lab.z, lab.y );
 
-    col_t lch;
-    lch.x = lab.x;
-    lch.y = std::sqrtf( lab.y * lab.y + lab.z * lab.z );
-    lch.z = h;
+    col_t hcl;
+    hcl.x = h;
+    hcl.y = std::sqrtf( lab.y * lab.y + lab.z * lab.z );
+    hcl.z = lab.x;
 
-    return lch;
+    return hcl;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRGB( const col_t& rgb ) {
-    return cielch::fromCIELab( cielab::fromCIEXYZ( ciexyz::fromRGB( rgb ) ) );
+col_t fromRgb( const col_t& rgb ) {
+    return hcl::fromLab( lab::fromXyz( xyz::fromRgb( rgb ) ) );
 }
 
 

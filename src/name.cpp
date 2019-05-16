@@ -1,12 +1,12 @@
 #include "vivid/conversion.h"
 #include "vivid/colortable.h"
 
-namespace tq::xterm {
+namespace tq::name {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string fromRGB( const col_t& rgb ) {
-    return xterm::fromIndex( index::fromRGB( rgb ) );
+std::string fromRgb( const col_t& rgb ) {
+    return name::fromIndex( index::fromRgb( rgb ) );
 }
 
 
@@ -16,4 +16,4 @@ std::string fromIndex( const uint8_t index ) {
 }
 
 
-}   //  ::tq::xterm
+}   //  ::tq::name

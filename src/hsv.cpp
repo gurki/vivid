@@ -10,8 +10,13 @@ namespace tq::hsv {
 ////////////////////////////////////////////////////////////////////////////////
 //  r: [0, 1], g: [0, 1], b: [0, 1]
 //  [2] https://www.cs.rit.edu/~ncs/color/t_convert.html
-col_t fromRGB( float r, float g, float b )
+////////////////////////////////////////////////////////////////////////////////
+col_t fromRgb( const col_t& rgb )
 {
+    const float r = rgb.x;
+    const float g = rgb.y;
+    const float b = rgb.z;
+
     const float cmax = glm::max( glm::max( r, g ), b );
     const float cmin = glm::min( glm::min( r, g ), b );
     const float delta = cmax - cmin;
@@ -46,14 +51,8 @@ col_t fromRGB( float r, float g, float b )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRGB( const col_t& rgb ) {
-    return fromRGB( rgb.x, rgb.y, rgb.z );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromHSL( const col_t& hsl ) {
-    return hsv::fromRGB( rgb::fromHSL( hsl ) );
+col_t fromHsl( const col_t& hsl ) {
+    return hsv::fromRgb( rgb::fromHsl( hsl ) );
 }
 
 

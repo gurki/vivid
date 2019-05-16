@@ -10,7 +10,7 @@ namespace tq::hsl {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRGB( const col_t& rgb )
+col_t fromRgb( const col_t& rgb )
 {
     const auto cmax = glm::compMax( rgb );
     const auto cmin = glm::compMin( rgb );
@@ -47,8 +47,8 @@ col_t fromRGB( const col_t& rgb )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHSV( const col_t& hsv ) {
-    return hsl::fromRGB( rgb::fromHSV( hsv ) );
+col_t fromHsv( const col_t& hsv ) {
+    return hsl::fromRgb( rgb::fromHsv( hsv ) );
 }
 
 
