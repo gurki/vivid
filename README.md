@@ -21,6 +21,17 @@ cmap.interpolation = ColorMap::Interpolation::Hcl;
 col_t c3 = cmap.at( 0.5f );
 ```
 
+## Content
+
+<!-- TOC depthFrom:2 depthTo:2 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Content](#content)
+- [Motivation](#motivation)
+- [Color Spaces](#color-spaces)
+- [Interpolation](#interpolation)
+- [Color Maps](#color-maps)
+
+<!-- /TOC -->
 
 ## Motivation
 
