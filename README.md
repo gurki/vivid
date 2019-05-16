@@ -77,3 +77,12 @@ Inferno  | ![inferno](docs/images/colormaps/inferno.png)
 Magma    | ![magma](docs/images/colormaps/magma.png)
 Plasma   | ![plasma](docs/images/colormaps/plasma.png)
 Viridian | ![viridis](docs/images/colormaps/viridis.png)
+
+
+## Console Support
+
+### Color Table
+![colortable](docs/images/console/colortable.png)
+
+### Rainbows
+![rainbows](docs/images/console/rainbow-text.png)

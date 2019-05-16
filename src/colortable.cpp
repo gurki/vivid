@@ -4,9 +4,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <ios>  //  std::hex
+#include <ios>      //  std::hex
 #include <string_view>
 #include <regex>
+#include <cctype>   //  std::tolower
 
 
 namespace tq {
@@ -165,6 +166,7 @@ void printColorTable( const bool foreground, const bool background )
         std::cout << escapeCode( i );
     }
 
+    std::cout << std::endl;
     std::cout << std::endl;
     std::cout << std::endl;
 
