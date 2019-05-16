@@ -19,6 +19,11 @@ int main( int, char* argv[] )
 
     QDir dir( argv[ 0 ] );
 
+    //  introduction
+
+    std::cout << rainbowText( "vivid" ) << std::endl;
+    std::cout << std::endl;
+
     //  colormaps
 
     dir.cdUp();
@@ -26,16 +31,15 @@ int main( int, char* argv[] )
     dir.cd( "colmaps/" );
 
     std::vector<std::string> cmapNames = {
-        "inferno", "magma", "plasma", "viridis"
+        "inferno", "magma", "plasma", "viridis", "vivid", "rainbow", "cool-warm", "blue-yellow"
     };
 
     for ( const auto& name : cmapNames )
     {
         tq::ColorMap cmap;
         cmap.load( VIVID_ROOT_PATH "/res/colormaps/" + name + ".json" );
-        cmap.interpolation = tq::ColorMap::Hcl;
 
-        QImage img( 512, 128, QImage::Format_RGB32 );
+        QImage img( 512, 32, QImage::Format_RGB32 );
 
         for ( int c = 0; c < img.width(); c++ )
         {
@@ -72,11 +76,16 @@ int main( int, char* argv[] )
 
     using colorlerp_t = std::function< tq::col_t( const tq::col_t&, const tq::col_t&, const float ) >;
     using annotated_colorlerp_t = std::pair<colorlerp_t, std::string>;
+    auto lerpHslClamp = []( const tq::col_t& c1, const tq::col_t& c2, const float t ) {
+        return tq::rgb::clamp( tq::rgb::lerpHsl( c1, c2, t ) );
+    };
+
     const std::vector<annotated_colorlerp_t> lerps = {
         { tq::rgb::lerp, "lerpRgb" },
         { tq::rgb::lerpHsv, "lerpHsv" },
         { tq::rgb::lerpHsl, "lerpHsl" },
-        { tq::rgb::lerpHcl, "lerpHcl" }
+        { tq::rgb::lerpHcl, "lerpHcl" },
+        { lerpHslClamp, "lerpHslClamped" }
     };
 
     static const tq::col_t c1( 0.7f, 0.3f, 0.3f );
@@ -84,7 +93,7 @@ int main( int, char* argv[] )
 
     for ( const auto& lerp: lerps )
     {
-        QImage img( 512, 128, QImage::Format_RGB32 );
+        QImage img( 512, 32, QImage::Format_RGB32 );
 
         for ( int c = 0; c < img.width(); c++ )
         {

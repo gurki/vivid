@@ -4,21 +4,18 @@ A simple-to-use `cpp` color library
 ```cpp
 using namespace tq;
 
+//  create and interpolate colors
 col_t c1 = rgb::fromName( "indianred" );
 col_t c2 = rgb::fromHsl( { 0.f, 0.4f, 0.5f } );
 
-col_t rgb = rgb::lerp( c1, c2, 0.5f );
-col_t hsv = rgb::lerpHsv( c1, c2, 0.5f );
-col_t lch = rgb::lerpHcl( c1, c2, 0.5f );
+col_t interp = rgb::lerp( c1, c2, 0.5f );
+std::string hex = hex::fromRgb( interp );
 
-std::string hex = hex::fromRgb( lch );
-
-//  color map
+//  quick access to popular colormaps for data visualization
 ColorMap cmap;
 cmap.load( VIVID_ROOT_PATH "/res/colormaps/viridian.json" );
-cmap.interpolation = ColorMap::Interpolation::Hcl;
 
-col_t c3 = cmap.at( 0.5f );
+col_t mid = cmap.at( 0.5f );
 ```
 
 ## Content
@@ -35,14 +32,14 @@ col_t c3 = cmap.at( 0.5f );
 
 ## Motivation
 
-Things we create should be beautiful. Be it a console log message or a real-time volumetric data plot. I'm working with colors quite often, but found the available means to work with them lacking. Especially if you want to just get some shit done and your ideas down on paper.
+Things we create should be beautiful. Be it a console log message or a real-time volumetric data plot. I'm working with colors quite often, but found the available means to work with them lacking. Especially if you want to just get stuff (he said stuff) done and your ideas down in code.
 
-Over time, I wrote all the small helpers now contained in this pet project of mine, which help me create, lookup and convert colors. It also lets me quickly interpolate in different color spaces or use some of the great data visualization color palettes out there.
+Over time, I gathered all the little snippets and helpers I had created, and thus this project was born. `vivid` allows you to quickly create, lookup and convert colors. It provides perceptual color interpolation, easy access to color names, ascii escape codes and to some of the great data visualization color palettes out there.
 
 
 ## Color Spaces
 
-`vivid` has an extensive set of direct conversion routines. Additionally, there's a bunch of shortcuts for multi-step conversions. I haven't included the complete graph of all possible conversions. Rather every function present has been of use to me at least once.
+`vivid` has an extensive set of direct conversion routines. Additionally, there's a bunch of shortcuts for multi-step conversions. I haven't included the complete graph of all possible conversions. Rather, all the functions currently included have been of use to me at least at some point.
 
 ### Native Conversions
 
@@ -61,6 +58,21 @@ Over time, I wrote all the small helpers now contained in this pet project of mi
 
 ## Interpolation
 
+```cpp
+//  pseudo-code example to generate the images in this section
+for ( auto& pixel : image ) {
+    const float t = pixel.x / image.width;
+    const auto col = tq::rgb::lerpHcl( c1, c2, t );
+    image.setColor( pixel, col );
+}
+```
+
+Color interpolation is an interesting topic. What should the color halfway in-between <span style="color:rgb(178, 76, 76)">red</span> and <span style="color:rgb(25, 153, 102)">green</span> look like? There is a great article introducing this topic by Grego Aisch [^1]. In order to do a perceptually linear transition from one color to another, we can't simply linearly interpolate two _RGB_-vectors. Rather, we move to a more suitable color space, interpolate there, and then move back again. Namely, we use the _CIE L\*C\*h_ space, also known as _HCL_, which matches the human visual system rather well. There are more suitable color spaces nowadays to do so, but _HCL_ has a nice balance between complexity (code and computation) and outcome.
+
+Compare the images in the table below to get an idea of interpolating in different color spaces.
+
+[^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
+
 Color Space   | Linear Interpolation
 --------------|-------------------------------------------------------------------
 RGB           | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
@@ -71,12 +83,17 @@ HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.pn
 
 ## Color Maps
 
-Name     | Image
----------|----------------------------------------------
-Inferno  | ![inferno](docs/images/colormaps/inferno.png)
-Magma    | ![magma](docs/images/colormaps/magma.png)
-Plasma   | ![plasma](docs/images/colormaps/plasma.png)
-Viridian | ![viridis](docs/images/colormaps/viridis.png)
+`vivid` comes with a set of pre-defined color maps. Thanks to the awesome community
+Name        | Image
+------------|------------------------------------------------
+Inferno     | ![inferno](docs/images/colormaps/inferno.png)
+Magma       | ![magma](docs/images/colormaps/magma.png)
+Plasma      | ![plasma](docs/images/colormaps/plasma.png)
+Viridis     | ![viridis](docs/images/colormaps/viridis.png)
+Vivid       | ![vivid](docs/images/colormaps/vivid.png)
+Rainbow     | ![vivid](docs/images/colormaps/rainbow.png)
+Blue-Yellow | ![vivid](docs/images/colormaps/blue-yellow.png)
+Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
 
 
 ## Console Support
