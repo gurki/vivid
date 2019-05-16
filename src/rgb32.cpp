@@ -1,6 +1,7 @@
 #include "vivid/conversion.h"
 #include <regex>
 #include <sstream>
+#include <iostream>
 
 namespace tq::rgb32 {
 
@@ -31,6 +32,10 @@ uint32_t fromHex( const std::string& hexStr )
     std::smatch match;
     std::regex_match( hexStr, match, re );
 
+    if ( match.empty() ) {
+        return 0;
+    }
+
     //  parse hex
 
     std::stringstream ss;
@@ -49,6 +54,8 @@ uint32_t fromHex( const std::string& hexStr )
 
     uint32_t rgb32;
     ss >> rgb32;
+
+    std::cout << std::hex << rgb32 << std::endl;
 
     return rgb32;
 }

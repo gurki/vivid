@@ -1,8 +1,8 @@
 #pragma once
 
+#include "vivid/types.h"
 #include <nlohmann/json.hpp>
 #include <optional>
-#include "vivid/types.h"
 
 //  c.f.
 //    [3] https://en.wikipedia.org/wiki/ANSI_escape_code#Colors
