@@ -22,8 +22,8 @@ auto cmap = ColorMap::loadDefault( ColorMap::Viridis );
 col_t mid = cmap.at( 0.5f );
 
 //  ansi and html encodings
-std::cout << tq::ansi::fg( 163 ) << "woah!!" << tq::ansi::reset;
-fout << tq::html::bg( "#abc123" ) << "styled background color" << tq::html::close;
+std::cout << ansi::fg( 163 ) << "woah!!" << ansi::reset;
+fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 ```
 
 ##  Content
@@ -99,7 +99,7 @@ The following native conversions are currently available.
 //  pseudo-code to generate the images in this section
 for ( auto& pixel : image ) {
     const float t = pixel.x / image.width;
-    const auto col = tq::rgb::lerpHcl( c1, c2, t );
+    const auto col = rgb::lerpHcl( c1, c2, t );
     image.setColor( pixel, col );
 }
 ```
@@ -156,7 +156,7 @@ Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)  |
 You can colorize console messages very simply using the `tq::ansi` helpers.
 
 ```cpp
-std::cout << tq::ansi::fg( 136 ) << "and tada, colorized font" << tq::ansi::reset;
+std::cout << ansi::fg( 136 ) << "and tada, colorized font" << ansi::reset;
 ```
 
 To get an overview of all color codes or quickly check if your console has 8-bit color support, you can call `printColorTable()` (shoutout to Gawin [^4] for the layout idea).
@@ -166,9 +166,9 @@ To get an overview of all color codes or quickly check if your console has 8-bit
 Escape codes can also be used in conjunction with `ColorMaps` to create some joyful effects.
 
 ```cpp
-const auto rainbowMap = tq::ColorMap::fromPreset( tq::ColorMap::PresetRainbow );
+const auto rainbowMap = ColorMap::fromPreset( ColorMap::PresetRainbow );
 const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
-std::cout << tq::ansi::colorize( text, rainbowMap ) << std::endl;
+std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 ```
 
 ![rainbows](docs/images/console/rainbow-text.png)
@@ -179,8 +179,8 @@ std::cout << tq::ansi::colorize( text, rainbowMap ) << std::endl;
 One of my side projects is a tagged logging system, where one of the sinks goes to html. This has become very handy.
 
 ```cpp
-auto col = tq::rgb8::fromName( "LightSteelBlue" );
-fout << tq::html::fg( col ) << "colorized html text!" << tq::html::close;
+auto col = rgb8::fromName( "LightSteelBlue" );
+fout << html::fg( col ) << "colorized html text!" << html::close;
 //  <span style='color:rgb(175, 175, 255)'>colorized html text!</span>
 ```
 
