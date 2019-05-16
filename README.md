@@ -1,6 +1,12 @@
 # vivid
 A simple-to-use `cpp` color library
 
+- color space **conversions**
+- perceptual color **interpolation**
+- popular and custom **color maps**
+- **xterm** names and **ansi** codes
+- ansi **escape sequences** and **html** encoding
+
 ```cpp
 using namespace tq;
 
@@ -23,18 +29,34 @@ col_t mid = cmap.at( 0.5f );
 
 - [Content](#content)
 - [Motivation](#motivation)
+- [Get Started](#get-started)
 - [Color Spaces](#color-spaces)
 - [Interpolation](#interpolation)
 - [Color Maps](#color-maps)
+- [Console Support](#console-support)
 
 <!-- /TOC -->
 
 
 ## Motivation
 
-Things we create should be beautiful. Be it a console log message or a real-time volumetric data plot. I'm working with colors quite often, but found the available means to work with them lacking. Especially if you want to just get stuff (he said stuff) done and your ideas down in code.
+Things we create should be beautiful. Be it a console log message or a real-time volumetric data plot. I'm working with colors quite often, but found the available means to work with them lacking. Especially if you want to just get stuff (he said stuff) done and your ideas down in code. Over time, I gathered all the little snippets and helpers I had created, and thus this project was born.
 
-Over time, I gathered all the little snippets and helpers I had created, and thus this project was born. `vivid` allows you to quickly create, lookup and convert colors. It provides perceptual color interpolation, easy access to color names, ascii escape codes and to some of the great data visualization color palettes out there.
+`vivid` allows you to quickly create, lookup and convert colors. It provides perceptual color interpolation, easy access to color names, ascii escape codes and to some of the great data visualization color palettes out there.
+
+
+## Get Started
+
+```bash
+git clone git@github.com:gurki/vivid.git
+git submodule update --init
+```
+
+This repository comes with support for both `Qt` (_vivid.pri_) and `cmake` (_CMakeList_) projects.
+`vivid` depends on a small number of header-only libraries, which are included as submodules.
+
+- Nlohmann's great [Json for Modern C++](https://github.com/nlohmann/json) to load color names and color maps
+- [OpenGL Mathematics (GLM)](https://github.com/g-truc/glm) for vector type and operations
 
 
 ## Color Spaces
@@ -85,7 +107,7 @@ HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.pn
 
 `vivid` comes with a set of pre-defined color maps, which I conveniently gathered under one umbrella. Thanks to the awesome community out there for their great work! [\^2,\^3]
 
-As shown in the example in the beginning, it's quick and easy to query colors from a certain color map. You can also create your own maps by simply loading an according _*.json_ file.
+As shown in the example in the beginning, it's quick and easy to query colors from a certain color map. You can also create your own maps by simply loading an according _\*.json_ file.
 
 ```cpp
 //  loading a custom color map
