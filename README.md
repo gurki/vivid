@@ -62,7 +62,7 @@ You can start by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`.
 
 ## Dependencies
 
-`vivid` depends on a small number of header-only libraries, which are included as submodules.
+`vivid`  depends on a small number of header-only libraries, which are included as submodules.
 
 - Nlohmann's great [Json for Modern C++](https://github.com/nlohmann/json) to load color names and color maps
 - [OpenGL Mathematics (GLM)](https://github.com/g-truc/glm) for vector type and operations
@@ -70,9 +70,15 @@ You can start by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`.
 
 ## Color Spaces
 
-`vivid` has an extensive set of direct conversion routines. Additionally, there's a bunch of shortcuts for multi-step conversions. I haven't included the complete graph of all possible conversions. Rather, all the functions currently included have been of use to me at least at some point.
+`vivid` uses different types to represent colors, based on their attributed color space. The default `rgb`-space uses `glm::vec<3, float>`, which is accessible via `tq::col_t`. For `RRGGBB` byte-typed colors, `glm::vec<3, uint8_t>` or `tq::col8_t` is used.
+
+The library has an extensive set of direct conversion routines. Additionally, there's a bunch of shortcuts for multi-step conversions. I haven't included all possible conversions. Rather, the functions that are currently included have been of use to me at least at once upon a time.
+
+Conversions are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The user must (to some degree) ensure the integrity of the data passed into a converting function. E.g. `tq::xyz::fromLab` indeed assumes, that it is handed a `tq::col_t`, whose data encodes a valid `lab` color representation.
 
 ### Native Conversions
+
+The following native conversions are currently available.
 
     hcl ← lab
     hex ← rgb8, index
