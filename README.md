@@ -12,13 +12,6 @@ const auto lch = tq::rgb::lerpHcl( c1, c2, 0.5 );
 const auto hex = tq::hex::fromRgb( lch );
 ```
 
-Color Space   | Linear Interpolation
---------------|-------------------------------------------------------------------
-RGB           | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
-CIELch        | ![lerp-cielch](docs/images/interpolations/lerpHcl.png)
-HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
-HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
-
 
 ## Motivation
 
@@ -44,3 +37,23 @@ Over time, I wrote all the small helpers now contained in this pet project of mi
     rgb32 ← rgb, hex
     rgb8 ← rgb, rgb32, index
     xyz ← lab, rgb
+
+
+## Interpolation
+
+Color Space   | Linear Interpolation
+--------------|-------------------------------------------------------------------
+RGB           | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
+HCL           | ![lerp-cielch](docs/images/interpolations/lerpHcl.png)
+HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
+HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
+
+
+## Color Maps
+
+Name     | Image
+---------|----------------------------------------------
+Inferno  | ![inferno](docs/images/colormaps/inferno.png)
+Magma    | ![magma](docs/images/colormaps/magma.png)
+Plasma   | ![plasma](docs/images/colormaps/plasma.png)
+Viridian | ![viridis](docs/images/colormaps/viridis.png)
