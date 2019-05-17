@@ -54,8 +54,7 @@ uint32_t fromHex( const std::string& hexStr )
 
     uint32_t rgb32;
     ss >> rgb32;
-
-    std::cout << std::hex << rgb32 << std::endl;
+    rgb32 |= 0xff000000;
 
     return rgb32;
 }
