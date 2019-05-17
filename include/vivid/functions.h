@@ -16,9 +16,6 @@ namespace tq::rgb
     col_t saturate( const col_t& );
     col_t clamp( const col_t& );
     col_t rainbow( const uint8_t k );
-
-    col_t spaceRoundtrip( const col_t& );
-    col_t typeRoundtrip( const col_t& );
 }
 
 namespace tq::hsv {

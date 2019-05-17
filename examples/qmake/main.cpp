@@ -106,15 +106,8 @@ int main( int, char* argv[] )
     //  low-level conversions
 
     static const tq::col_t col( 1.f, 0.7f, 0.5f );
-    tq::rgb::spaceRoundtrip( col );
-    tq::rgb::typeRoundtrip( col );
-
     const auto hsl = tq::hsl::fromRgb( col );
     const auto rgb_2 = tq::rgb::fromHsl( hsl );
-
-    std::cout << "rgb_1: " << col << std::endl;
-    std::cout << "hsl:   " << hsl << std::endl;
-    std::cout << "rgb_2: " << rgb_2 << std::endl;
 
     //  high-level conversions
 

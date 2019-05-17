@@ -116,46 +116,6 @@ col_t clamp( const col_t& rgb ) {
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
-col_t spaceRoundtrip( const col_t& rgb_1 )
-{
-    const col_t xyz_1 = xyz::fromRgb( rgb_1 );
-    const col_t lab_1 = lab::fromXyz( xyz_1 );
-    const col_t lch_1 = hcl::fromLab( lab_1 );
-    const col_t lab_2 = lab::fromHcl( lch_1 );
-    const col_t xyz_2 = xyz::fromLab( lab_2 );
-    const col_t rgb_2 = rgb::fromXyz( xyz_2 );
-
-    std::cout << "color space roundtrip test" << std::endl;
-    std::cout << "rgb_1: " << rgb_1 << std::endl;
-    std::cout << "xyz_1: " << xyz_1 << std::endl;
-    std::cout << "lab_1: " << lab_1 << std::endl;
-    std::cout << "lch_1: " << lch_1 << std::endl;
-    std::cout << "lab_2: " << lab_2 << std::endl;
-    std::cout << "xyz_2: " << xyz_2 << std::endl;
-    std::cout << "rgb_2: " << rgb_2 << std::endl;
-    std::cout << std::endl;
-
-    return rgb_2;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t typeRoundtrip( const col_t& rgb1 )
-{
-    const auto rgb8 = rgb8::fromRgb( rgb1 );
-    const auto rgb_2 = rgb::fromRgb8( rgb8 );
-
-    std::cout << "color type roundtrip test" << std::endl;
-    std::cout << "rgb_1: " << rgb1 << std::endl;
-    std::cout << "rgb8:  " << rgb8 << std::endl;
-    std::cout << "rgb_2: " << rgb_2 << std::endl;
-    std::cout << std::endl;
-
-    return rgb_2;
-}
-
-
 }   //  ::tq::rgb
 
 
@@ -258,7 +218,7 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
 
     for ( size_t i = 0; i < n; i++ ) {
         const float t = i / n;
-        const uint8_t id= tq::index::fromRgb( cmap.at( t ) );
+        const uint8_t id = tq::index::fromRgb( cmap.at( t ) );
         ss << tq::ansi::fg( id ) << text[ i ];
     }
 

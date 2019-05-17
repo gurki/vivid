@@ -9,10 +9,10 @@ DEFINES += \
 
 SOURCES += \
     $$PWD/main.cpp \
-    direct-conversions.cpp
+    $$PWD/conversion.cpp
 
 HEADERS += \
     $$PWD/catch.hpp \
-    utility.h
+    $$PWD/utility.h
 
 include( $$PWD/../vivid.pri )

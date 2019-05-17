@@ -85,6 +85,23 @@ TEST_CASE( "Direct Conversions", "[conversions]" )
         }
     }
 
+    SECTION( "HSL <-> RGB <-> HSV <-> HSL" )
+    {
+        for ( size_t i = 0; i < fuzzIters; i++ )
+        {
+            const col_t src = tq::rgb::rand();
+            const auto rgb_1 = tq::rgb::fromHsl( src );
+            const auto hsv_1 = tq::hsv::fromRgb( rgb_1 );
+            const auto hsl_2 = tq::hsl::fromHsv( hsv_1 );
+            const auto hsv_2 = tq::hsv::fromHsl( hsl_2 );
+            const auto rgb_2 = tq::rgb::fromHsv( hsv_2 );
+            const auto tar = tq::hsl::fromRgb( rgb_2 );
+
+            CAPTURE( src, tar );
+            REQUIRE( fuzzyHueEqual( src, tar ) );
+        }
+    }
+
     SECTION( "RGB <-> XYZ <-> LAB <-> HCL" )
     {
         for ( size_t i = 0; i < fuzzIters; i++ )
@@ -102,7 +119,7 @@ TEST_CASE( "Direct Conversions", "[conversions]" )
         }
     }
 
-    SECTION( "Index <-> Hex <-> RGB8 <-> RGB32 <-> RGB" )
+    SECTION( "Index -> Hex <-> RGB8 <-> RGB32 <-> RGB" )
     {
         for ( size_t i = 0; i < fuzzIters; i++ )
         {
