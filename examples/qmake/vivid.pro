@@ -10,16 +10,21 @@ DEFINES += \
 SOURCES += \
     main.cpp
 
-dependency_path = $$PWD/../../../
-include( $${dependency_path}/vivid/vivid.pri )
+DESTDIR = $$PWD/build/install/
 
+#  dependencies
+
+include( $$PWD/../../vivid.pri )
 
 #  install
-
-DESTDIR = $$PWD/build/install/
 
 package.path = $${DESTDIR}
 package.files += vivid.exe
 package.CONFIG = no_check_exist
 
 INSTALLS += package
+
+resources.path = $${DESTDIR}/res/
+resources.files += $${DISTFILES}
+
+INSTALLS += resources

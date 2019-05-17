@@ -46,4 +46,3 @@ DISTFILES += \
     $$PWD/res/colormaps/rainbow.json \
     $$PWD/res/colormaps/viridis.json \
     $$PWD/res/colormaps/vivid.json
-
