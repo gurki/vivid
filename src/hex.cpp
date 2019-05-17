@@ -3,6 +3,7 @@
 
 #include <regex>
 #include <sstream>
+#include <iomanip>
 
 namespace tq::hex {
 
@@ -22,7 +23,10 @@ std::string fromRgb( const col_t& rgb ) {
 //////////////////////////////////////////////////////////////////////////////////
 std::string fromRgb8( const col8_t& rgb8 ) {
     std::stringstream ss;
-    ss << "#" << std::hex << int( rgb8.x ) << int( rgb8.y ) << int( rgb8.z );
+    ss << "#";
+    ss << std::hex << std::setw( 2 ) << std::setfill( '0' ) << int( rgb8.x );
+    ss << std::hex << std::setw( 2 ) << std::setfill( '0' ) << int( rgb8.y );
+    ss << std::hex << std::setw( 2 ) << std::setfill( '0' ) << int( rgb8.z );
     return ss.str();
 }
 
