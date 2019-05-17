@@ -11,15 +11,15 @@ A simple-to-use `cpp` color library
 using namespace tq;
 
 //  create and interpolate colors
-col_t c1 = rgb::fromName( "indianred" );
-col_t c2 = rgb::fromHsl( { 0.f, 0.4f, 0.5f } );
+Color c1( "indianred" );
+Color c2( { 0.f, 0.4f, 0.5f }, Color::SpaceHsl );
 
-col_t interp = rgb::lerp( c1, c2, 0.5f );
-std::string hex = hex::fromRgb( interp );
+auto interp = lerp( c1, c2, 0.5f );
+std::string hex = interp.hex();
 
 //  quick access to popular colormaps for data visualization
-auto cmap = ColorMap::loadDefault( ColorMap::Viridis );
-col_t mid = cmap.at( 0.5f );
+ColorMap cmap( ColorMap::Viridis );
+Color mid = cmap.at( 0.5f );
 
 //  ansi and html encodings
 std::cout << ansi::fg( 163 ) << "woah!!" << ansi::reset;
@@ -32,8 +32,9 @@ fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 
 - [Content](#content)
 - [Motivation](#motivation)
-- [Get Started](#get-started)
+- [Getting Started](#getting-started)
 - [Dependencies](#dependencies)
+- [Types](#types)
 - [Color Spaces](#color-spaces)
 - [Interpolation](#interpolation)
 - [Color Maps](#color-maps)
@@ -49,7 +50,7 @@ Things we create should be beautiful. Be it a console log message or a real-time
 `vivid` allows you to quickly create, lookup and convert colors. It provides perceptual color interpolation, easy access to color names, ascii escape codes and to some of the great data visualization color palettes out there.
 
 
-## Get Started
+## Getting Started
 
 ```bash
 git clone git@github.com:gurki/vivid.git
@@ -68,17 +69,18 @@ You can start by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`.
 - [OpenGL Mathematics (GLM)](https://github.com/g-truc/glm) for vector type and operations
 
 
+## Types
+
+`vivid` provides a convenient `Color` class, which is intended to be flexible and easy to use. It stores colors as combination of float-triplet `values` (`col_t ≡ glm::vec<3, float>`) and their associated `space ∈ {RGB, HSV, HSL, HCL}`. It can be implicitly constructed from any of the supported color formats and spaces, e.g. `Color col( "#abcdef" );`. Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. 8-bit colors are represented using either byte-triplets (`col8_t ≡ glm::vec<3, uint8_t>`) or compactly as `uint32_t` (`ARGB`), where alpha is set to `0xff` by default. Lossy conversion, e.g. getting the name or index of some non-xterm color, will return the closest valid color/value in that space.
+
+
 ## Color Spaces
 
-`vivid` uses different types to represent colors, based on their attributed color space. The default `rgb`-space uses `glm::vec<3, float>`, which is accessible via `tq::col_t`. For `RRGGBB` byte-typed colors, `glm::vec<3, uint8_t>` or `tq::col8_t` is used.
+Under the hood, `vivid` uses an extensive set of direct conversions (c.f. `include/vivid/conversion.h`). It additionally provides a bunch of shortcuts for multi-step conversions. All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The caller must (to some degree) ensure the integrity of the input data passed. E.g. `tq::xyz::fromLab` indeed assumes, that it is handed a `tq::col_t` encoding a valid `L*a*b` color representation.
 
-The library has an extensive set of direct conversion routines. Additionally, there's a bunch of shortcuts for multi-step conversions. I haven't included all possible conversions. Rather, the functions that are currently included have been of use to me at least at once upon a time.
+### Direct Conversions
 
-Conversions are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The user must (to some degree) ensure the integrity of the data passed into a converting function. E.g. `tq::xyz::fromLab` indeed assumes, that it is handed a `tq::col_t`, whose data encodes a valid `lab` color representation.
-
-### Native Conversions
-
-The following native conversions are currently available.
+The following direct conversions are currently available.
 
     hcl ← lab
     hex ← rgb8, index
@@ -99,14 +101,14 @@ The following native conversions are currently available.
 //  pseudo-code to generate the images in this section
 for ( auto& pixel : image ) {
     const float t = pixel.x / image.width;
-    const auto col = rgb::lerpHcl( c1, c2, t );
+    const auto col = lerp( c1, c2, t );
     image.setColor( pixel, col );
 }
 ```
 
 Color interpolation is an interesting topic. What should the color halfway in-between <span style="color:rgb(178, 76, 76)">red</span> and <span style="color:rgb(25, 153, 102)">green</span> look like? There is a great article introducing this topic by Grego Aisch [^1]. In order to do a perceptually linear transition from one color to another, we can't simply linearly interpolate two _RGB_-vectors. Rather, we move to a more suitable color space, interpolate there, and then move back again. Namely, we use the _CIE L\*C\*h_ space, also known as _HCL_, which matches the human visual system rather well. There are more suitable color spaces nowadays to do so, but _HCL_ has a nice balance between complexity (code and computation) and outcome.
 
-Compare the images in the table below to get an idea of interpolating in different color spaces.
+Compare the following table to get an idea of interpolating in different color spaces.
 
 Color Space   | Linear Interpolation
 --------------|-------------------------------------------------------------------
@@ -114,6 +116,8 @@ RGB           | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
 HCL           | ![lerp-cielch](docs/images/interpolations/lerpHcl.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
+
+`vivid` provides low-level interpolations for the four main spaces `RGB, HSL, HSV, HCL`. They can be accessed directly via e.g. `rgb::lerp( const col_t&, const col_t&, const float )`, or implicitly via `lerp( const Color&, const Color&, const float )`. Note, that the latter requires the `Color` objects to be in the same space. Otherwise, an invalid color is returned.
 
 [\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
 
@@ -126,7 +130,7 @@ As shown in the example in the beginning, it's quick and easy to query colors fr
 
 ```cpp
 //  loading a custom color map
-auto cmap = ColorMap::loadFromFile( VIVID_ROOT_PATH "res/colormaps/mycolormap.json" );
+ColorMap cmap( VIVID_ROOT_PATH "res/colormaps/mycolormap.json" );
 auto mid = cmap.at( 0.5f );
 ```
 
@@ -166,8 +170,8 @@ To get an overview of all color codes or quickly check if your console has 8-bit
 Escape codes can also be used in conjunction with `ColorMaps` to create some joyful effects.
 
 ```cpp
-const auto rainbowMap = ColorMap::fromPreset( ColorMap::PresetRainbow );
-const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
+ColorMap rainbowMap( ColorMap::PresetRainbow );
+std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
 std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 ```
 
@@ -179,7 +183,7 @@ std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 One of my side projects is a tagged logging system, where one of the sinks goes to html. This has become very handy.
 
 ```cpp
-auto col = rgb8::fromName( "LightSteelBlue" );
+Color col( "LightSteelBlue" );
 fout << html::fg( col ) << "colorized html text!" << html::close;
 //  <span style='color:rgb(175, 175, 255)'>colorized html text!</span>
 ```
