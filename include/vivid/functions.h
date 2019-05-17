@@ -1,12 +1,11 @@
 #pragma once
 
 #include "vivid/types.h"
+#include "vivid/colormap.h"
 #include <string>
 
-class ColorMap;
 
-
-namespace tq::rgb
+namespace vivid::rgb
 {
     col_t lerp( const col_t&, const col_t&, const float );
     col_t lerpHsv( const col_t&, const col_t&, const float );
@@ -18,15 +17,15 @@ namespace tq::rgb
     col_t rainbow( const uint8_t k );
 }
 
-namespace tq::hsv {
+namespace vivid::hsv {
     col_t lerp( const col_t&, const col_t&, const float );
 }
 
-namespace tq::hcl {
+namespace vivid::hcl {
     col_t lerp( const col_t&, const col_t&, const float );
 }
 
-namespace tq::hsl
+namespace vivid::hsl
 {
     col_t lerp( const col_t&, const col_t&, const float );
 
@@ -37,6 +36,6 @@ namespace tq::hsl
     );
 }
 
-namespace tq::ansi {
+namespace vivid::ansi {
     std::string colorize( const std::string& text, const ColorMap& cmap );
 }

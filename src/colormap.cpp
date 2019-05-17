@@ -7,7 +7,7 @@
 #include <fstream>
 #include <iostream>
 
-namespace tq {
+namespace vivid {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,10 +44,10 @@ glm::vec3 ColorMap::at( const float t ) const
     switch ( interpolation )
     {
         case InterpolationNearest: return stops_[ k ];
-        case InterpolationLinear: return tq::rgb::lerp( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHsv: return tq::rgb::lerpHsv( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHsl: return tq::rgb::lerpHsl( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHcl: return tq::rgb::lerpHcl( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationLinear: return vivid::rgb::lerp( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationHsv: return vivid::rgb::lerpHsv( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationHsl: return vivid::rgb::lerpHsl( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationHcl: return vivid::rgb::lerpHcl( stops_[ k ], stops_[ k + 1 ], u );
     }
 
     return {};
@@ -105,4 +105,4 @@ std::vector<glm::vec3> ColorMap::loadFromFile( const std::string& filename )
 }
 
 
-}   //  ::tq
+}   //  ::vivid

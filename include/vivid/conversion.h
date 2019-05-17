@@ -3,7 +3,7 @@
 #include "vivid/types.h"
 #include <string>
 
-namespace tq {
+namespace vivid {
 
 
 //  xyz \in [ ( 0, 0, 0 ), ( 1, 1, 1 ) ]
@@ -105,4 +105,4 @@ namespace name {
 }
 
 
-}   //  ::tq
+}   //  ::vivid

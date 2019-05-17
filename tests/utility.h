@@ -25,21 +25,21 @@ inline int randi( const int from = 0, const int to = 255 )
 };
 
 
-namespace tq::rgb {
+namespace vivid::rgb {
     inline col_t rand() {
         return { randf(), randf(), randf() };
     }
 }
 
 
-namespace tq::rgb8 {
+namespace vivid::rgb8 {
     inline col8_t rand() {
         return { randi(), randi(), randi() };
     }
 }
 
 
-namespace tq::rgb {
+namespace vivid::rgb {
     inline col_t fromQt( const QColor& qcol ) {
         return { qcol.redF(), qcol.greenF(), qcol.blueF() };
     }

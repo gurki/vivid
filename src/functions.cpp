@@ -12,7 +12,7 @@
 #include <iostream>
 #include <sstream>
 
-namespace tq::rgb {
+namespace vivid::rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ col_t lerpHsv(
 {
     col_t hsv1 = hsv::fromRgb( rgb1 );
     col_t hsv2 = hsv::fromRgb( rgb2 );
-    return rgb::fromHsv( tq::hsv::lerp( hsv1, hsv2, t ) );
+    return rgb::fromHsv( vivid::hsv::lerp( hsv1, hsv2, t ) );
 }
 
 
@@ -41,7 +41,7 @@ col_t lerpHsl(
 {
     col_t hsl1 = hsl::fromRgb( rgb1 );
     col_t hsl2 = hsl::fromRgb( rgb2 );
-    return rgb::fromHsl( tq::hsl::lerp( hsl1, hsl2, t ) );
+    return rgb::fromHsl( vivid::hsl::lerp( hsl1, hsl2, t ) );
 }
 
 
@@ -53,7 +53,7 @@ col_t lerpHcl(
 {
     col_t lch1 = hcl::fromRgb( rgb1 );
     col_t lch2 = hcl::fromRgb( rgb2 );
-    return rgb::fromHcl( tq::hcl::lerp( lch1, lch2, t ) );
+    return rgb::fromHcl( vivid::hcl::lerp( lch1, lch2, t ) );
 }
 
 
@@ -112,14 +112,14 @@ col_t saturate( const col_t& rgb )
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t clamp( const col_t& rgb ) {
-    return tq::rgb::fromIndex( tq::index::fromRgb( rgb ) );
+    return vivid::rgb::fromIndex( vivid::index::fromRgb( rgb ) );
 }
 
 
-}   //  ::tq::rgb
+}   //  ::vivid::rgb
 
 
-namespace tq::hsl {
+namespace vivid::hsl {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t rainbow( const uint8_t k, const float s, const float l ) {
@@ -151,10 +151,10 @@ col_t lerp(
     return hsl;
 }
 
-}   //  ::tq::hsl
+}   //  ::vivid::hsl
 
 
-namespace tq::hsv {
+namespace vivid::hsv {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t lerp(
@@ -179,10 +179,10 @@ col_t lerp(
     return hsv;
 }
 
-}   //  ::tq::hsv
+}   //  ::vivid::hsv
 
 
-namespace tq::hcl {
+namespace vivid::hcl {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t lerp(
@@ -201,10 +201,10 @@ col_t lerp(
     return hcl1 + t * delta;
 }
 
-}   //  ::tq::hcl
+}   //  ::vivid::hcl
 
 
-namespace tq::ansi {
+namespace vivid::ansi {
 
 ////////////////////////////////////////////////////////////////////////////////
 std::string colorize( const std::string& text, const ColorMap& cmap )
@@ -218,12 +218,12 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
 
     for ( size_t i = 0; i < n; i++ ) {
         const float t = i / n;
-        const uint8_t id = tq::index::fromRgb( cmap.at( t ) );
-        ss << tq::ansi::fg( id ) << text[ i ];
+        const uint8_t id = vivid::index::fromRgb( cmap.at( t ) );
+        ss << vivid::ansi::fg( id ) << text[ i ];
     }
 
-    ss << tq::ansi::reset;
+    ss << vivid::ansi::reset;
     return ss.str();
 }
 
-}   //  ::tq::ansi
+}   //  ::vivid::ansi

@@ -1,7 +1,7 @@
 #include "vivid/conversion.h"
 #include <glm/glm.hpp>
 
-namespace tq::xyz {
+namespace vivid::xyz {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,4 +53,4 @@ col_t fromRgb( const col_t& rgb )
 }
 
 
-}   //  ::tq::ciexyz
+}   //  ::vivid::ciexyz

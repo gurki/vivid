@@ -4,7 +4,7 @@
 #include "vivid/functions.h"
 #include "vivid/stream.h"
 
-namespace tq {
+namespace vivid {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -215,4 +215,4 @@ Color lerp( const Color& c1, const Color& c2, const float t )
 }
 
 
-}   //  ::tq
+}   //  ::vivid

@@ -1,7 +1,7 @@
 #include "vivid/conversion.h"
 #include <cmath>
 
-namespace tq::lab {
+namespace vivid::lab {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,4 +42,4 @@ col_t fromHcl( const col_t& hcl )
 }
 
 
-}   //  ::tq::cielab
+}   //  ::vivid::cielab

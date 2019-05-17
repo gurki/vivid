@@ -1,7 +1,7 @@
 #include "vivid/conversion.h"
 #include "vivid/colortable.h"
 
-namespace tq::name {
+namespace vivid::name {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -16,4 +16,4 @@ std::string fromIndex( const uint8_t index ) {
 }
 
 
-}   //  ::tq::name
+}   //  ::vivid::name

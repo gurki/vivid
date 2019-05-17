@@ -5,7 +5,7 @@
 #include <string>
 
 
-namespace tq::ansi
+namespace vivid::ansi
 {
     inline std::string fg( const uint8_t index ) {
         return "\x1b[38;5;" + std::to_string( index ) + "m";
@@ -27,7 +27,7 @@ namespace tq::ansi
 }
 
 
-namespace tq::html
+namespace vivid::html
 {
     inline std::string fg( const std::string& hex ) {
         return "<span style='color:" + hex + "'>";

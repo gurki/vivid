@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace tq::hex {
+namespace vivid::hex {
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -37,4 +37,4 @@ std::string fromRgb32( const uint32_t rgb32 ) {
 }
 
 
-}   //  ::tq::hex
+}   //  ::vivid::hex

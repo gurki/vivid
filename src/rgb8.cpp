@@ -2,7 +2,7 @@
 #include "vivid/colortable.h"
 #include <glm/common.hpp>
 
-namespace tq::rgb8 {
+namespace vivid::rgb8 {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,4 +40,4 @@ col8_t fromName( const std::string& name ) {
 }
 
 
-}   //  ::tq::rgb8
+}   //  ::vivid::rgb8

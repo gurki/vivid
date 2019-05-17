@@ -3,7 +3,7 @@
 #include "vivid/types.h"
 #include <string>
 
-namespace tq {
+namespace vivid {
 
 
 class Color
@@ -50,4 +50,4 @@ class Color
 Color lerp( const Color&, const Color&, const float );
 
 
-}   //  ::tq
+}   //  ::vivid

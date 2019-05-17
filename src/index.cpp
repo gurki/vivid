@@ -2,7 +2,7 @@
 #include "vivid/colortable.h"
 #include <glm/common.hpp>
 
-namespace tq::index {
+namespace vivid::index {
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -54,4 +54,4 @@ uint8_t fromName( const std::string& name ) {
 }
 
 
-}   //  ::tq::index
+}   //  ::vivid::index

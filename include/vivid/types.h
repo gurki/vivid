@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/component_wise.hpp>
 
-namespace tq {
+namespace vivid {
 
 
 using col_t = glm::vec<3, float>;
@@ -31,4 +31,4 @@ inline bool fuzzyHueEqual( const col_t& c1, const col_t& c2 )
 }
 
 
-}   //  ::tq
+}   //  ::vivid

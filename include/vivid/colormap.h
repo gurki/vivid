@@ -18,7 +18,7 @@
 #include <glm/vec3.hpp>
 #include <vector>
 
-namespace tq {
+namespace vivid {
 
 
 class ColorMap
@@ -66,4 +66,4 @@ class ColorMap
 };
 
 
-}   //  ::tq
+}   //  ::vivid

@@ -6,7 +6,7 @@
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/component_wise.hpp>
 
-namespace tq::hsl {
+namespace vivid::hsl {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,4 +54,4 @@ col_t fromIndex( const uint8_t index ) {
 }
 
 
-}   //  ::tq::hsl
+}   //  ::vivid::hsl

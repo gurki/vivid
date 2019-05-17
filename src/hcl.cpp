@@ -1,7 +1,7 @@
 #include "vivid/conversion.h"
 #include <cmath>
 
-namespace tq::hcl {
+namespace vivid::hcl {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -25,4 +25,4 @@ col_t fromRgb( const col_t& rgb ) {
 }
 
 
-}   //  ::tq::cielch
+}   //  ::vivid::cielch

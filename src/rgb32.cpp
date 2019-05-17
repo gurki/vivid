@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iostream>
 
-namespace tq::rgb32 {
+namespace vivid::rgb32 {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,4 +60,4 @@ uint32_t fromHex( const std::string& hexStr )
 }
 
 
-}   //  ::tq::rgb32
+}   //  ::vivid::rgb32

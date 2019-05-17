@@ -9,7 +9,7 @@
 //    [8] https://jonasjacek.github.io/colors/
 
 
-namespace tq {
+namespace vivid {
 
 
 //  256 indexed ansi colors including names and various representations
@@ -48,4 +48,4 @@ void printColorTable(
 );
 
 
-}   //  ::tq
+}   //  ::vivid

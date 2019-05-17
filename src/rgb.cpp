@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-namespace tq::rgb {
+namespace vivid::rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,4 +139,4 @@ col_t fromName( const std::string& name ) {
 }
 
 
-}   //  ::tq::rgb
+}   //  ::vivid::rgb

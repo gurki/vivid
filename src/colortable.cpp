@@ -11,7 +11,7 @@
 #include <cctype>   //  std::tolower
 
 
-namespace tq {
+namespace vivid {
 
 
 nlohmann::json ColorTable::table_ = {};
@@ -137,8 +137,8 @@ void printColorTable( const bool foreground, const bool background )
         char idstr[ 4 ];
         std::sprintf( idstr, "%03d", id );
 
-        const std::string bgstr = tq::ansi::bg( id ) + " " + idstr + " " + tq::ansi::reset;
-        const std::string fgstr = tq::ansi::fg( id ) + " " + idstr + " " + tq::ansi::reset;
+        const std::string bgstr = vivid::ansi::bg( id ) + " " + idstr + " " + vivid::ansi::reset;
+        const std::string fgstr = vivid::ansi::fg( id ) + " " + idstr + " " + vivid::ansi::reset;
 
         if ( ! background ) {
             return fgstr;
@@ -203,4 +203,4 @@ void printColorTable( const bool foreground, const bool background )
 }
 
 
-}   //  ::tq
+}   //  ::vivid

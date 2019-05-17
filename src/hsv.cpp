@@ -4,7 +4,7 @@
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtc/constants.hpp>
 
-namespace tq::hsv {
+namespace vivid::hsv {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,5 +52,5 @@ col_t fromHsl( const col_t& hsl ) {
 }
 
 
-}   //  ::tq::hsv
+}   //  ::vivid::hsv
 
