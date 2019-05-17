@@ -1,5 +1,5 @@
 DEFINES += \
-    VIVID_ROOT_PATH=\\\"$$PWD\\\" \
+    VIVID_ROOT_PATH=\\\"$$PWD/\\\" \
 
 INCLUDEPATH += \
     $$PWD/include/ \

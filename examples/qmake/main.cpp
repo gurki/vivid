@@ -13,7 +13,7 @@ int main( int, char* argv[] )
 {
     using namespace vivid;
 
-    ColorTable::load( VIVID_ROOT_PATH "/res/colors.json" );
+    ColorTable::load( VIVID_ROOT_PATH "res/colors.json" );
 
     QDir dir( argv[ 0 ] );
     dir.cdUp();
