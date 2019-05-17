@@ -11,6 +11,19 @@ namespace tq {
 
 
 ////////////////////////////////////////////////////////////////////////////////
+ColorMap::ColorMap( const Preset preset ) {
+    const std::string name = nameForPreset( preset );
+    stops_ = loadFromFile( VIVID_ROOT_PATH "/res/colormaps/" + name + ".json" );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+ColorMap::ColorMap( const std::string& filename ) {
+    stops_ = loadFromFile( filename );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 glm::vec3 ColorMap::at( const float t ) const
 {
     if ( empty() ) {
@@ -63,17 +76,10 @@ std::string ColorMap::nameForPreset( const Preset preset )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-ColorMap ColorMap::fromPreset( const Preset preset ) {
-    const std::string name = nameForPreset( preset );
-    return fromFile( VIVID_ROOT_PATH "/res/colormaps/" + name + ".json" );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-ColorMap ColorMap::fromFile( const std::string& file )
+std::vector<glm::vec3> ColorMap::loadFromFile( const std::string& filename )
 {
     std::ifstream fin;
-    fin.open( file );
+    fin.open( filename );
 
     if ( ! fin.is_open() ) {
         return {};
@@ -87,14 +93,15 @@ ColorMap ColorMap::fromFile( const std::string& file )
         return {};
     }
 
-    ColorMap cmap;
+    std::vector<glm::vec3> stops;
+    stops.reserve( data.size() );
 
     for ( const auto& item : data ) {
         glm::vec3 col( item[ 0 ], item[ 1 ], item[ 2 ] );
-        cmap.stops_.push_back( col );
+        stops.push_back( col );
     }
 
-    return cmap;
+    return stops;
 }
 
 

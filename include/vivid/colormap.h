@@ -47,6 +47,8 @@ class ColorMap
         };
 
         ColorMap() = default;
+        ColorMap( const Preset type );
+        ColorMap( const std::string& file );
 
         bool empty() const { return stops_.empty(); }
         size_t numStops() const { return stops_.size(); }
@@ -54,11 +56,11 @@ class ColorMap
 
         Interpolation interpolation = InterpolationLinear;
 
-        static ColorMap fromPreset( const Preset type );
-        static ColorMap fromFile( const std::string& file );
         static std::string nameForPreset( const Preset type );
 
     private:
+
+        static std::vector<glm::vec3> loadFromFile( const std::string& filename );
 
         std::vector<glm::vec3> stops_;
 };

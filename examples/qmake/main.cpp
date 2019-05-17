@@ -17,12 +17,9 @@ int main( int, char* argv[] )
 
     //  introduction
 
-    const auto hslMap = tq::ColorMap::fromPreset( tq::ColorMap::PresetHsl );
+    tq::ColorMap hslMap( tq::ColorMap::PresetHsl );
     std::cout << tq::ansi::colorize( "vivid", hslMap ) << std::endl;
     std::cout << std::endl;
-
-    tq::rgb32::fromHex( "#abcdef" );
-    tq::rgb32::fromHex( "asdflkjh" );
 
     //  colormaps
 
@@ -45,7 +42,7 @@ int main( int, char* argv[] )
 
     for ( const auto& type : defaults )
     {
-        auto cmap = tq::ColorMap::fromPreset( type );
+        tq::ColorMap cmap( type );
         cmap.interpolation = tq::ColorMap::InterpolationHcl;
         QImage img( 512, 32, QImage::Format_RGB32 );
 
@@ -119,14 +116,14 @@ int main( int, char* argv[] )
 
     //  high-level conversions
 
-//    std::cout << std::endl;
+    std::cout << std::endl;
 
-//    tq::Color color1, color2;
-//    color1 = tq::Color::fromRgb( c1 );
-//    color2 = tq::Color::fromRgb( c2 );
+    tq::Color color1, color2;
+    color1 = tq::Color( c1 );
+    color2 = tq::Color( c2 );
 
-//    std::cout << color1.hsl() << std::endl;
-//    std::cout << tq::lerp( color1.hsl(), color2.hsl(), 0.5f ) << std::endl;;
+    std::cout << color1.hsl() << std::endl;
+    std::cout << tq::lerp( color1.hsl(), color2.hsl(), 0.5f ) << std::endl;
 
     //  encoding
 
@@ -142,7 +139,7 @@ int main( int, char* argv[] )
 
     //  rainbow text
 
-    const auto rainbowMap = tq::ColorMap::fromPreset( tq::ColorMap::PresetRainbow );
+    tq::ColorMap rainbowMap( tq::ColorMap::PresetRainbow );
     const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
     std::cout << tq::ansi::colorize( text, rainbowMap ) << std::endl;
 
