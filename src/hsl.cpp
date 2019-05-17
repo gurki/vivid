@@ -35,13 +35,9 @@ col_t fromRgb( const col_t& rgb )
     }
 
     hsl.y = delta / ( 1.f - std::abs( 2.f * hsl.z - 1.f ) );
-    hsl.x *= 60;
+    hsl.x /= 6.f;
+    hsl.x = std::fmodf( hsl.x + 1.f, 1.f );
 
-    if ( hsl.x < 0 ) {
-        hsl.x += 360;
-    }
-
-    hsl.x /= 360.0f;
     return hsl;
 }
 

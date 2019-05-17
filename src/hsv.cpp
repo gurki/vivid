@@ -26,7 +26,7 @@ col_t fromRgb( const col_t& rgb )
     if ( cmax != 0.f ) {
         hsv.y = delta / cmax;
     } else {
-        hsv.x =-1;
+        hsv.x = 0;
         hsv.y = 0;
         return hsv;
     }
@@ -39,13 +39,9 @@ col_t fromRgb( const col_t& rgb )
         hsv.x = 4 + ( r - g ) / delta;	// between magenta & cyan
     }
 
-    hsv.x *= 60;    // degrees
+    hsv.x /= 6.f;   // to degrees
+    hsv.x = std::fmodf( hsv.x + 1.f, 1.f );
 
-    if ( hsv.x < 0 ) {
-        hsv.x += 360;
-    }
-
-    hsv.x /= 360.0f;
     return hsv;
 }
 
