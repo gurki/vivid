@@ -9,7 +9,7 @@ A simple-to-use `cpp` color library
 - **unit tested** in itself and against `QColor`
 
 ```cpp
-using namespace tq;
+using namespace vivid;
 
 //  create and interpolate colors
 Color c1( "indianred" );
@@ -78,7 +78,7 @@ You can start by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`.
 
 ## Color Spaces
 
-Under the hood, `vivid` uses an extensive set of direct conversions (c.f. `include/vivid/conversion.h`). It additionally provides a bunch of shortcuts for multi-step conversions. All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The caller must (to some degree) ensure the integrity of the input data passed. E.g. `tq::xyz::fromLab` indeed assumes, that it is handed a `tq::col_t` encoding a valid `L*a*b` color representation.
+Under the hood, `vivid` uses an extensive set of direct conversions (c.f. `include/vivid/conversion.h`). It additionally provides a bunch of shortcuts for multi-step conversions. All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The caller must (to some degree) ensure the integrity of the input data passed. E.g. `vivid::xyz::fromLab` indeed assumes, that it is handed a `vivid::col_t` encoding a valid `L*a*b` color representation.
 
 ### Direct Conversions
 
@@ -159,7 +159,7 @@ Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)  |
 
 ### ANSI
 
-You can colorize console messages very simply using the `tq::ansi` helpers.
+You can colorize console messages very simply using the `vivid::ansi` helpers.
 
 ```cpp
 std::cout << ansi::fg( 136 ) << "and tada, colorized font" << ansi::reset;
