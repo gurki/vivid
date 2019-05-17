@@ -14,6 +14,9 @@ int main( int, char* argv[] )
     tq::ColorTable::initialize();
 
     QDir dir( argv[ 0 ] );
+    dir.cdUp();
+    dir.mkdir( "output/" );
+    dir.cd( "output/" );
 
     //  introduction
 
@@ -23,8 +26,7 @@ int main( int, char* argv[] )
 
     //  colormaps
 
-    dir.cdUp();
-    dir.mkdir( "colormaps/" );
+    dir.mkpath( "colormaps/" );
     dir.cd( "colormaps/" );
 
     std::vector<tq::ColorMap::Preset> defaults = {
