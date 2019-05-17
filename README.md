@@ -6,6 +6,7 @@ A simple-to-use `cpp` color library
 - popular and custom **color maps**
 - **xterm** names and **ansi** codes
 - ansi **escape sequences** and **html** encoding
+- **unit tested** in itself and against `QColor`
 
 ```cpp
 using namespace tq;
@@ -63,10 +64,11 @@ You can start by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`.
 
 ## Dependencies
 
-`vivid`  depends on a small number of header-only libraries, which are included as submodules.
+`vivid`  depends on a small number of header-only libraries, which are mostly included as submodules.
 
 - Nlohmann's great [Json for Modern C++](https://github.com/nlohmann/json) to load color names and color maps
 - [OpenGL Mathematics (GLM)](https://github.com/g-truc/glm) for vector type and operations
+- [Catch2](https://github.com/catchorg/Catch2/tree/master/examples) for testing
 
 
 ## Types
