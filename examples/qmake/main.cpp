@@ -11,7 +11,7 @@
 
 int main( int, char* argv[] )
 {
-    tq::ColorTable::initialize();
+    tq::ColorTable::load( VIVID_ROOT_PATH "/res/colors.json" );
 
     QDir dir( argv[ 0 ] );
     dir.cdUp();
@@ -109,9 +109,9 @@ int main( int, char* argv[] )
     const auto hsl = tq::hsl::fromRgb( col );
     const auto rgb_2 = tq::rgb::fromHsl( hsl );
 
-    //  high-level conversions
+    std::cout << col << " -> " << hsl << " -> " << rgb_2 << std::endl;
 
-    std::cout << std::endl;
+    //  high-level conversions
 
     tq::Color color1, color2;
     color1 = tq::Color( c1 );
@@ -122,7 +122,6 @@ int main( int, char* argv[] )
 
     //  encoding
 
-    std::cout << std::endl;
     std::cout << tq::ansi::fg( 3 ) << "yay colors" << tq::ansi::reset << std::endl;
     std::cout << tq::html::fg( "#abc123" ) << "hex hex!" << tq::html::close << std::endl;
     std::cout << tq::html::fg( tq::col8_t( 100, 144, 159 ) ) << "html, aw yes" << tq::html::close << std::endl;

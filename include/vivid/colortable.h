@@ -28,7 +28,6 @@ class ColorTable
         static std::optional<uint8_t> findRgb32( const uint32_t rgb32 );
         static std::optional<uint8_t> findName( const std::string& name );
 
-        static void initialize();
         static bool load( const std::string& path );
         static bool empty() { return table_.empty(); }
 

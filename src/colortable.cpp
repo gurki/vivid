@@ -20,12 +20,6 @@ std::unordered_map<uint32_t, uint8_t> ColorTable::lookup_ = {};
 
 
 ////////////////////////////////////////////////////////////////////////////////
-void ColorTable::initialize() {
-    load( VIVID_ROOT_PATH "/res/colors.json" );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 bool ColorTable::load( const std::string& path )
 {
     std::ifstream fin( path );
