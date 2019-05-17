@@ -253,7 +253,7 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
         return text;
     }
 
-    const float n = text.size();
+    const float n = float( text.size() );
     std::stringstream ss;
 
     for ( size_t i = 0; i < n; i++ ) {

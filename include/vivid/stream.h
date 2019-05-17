@@ -1,6 +1,8 @@
 #pragma once
 
 #include "vivid/types.h"
+#include "vivid/color.h"
+
 #include <iostream>
 #include <iomanip>
 
@@ -15,5 +17,16 @@ inline std::ostream& operator << ( std::ostream& out, const tq::col_t& col ) {
 ////////////////////////////////////////////////////////////////////////////////
 inline std::ostream& operator << ( std::ostream& out, const tq::col8_t& col ) {
     out << "rgb(" << int( col.x ) << ", " << int( col.y ) << ", " << int( col.z ) << ")";
+    return out;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+inline std::ostream& operator << ( std::ostream& out, const tq::Color& col )
+{
+    out << col.spaceInfo() << "(";
+    out << std::setprecision( 3 ) << col.value().x << ", " << col.value().y << ", " << col.value().z;
+    out << ")";
+
     return out;
 }
