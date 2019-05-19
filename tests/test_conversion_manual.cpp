@@ -19,12 +19,26 @@ TEST_CASE( "Manual Conversions", "[conversions]" )
         col_t lch;
     };
 
+    //  sourced from Bruce Lindbloom's CIE Color Calculator [10]
+    //  [10] http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
     std::vector<cieref> refs = {
         {
             { 1.f, 0.f, 0.f },
             { 0.412456, 0.212673, 0.019334 },
             { 53.2408, 80.0925, 67.2032 },
             { 53.2408, 104.5518, 39.9990 }
+        },
+        {
+            { 0.f, 1.f, 0.f },
+            { 0.357576f, 0.715152f, 0.119192f },
+            { 87.7347f, -86.1827f, 83.1793f },
+            { 87.7347f, 119.7759f, 136.0160f }
+        },
+        {
+            { 0.f, 0.f, 1.f },
+            { 0.180437f, 0.072175f, 0.950304f },
+            { 32.2970f, 79.1875f, -107.8602f },
+            { 32.2970f, 133.8076f, 306.2849f }
         },
         {
             { 0.7f, 0.3f, 0.3f },

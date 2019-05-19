@@ -13,7 +13,7 @@ col_t fromLab( const col_t& lab )
     col_t lch;
     lch.x = lab.x;
     lch.y = std::sqrtf( lab.y * lab.y + lab.z * lab.z );
-    lch.z = h;
+    lch.z = ( h >= 0 ) ? h : ( h + 360.f );
 
     return lch;
 }
