@@ -6,7 +6,7 @@ A simple-to-use `cpp` color library
 - popular and custom **color maps**
 - **xterm** names and **ansi** codes
 - ansi **escape sequences** and **html** encoding
-- **unit tested** in itself and against `QColor`
+- (somewhat) **unit tested** in itself and against `QColor`
 
 ```cpp
 using namespace vivid;
