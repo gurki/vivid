@@ -1,9 +1,10 @@
+#include "utility.h"
+
 #include "vivid/conversion.h"
 #include "vivid/stream.h"
 #include "vivid/colortable.h"
 
-#include "utility.h"
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 
 
 ////////////////////////////////////////////////////////////////////////////////

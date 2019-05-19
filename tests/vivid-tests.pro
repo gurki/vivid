@@ -16,4 +16,7 @@ HEADERS += \
     $$PWD/catch.hpp \
     $$PWD/utility.h
 
+INCLUDEPATH += \
+    $$PWD/../dependencies/catch2/single_include/
+
 include( $$PWD/../vivid.pri )
