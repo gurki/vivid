@@ -13,8 +13,6 @@ int main( int, char* argv[] )
 {
     using namespace vivid;
 
-    ColorTable::load( VIVID_ROOT_PATH "res/colors.json" );
-
     QDir dir( argv[ 0 ] );
     dir.cdUp();
     dir.mkdir( "output/" );
@@ -124,6 +122,7 @@ int main( int, char* argv[] )
 
     //  encoding
 
+    std::cout << std::endl;
     std::cout << ansi::fg( 3 ) << "yay colors" << ansi::reset << std::endl;
     std::cout << html::fg( "#abc123" ) << "hex hex!" << html::close << std::endl;
     std::cout << html::fg( col8_t( 100, 144, 159 ) ) << "html, aw yes" << html::close << std::endl;

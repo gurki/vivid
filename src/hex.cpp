@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/colortable.h"
+#include "vivid/table.h"
 
 #include <regex>
 #include <sstream>
@@ -10,7 +10,7 @@ namespace vivid::hex {
 
 //////////////////////////////////////////////////////////////////////////////////
 std::string fromIndex( const uint8_t index ) {
-    return ColorTable::hex( index );
+    return hex::fromRgb32( table::xterm.at( index ).rgb32 );
 }
 
 

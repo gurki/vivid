@@ -10,7 +10,6 @@ SOURCES += \
     $$PWD/src/adobe.cpp \
     $$PWD/src/color.cpp \
     $$PWD/src/colormap.cpp \
-    $$PWD/src/colortable.cpp \
     $$PWD/src/functions.cpp \
     $$PWD/src/hex.cpp \
     $$PWD/src/hsl.cpp \
@@ -27,7 +26,6 @@ SOURCES += \
 HEADERS += \
     $$PWD/include/vivid/color.h \
     $$PWD/include/vivid/colormap.h \
-    $$PWD/include/vivid/colortable.h \
     $$PWD/include/vivid/conversion.h \
     $$PWD/include/vivid/encoding.h \
     $$PWD/include/vivid/functions.h \
@@ -37,7 +35,6 @@ HEADERS += \
     $$PWD/include/vivid/vivid.h
 
 DISTFILES += \
-    $$PWD/res/colors.json \
     $$PWD/res/colormaps/blue-yellow.json \
     $$PWD/res/colormaps/cool-warm.json \
     $$PWD/res/colormaps/hsl.json \

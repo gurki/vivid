@@ -1,18 +1,18 @@
 #include "vivid/conversion.h"
-#include "vivid/colortable.h"
+#include "vivid/table.h"
 
 namespace vivid::name {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string fromRgb( const col_t& rgb ) {
+const std::string& fromRgb( const col_t& rgb ) {
     return name::fromIndex( index::fromRgb( rgb ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string fromIndex( const uint8_t index ) {
-    return ColorTable::name( index );
+const std::string& fromIndex( const uint8_t index ) {
+    return table::xterm.at( index ).name;
 }
 
 

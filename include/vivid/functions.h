@@ -5,7 +5,16 @@
 #include <string>
 
 
-namespace vivid::rgb
+namespace vivid {
+
+
+void printColorTable(
+    const bool foreground = true,
+    const bool background = true
+);
+
+
+namespace rgb
 {
     col_t lerp( const col_t&, const col_t&, const float );
     col_t lerpHsv( const col_t&, const col_t&, const float );
@@ -20,7 +29,7 @@ namespace vivid::rgb
 }
 
 
-namespace vivid::srgb
+namespace srgb
 {
     //  non-simplified compunding
     float comp( const float k );
@@ -31,17 +40,17 @@ namespace vivid::srgb
 }
 
 
-namespace vivid::hsv {
+namespace hsv {
     col_t lerp( const col_t&, const col_t&, const float );
 }
 
 
-namespace vivid::lch {
+namespace lch {
     col_t lerp( const col_t&, const col_t&, const float );
 }
 
 
-namespace vivid::hsl
+namespace hsl
 {
     col_t lerp( const col_t&, const col_t&, const float );
 
@@ -53,6 +62,9 @@ namespace vivid::hsl
 }
 
 
-namespace vivid::ansi {
+namespace ansi {
     std::string colorize( const std::string& text, const ColorMap& cmap );
 }
+
+
+}   //   ::vivid

@@ -1,5 +1,5 @@
 #include "vivid/color.h"
-#include "vivid/colortable.h"
+#include "vivid/table.h"
 #include "vivid/conversion.h"
 #include "vivid/functions.h"
 #include "vivid/stream.h"
@@ -29,12 +29,7 @@ Color::Color( const uint32_t rgb32 ) :
 
 
 ////////////////////////////////////////////////////////////////////////////////
-Color::Color( const uint8_t index )
-{
-    if ( ColorTable::empty() ) {
-        return;
-    }
-
+Color::Color( const uint8_t index ) {
     value_ = rgb::fromIndex( index );
     space_ = SpaceRgb;
 }
@@ -51,11 +46,13 @@ Color::Color( const std::string& hexOrName )
         return;
     }
 
-    if ( const auto maybeValue = ColorTable::findName( hexOrName ) ) {
+    if ( const auto maybeValue = index::fromName( hexOrName ) ) {
         value_ = rgb::fromIndex( maybeValue.value_or( 0 ) );
         space_ = SpaceRgb;
         return;
     }
+
+    //  if parsing of hex and name failed, space stays undefined
 }
 
 
@@ -185,7 +182,7 @@ std::string Color::hex() const
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string Color::name() const
+const std::string& Color::name() const
 {
     switch ( space_ )
     {
@@ -193,7 +190,11 @@ std::string Color::name() const
         case SpaceHsl: return name::fromRgb( rgb::fromHsl( value_ ) );
         case SpaceHsv: return name::fromRgb( rgb::fromHsv( value_ ) );
         case SpaceLch: return name::fromRgb( rgb::fromLch( value_ ) );
-        default: return {};
+        default: {
+            //  space should always have a valid value
+            assert( true );
+            return table::xterm.at( 0 ).name;
+        }
     }
 }
 

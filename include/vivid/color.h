@@ -38,7 +38,7 @@ class Color
         uint32_t rgb32() const;
         uint8_t index() const;
         std::string hex() const;
-        std::string name() const;
+        const std::string& name() const;
 
     private:
 

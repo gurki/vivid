@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/colortable.h"
+#include "vivid/table.h"
 #include <glm/common.hpp>
 
 namespace vivid::index {
@@ -8,12 +8,14 @@ namespace vivid::index {
 //////////////////////////////////////////////////////////////////////////////////
 uint8_t fromRgb8( const col8_t& rgb8 )
 {
-    //  direct match
+    //  search direct match
 
     const auto rgb32 = rgb32::fromRgb8( rgb8 );
+    const auto& tab = table::xterm_rgb32;
+    const auto it = tab.find( rgb32 );
 
-    if ( const auto res = ColorTable::findRgb32( rgb32 ) ) {
-        return res.value_or( 0 );
+    if ( it != tab.end() ) {
+        return it->second;
     }
 
     //  snap to closest 6x6x6 rgb cube
@@ -49,8 +51,19 @@ uint8_t fromHex( const std::string& hexStr ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-uint8_t fromName( const std::string& name ) {
-    return ColorTable::findName( name ).value_or( 0 );
+std::optional<uint8_t> fromName( const std::string& name )
+{
+    auto key = name;
+    std::transform( key.begin(), key.end(), key.begin(), ::tolower);
+
+    const auto& tab = table::xterm_names;
+    const auto it = tab.find( key );
+
+    if ( it != tab.end() ) {
+        return it->second;
+    }
+
+    return {};
 }
 
 

@@ -12,7 +12,89 @@
 #include <iostream>
 #include <sstream>
 
-namespace vivid::rgb {
+
+namespace vivid {
+
+
+////////////////////////////////////////////////////////////////////////////////////
+//  layout inspired by gawin's kool xterm color demo
+//  [7] https://github.com/gawin/bash-colors-256
+void printColorTable( const bool foreground, const bool background )
+{
+    std::cout << std::endl;
+
+    auto escapeCode = [=]( const uint8_t& id ) -> std::string
+    {
+        char idstr[ 4 ];
+        std::sprintf( idstr, "%03d", id );
+
+        const std::string bgstr = vivid::ansi::bg( id ) + " " + idstr + " " + vivid::ansi::reset;
+        const std::string fgstr = vivid::ansi::fg( id ) + " " + idstr + " " + vivid::ansi::reset;
+
+        if ( ! background ) {
+            return fgstr;
+        }
+
+        if ( ! foreground ) {
+            return bgstr;
+        }
+
+        return bgstr + fgstr;
+    };
+
+    for ( uint8_t i = 0; i < 8; i++ ) {
+        std::cout << escapeCode( i );
+    }
+
+    std::cout << std::endl;
+
+    for ( uint8_t i = 8; i < 16; i++ ) {
+        std::cout << escapeCode( i );
+    }
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    const size_t numSteps = 6;
+    const float step = ( numSteps == 1 ) ? 255.f : ( 255.f / ( numSteps - 1 ) );
+
+    for ( float r = 0.f; r <= 255.f; r += step )
+    {
+        const uint8_t r8 = uint8_t( std::round( r ) );
+
+        for ( float g = 0.f; g <= 255.f; g += step )
+        {
+            const uint8_t g8 = uint8_t( std::round( g ) );
+
+            for ( float b = 0.f; b <= 255.f; b += step )
+            {
+                const uint8_t b8 = uint8_t( std::round( b ) );
+                const uint32_t val = uint32_t( ( r8 << 16 ) + ( g8 << 8 ) + b8 );
+
+                std::cout << escapeCode( index::fromRgb( rgb::fromRgb32( val ) ));
+            }
+
+            std::cout << std::endl;
+        }
+
+        std::cout << std::endl;
+    }
+
+    //  NOTE(tgurdan): uint8_t causes endless loop here
+    for ( uint16_t i = 232; i <= 255; i++ )
+    {
+        std::cout << escapeCode( uint8_t( i ) );
+
+        if ( i % 6 == 3 ) {
+            std::cout << std::endl;
+        }
+    }
+
+    std::cout << std::endl << std::endl;
+}
+
+
+namespace rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -131,7 +213,7 @@ col_t invGamma( const col_t& rgb, const float gamma ) {
 }   //  ::vivid::rgb
 
 
-namespace vivid::srgb {
+namespace srgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -181,7 +263,7 @@ col_t fromLinear( const col_t& lrgb )
 }   //   ::vivid::srgb
 
 
-namespace vivid::hsl {
+namespace hsl {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t rainbow( const uint8_t k, const float s, const float l ) {
@@ -216,7 +298,7 @@ col_t lerp(
 }   //  ::vivid::hsl
 
 
-namespace vivid::hsv {
+namespace hsv {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t lerp(
@@ -244,7 +326,7 @@ col_t lerp(
 }   //  ::vivid::hsv
 
 
-namespace vivid::lch {
+namespace lch {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t lerp(
@@ -266,7 +348,7 @@ col_t lerp(
 }   //  ::vivid::lch
 
 
-namespace vivid::ansi {
+namespace ansi {
 
 ////////////////////////////////////////////////////////////////////////////////
 std::string colorize( const std::string& text, const ColorMap& cmap )
@@ -289,3 +371,6 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
 }
 
 }   //  ::vivid::ansi
+
+
+}   //  ::vivid

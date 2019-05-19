@@ -2,6 +2,7 @@
 
 #include "vivid/types.h"
 #include <string>
+#include <optional>
 
 namespace vivid {
 
@@ -48,7 +49,7 @@ namespace rgb
     col_t fromLch( const col_t& );          //  (-)
     col_t fromHex( const std::string& );    //  (-)
     col_t fromIndex( const uint8_t );       //  (-)
-    col_t fromName( const std::string& );   //  *(-)
+    col_t fromName( const std::string& );   //  NOTE: fails silently with return black
 }
 
 
@@ -65,7 +66,7 @@ namespace rgb8 {
     col8_t fromRgb( const col_t& );
     col8_t fromRgb32( const uint32_t );
     col8_t fromIndex( const uint8_t );      //  *
-    col8_t fromName( const std::string& );  //  *(-)
+    col8_t fromName( const std::string& );  //  NOTE: fails silently with return black
     col8_t fromHex( const std::string& );   //  (-)
 }
 
@@ -82,9 +83,9 @@ namespace rgb32 {
 namespace index {
     uint8_t fromRgb( const col_t& );        //  (-)
     uint8_t fromRgb8( const col8_t& );      //  *
-    uint8_t fromName( const std::string& ); //  *
     uint8_t fromHsl( const col_t& );        //  (-)
     uint8_t fromHex( const std::string& );  //  (-)
+    std::optional<uint8_t> fromName( const std::string& );
 }
 
 
@@ -99,8 +100,8 @@ namespace hex {
 
 //  (nearest) xterm color name
 namespace name {
-    std::string fromRgb( const col_t& );    //  (-)
-    std::string fromIndex( const uint8_t ); //  *
+    const std::string& fromRgb( const col_t& );    //  (-)
+    const std::string& fromIndex( const uint8_t );
 }
 
 
