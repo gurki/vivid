@@ -109,7 +109,7 @@ The following direct conversions are currently available.
 
 ### RGB Working Spaces
 
-`vivid` assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can also extend this using the low-level API.
+`vivid` assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can also extend this using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :). You can use this library as high-level or low-level as you like.
 
 ```cpp
 //  manual wide gamut rgb to xyz conversion
