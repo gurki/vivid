@@ -6,9 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [unreleased]
 
 ## Added
-- Add `Adobe RGB` conversions
+- Add CMake support
+- Add non-qt examples and explicit unit tests
 - Add `RGB` gamma compounding
 - Add `sRGB` linearization
+- Add `Adobe RGB` conversions
 - Add readme attributions
 - Add explicit conversions unit tests
 
