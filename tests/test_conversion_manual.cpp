@@ -4,7 +4,7 @@
 #include "vivid/stream.h"
 #include "vivid/colortable.h"
 
-#include <catch2/catch.hpp>
+#include "catch.hpp"
 
 
 ////////////////////////////////////////////////////////////////////////////////

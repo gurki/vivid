@@ -1,7 +1,6 @@
 #pragma once
 
 #include "vivid/types.h"
-#include <QColor>
 #include <random>
 
 
@@ -35,12 +34,5 @@ namespace vivid::rgb {
 namespace vivid::rgb8 {
     inline col8_t rand() {
         return { randi(), randi(), randi() };
-    }
-}
-
-
-namespace vivid::rgb {
-    inline col_t fromQt( const QColor& qcol ) {
-        return { qcol.redF(), qcol.greenF(), qcol.blueF() };
     }
 }

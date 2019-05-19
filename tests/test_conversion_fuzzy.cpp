@@ -4,7 +4,16 @@
 #include "vivid/stream.h"
 #include "vivid/colortable.h"
 
-#include <catch2/catch.hpp>
+#include "catch.hpp"
+#include <QColor>
+
+
+////////////////////////////////////////////////////////////////////////////////
+namespace vivid::rgb {
+    inline col_t fromQt( const QColor& qcol ) {
+        return { qcol.redF(), qcol.greenF(), qcol.blueF() };
+    }
+}
 
 
 ////////////////////////////////////////////////////////////////////////////////

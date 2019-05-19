@@ -36,7 +36,7 @@ add_library( vivid::vivid ALIAS vivid )
 
 target_compile_features( vivid
     PUBLIC
-        cxx_std_17
+        cxx_std_17  #  std::optional, nested namespaces
     PRIVATE
         cxx_auto_type
         cxx_defaulted_functions
@@ -68,7 +68,8 @@ export( TARGETS vivid FILE vividConfig.cmake)
 
 
 ################################################################################
-#  examples
+#  examples and tests
 ################################################################################
 
 add_subdirectory( examples/cmake )
+add_subdirectory( tests )
