@@ -43,7 +43,7 @@ class ColorMap
             InterpolationLinear,
             InterpolationHsv,
             InterpolationHsl,
-            InterpolationHcl
+            InterpolationLch
         };
 
         ColorMap() = default;

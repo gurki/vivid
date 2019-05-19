@@ -9,12 +9,12 @@ namespace vivid {
 //  lab \in [ ( 0, -86.1827, -107.86 ), ( 100, 98.2343, 94.478 ) ]
 namespace lab {
     col_t fromXyz( const col_t& );
-    col_t fromHcl( const col_t& );
+    col_t fromLch( const col_t& );
 }
 
 
-//  hcl \in [ ( 0, 0, -2 PI ), ( 100, 133.808, 2 PI ) ]
-namespace hcl {
+//  L*C*h(ab) \in [ ( 0, 0, -2 PI ), ( 100, 133.808, 2 PI ) ]
+namespace lch {
     col_t fromLab( const col_t& );
     col_t fromRgb( const col_t& );  //  (-)
 }
@@ -44,13 +44,14 @@ namespace rgb
     col_t fromHsv( const col_t& );
     col_t fromHsl( const col_t& );
     col_t fromXyz( const col_t& );          //  to sRGB
-    col_t fromHcl( const col_t& );          //  (-)
+    col_t fromLch( const col_t& );          //  (-)
     col_t fromHex( const std::string& );    //  (-)
     col_t fromIndex( const uint8_t );       //  (-)
     col_t fromName( const std::string& );   //  *(-)
 }
 
 
+//  adobe rgb
 namespace adobe {
     static const float gamma = 2.19921875f;
     col_t fromRgb( const col_t& );  //  (-)

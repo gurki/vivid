@@ -1,27 +1,27 @@
 #include "vivid/conversion.h"
+#include <glm/gtc/constants.hpp>
 #include <cmath>
 
-namespace vivid::hcl {
+namespace vivid::lch {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  l \in [ 0, 100 ]
 col_t fromLab( const col_t& lab )
 {
-    const float h = std::atan2f( lab.z, lab.y );
+    const float h = glm::degrees( std::atan2f( lab.y, lab.z ) );
 
-    col_t hcl;
-    hcl.x = h;
-    hcl.y = std::sqrtf( lab.y * lab.y + lab.z * lab.z );
-    hcl.z = lab.x;
+    col_t lch;
+    lch.x = lab.x;
+    lch.y = std::sqrtf( lab.y * lab.y + lab.z * lab.z );
+    lch.z = h;
 
-    return hcl;
+    return lch;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromRgb( const col_t& rgb ) {
-    return hcl::fromLab( lab::fromXyz( xyz::fromRgb( rgb ) ) );
+    return lch::fromLab( lab::fromXyz( xyz::fromRgb( rgb ) ) );
 }
 
 

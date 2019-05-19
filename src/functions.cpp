@@ -46,14 +46,14 @@ col_t lerpHsl(
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t lerpHcl(
+col_t lerpLch(
     const col_t& rgb1,
     const col_t& rgb2,
     const float t )
 {
-    col_t lch1 = hcl::fromRgb( rgb1 );
-    col_t lch2 = hcl::fromRgb( rgb2 );
-    return rgb::fromHcl( vivid::hcl::lerp( lch1, lch2, t ) );
+    col_t lch1 = lch::fromRgb( rgb1 );
+    col_t lch2 = lch::fromRgb( rgb2 );
+    return rgb::fromLch( vivid::lch::lerp( lch1, lch2, t ) );
 }
 
 
@@ -238,15 +238,15 @@ col_t lerp(
 }   //  ::vivid::hsv
 
 
-namespace vivid::hcl {
+namespace vivid::lch {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t lerp(
-    const col_t& hcl1,
-    const col_t& hcl2,
+    const col_t& lch1,
+    const col_t& lch2,
     const float t )
 {
-    col_t delta = hcl2 - hcl1;
+    col_t delta = lch2 - lch1;
 
     if ( delta.x > glm::pi<float>() ) {
         delta.x -= glm::two_pi<float>();
@@ -254,10 +254,10 @@ col_t lerp(
         delta.x += glm::two_pi<float>();
     }
 
-    return hcl1 + t * delta;
+    return lch1 + t * delta;
 }
 
-}   //  ::vivid::hcl
+}   //  ::vivid::lch
 
 
 namespace vivid::ansi {

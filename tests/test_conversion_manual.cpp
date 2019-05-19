@@ -15,11 +15,14 @@ TEST_CASE( "Manual Conversions", "[conversions]" )
     col_t rgb1 = { 1.f, 0.f, 0.f };
     auto xyz1 = xyz::fromRgb( rgb1 );
     auto lab1 = lab::fromXyz( xyz1 );
+    auto lch1 = lch::fromRgb( rgb1 );
 
     col_t xyz2 = { 0.412456, 0.212673, 0.019334 };
     col_t lab2 = { 53.2408, 80.0925, 67.2032 };
+    col_t lch2 = { 53.2408, 104.5518, 39.9990 };
 
-    CAPTURE( rgb1, xyz1, xyz2, lab1, lab2 );
+    CAPTURE( rgb1, xyz1, xyz2, lab1, lab2, lch1, lch2 );
     REQUIRE( fuzzyEqual( xyz1, xyz2 ) );
     REQUIRE( fuzzyEqual( lab1, lab2 ) );
+    REQUIRE( fuzzyEqual( lch1, lch2 ) );
 }

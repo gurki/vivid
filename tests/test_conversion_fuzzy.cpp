@@ -100,15 +100,15 @@ TEST_CASE( "Direct Conversions", "[conversions]" )
         }
     }
 
-    SECTION( "RGB <-> XYZ <-> LAB <-> HCL" )
+    SECTION( "RGB <-> XYZ <-> LAB <-> LCH" )
     {
         for ( size_t i = 0; i < fuzzIters; i++ )
         {
             const col_t src = vivid::rgb::rand();
             const col_t xyz_1 = xyz::fromRgb( src );
             const col_t lab_1 = lab::fromXyz( xyz_1 );
-            const col_t lch_1 = hcl::fromLab( lab_1 );
-            const col_t lab_2 = lab::fromHcl( lch_1 );
+            const col_t lch_1 = lch::fromLab( lab_1 );
+            const col_t lab_2 = lab::fromLch( lch_1 );
             const col_t xyz_2 = xyz::fromLab( lab_2 );
             const col_t tar = rgb::fromXyz( xyz_2 );
 

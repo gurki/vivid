@@ -12,12 +12,12 @@ SOURCES += \
     $$PWD/src/colormap.cpp \
     $$PWD/src/colortable.cpp \
     $$PWD/src/functions.cpp \
-    $$PWD/src/hcl.cpp \
     $$PWD/src/hex.cpp \
     $$PWD/src/hsl.cpp \
     $$PWD/src/hsv.cpp \
     $$PWD/src/index.cpp \
     $$PWD/src/lab.cpp \
+    $$PWD/src/lch.cpp \
     $$PWD/src/name.cpp \
     $$PWD/src/rgb.cpp \
     $$PWD/src/rgb32.cpp \

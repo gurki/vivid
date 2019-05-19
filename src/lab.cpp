@@ -33,12 +33,12 @@ col_t fromXyz( const col_t& xyz )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHcl( const col_t& hcl )
+col_t fromLch( const col_t& lch )
 {
     col_t lab;
-    lab.x = hcl.z;
-    lab.y = std::cosf( hcl.x ) * hcl.y;
-    lab.z = std::sinf( hcl.x ) * hcl.y;
+    lab.x = lch.x;
+    lab.y = lch.y * std::cosf( glm::radians( lch.y ) );
+    lab.z = lch.y * std::sinf( glm::radians( lch.y ) );
 
     return lab;
 }

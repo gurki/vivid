@@ -47,7 +47,7 @@ glm::vec3 ColorMap::at( const float t ) const
         case InterpolationLinear: return vivid::rgb::lerp( stops_[ k ], stops_[ k + 1 ], u );
         case InterpolationHsv: return vivid::rgb::lerpHsv( stops_[ k ], stops_[ k + 1 ], u );
         case InterpolationHsl: return vivid::rgb::lerpHsl( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHcl: return vivid::rgb::lerpHcl( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationLch: return vivid::rgb::lerpLch( stops_[ k ], stops_[ k + 1 ], u );
     }
 
     return {};

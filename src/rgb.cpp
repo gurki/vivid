@@ -98,8 +98,8 @@ col_t fromXyz( const col_t& xyz ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHcl( const col_t& lch ) {
-    return rgb::fromXyz( xyz::fromLab( lab::fromHcl( lch ) ) );
+col_t fromLch( const col_t& lch ) {
+    return rgb::fromXyz( xyz::fromLab( lab::fromLch( lch ) ) );
 }
 
 

@@ -15,7 +15,7 @@ class Color
             SpaceRgb,   //  assumes sRGB for XYZ conversion
             SpaceHsl,
             SpaceHsv,
-            SpaceHcl
+            SpaceLch    //  L*C*h(ab)
         };
 
         Color() = default;        
@@ -33,7 +33,7 @@ class Color
         Color rgb() const;
         Color hsl() const;
         Color hsv() const;
-        Color hcl() const;
+        Color lch() const;
         col8_t rgb8() const;
         uint32_t rgb32() const;
         uint8_t index() const;

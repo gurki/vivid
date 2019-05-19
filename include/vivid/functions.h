@@ -10,7 +10,7 @@ namespace vivid::rgb
     col_t lerp( const col_t&, const col_t&, const float );
     col_t lerpHsv( const col_t&, const col_t&, const float );
     col_t lerpHsl( const col_t&, const col_t&, const float );
-    col_t lerpHcl( const col_t&, const col_t&, const float );
+    col_t lerpLch( const col_t&, const col_t&, const float );
 
     col_t saturate( const col_t& );
     col_t clamp( const col_t& );
@@ -35,7 +35,7 @@ namespace vivid::hsv {
 }
 
 
-namespace vivid::hcl {
+namespace vivid::lch {
     col_t lerp( const col_t&, const col_t&, const float );
 }
 
