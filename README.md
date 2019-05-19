@@ -59,8 +59,14 @@ git clone git@github.com:gurki/vivid.git
 git submodule update --init
 ```
 
-This repository comes with support for ~~both~~ `Qt` (_vivid.pri_) ~~and `cmake` (_CMakeList_)~~ projects.
-You can start by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`.
+This repository comes with support for both `qmake` (_vivid.pri_) and `cmake` projects.
+You can try it out by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`, or running
+
+```bash
+mkdir build && cd build
+cmake .. && make
+./examples/cmake/vivid_example
+```
 
 
 ## Dependencies
