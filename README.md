@@ -74,7 +74,7 @@ You can start by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`.
 
 ## Types
 
-`vivid` provides a convenient `Color` class, which is intended to be flexible and easy to use. It stores colors as combination of float-triplet `values` (`col_t ≡ glm::vec<3, float>`) and their associated `space ∈ {RGB, HSV, HSL, HCL}`. It can be implicitly constructed from any of the supported color formats and spaces, e.g. `Color col( "#abcdef" );`. Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. 8-bit colors are represented using either byte-triplets (`col8_t ≡ glm::vec<3, uint8_t>`) or compactly as `uint32_t` (`ARGB`), where alpha is set to `0xff` by default. Lossy conversion, e.g. getting the name or index of some non-xterm color, will return the closest valid color/value in that space.
+`vivid` provides a convenient `Color` class, which is intended to be flexible and easy to use. It stores colors as combination of float-triplet `values` (`col_t ≡ glm::vec<3, float>`) and their associated `space ∈ {RGB, HSV, HSL, LCH}`. It can be implicitly constructed from any of the supported color formats and spaces, e.g. `Color col( "#abcdef" );`. Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. 8-bit colors are represented using either byte-triplets (`col8_t ≡ glm::vec<3, uint8_t>`) or compactly as `uint32_t` (`ARGB`), where alpha is set to `0xff` by default. Lossy conversion, e.g. getting the name or index of some non-xterm color, will return the closest valid color/value in that space.
 
 
 ## Color Spaces
@@ -102,7 +102,7 @@ The following direct conversions are currently available.
 
 ### RGB Working Spaces
 
-`vivid` assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. However, you can easily extend this using the low-level API.
+`vivid` assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can also extend this using the low-level API.
 
 ```cpp
 //  manual wide gamut rgb to xyz conversion
@@ -130,18 +130,18 @@ for ( auto& pixel : image ) {
 }
 ```
 
-Color interpolation is an interesting topic. What should the color halfway in-between <span style="color:rgb(178, 76, 76)">red</span> and <span style="color:rgb(25, 153, 102)">green</span> look like? There is a great article introducing this topic by Grego Aisch [^1]. In order to do a perceptually linear transition from one color to another, we can't simply linearly interpolate two _RGB_-vectors. Rather, we move to a more suitable color space, interpolate there, and then move back again. Namely, we use the _CIE L\*C\*h_ space, also known as _HCL_, which matches the human visual system rather well. There are more suitable color spaces nowadays to do so, but _HCL_ has a nice balance between complexity (code and computation) and outcome.
+Color interpolation is an interesting topic. What should the color halfway in-between <span style="color:rgb(178, 76, 76)">red</span> and <span style="color:rgb(25, 153, 102)">green</span> look like? There is a great article introducing this topic by Grego Aisch [^1]. In order to do a perceptually linear transition from one color to another, we can't simply linearly interpolate two _RGB_-vectors. Rather, we move to a more suitable color space, interpolate there, and then move back again. Namely, we use the _CIE L\*C\*h(ab)_ space, or _LCH_, which matches the human visual system rather well. There are more suitable color spaces nowadays to do so, but _LCH_ has a nice balance between complexity (code and computation) and outcome.
 
 Compare the following table to get an idea of interpolating in different color spaces.
 
 Color Space   | Linear Interpolation
 --------------|-------------------------------------------------------------------
 RGB           | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
-HCL           | ![lerp-cielch](docs/images/interpolations/lerpHcl.png)
+LCH           | ![lerp-lch](docs/images/interpolations/lerpLch.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
 
-`vivid` provides low-level interpolations for the four main spaces `RGB, HSL, HSV, HCL`. They can be accessed directly via e.g. `rgb::lerp( const col_t&, const col_t&, const float )`, or implicitly via `lerp( const Color&, const Color&, const float )`. Note, that the latter requires the `Color` objects to be in the same space. Otherwise, an invalid color is returned.
+`vivid` provides low-level interpolations for the four main spaces `RGB, HSL, HSV, LCH`. They can be accessed directly via e.g. `rgb::lerp( const col_t&, const col_t&, const float )`, or implicitly via `lerp( const Color&, const Color&, const float )`. Note, that the latter requires the `Color` objects to be in the same space. Otherwise, an invalid color is returned.
 
 [\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
 
