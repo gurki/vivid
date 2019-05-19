@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/table.h"
+#include "vivid/data/xterm.h"
 
 #include <glm/common.hpp>
 #include <glm/gtc/epsilon.hpp>
@@ -50,7 +50,7 @@ col_t fromHsv( const col_t& hsv ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromIndex( const uint8_t index ) {
-    return hsl::fromRgb( rgb::fromRgb32( table::xterm.at( index ).rgb32 ) );
+    return hsl::fromRgb( rgb::fromRgb32( data::xterm.at( index ).rgb32 ) );
 }
 
 

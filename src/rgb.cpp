@@ -1,6 +1,6 @@
 #include "vivid/conversion.h"
 #include "vivid/functions.h"
-#include "vivid/table.h"
+#include "vivid/data/xterm.h"
 
 #include <glm/glm.hpp>
 #include <glm/common.hpp>           //  clamp
@@ -111,7 +111,7 @@ col_t fromHex( const std::string& hexStr ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromIndex( const uint8_t index ) {
-    return rgb::fromRgb32( table::xterm.at( index ).rgb32 );
+    return rgb::fromRgb32( data::xterm.at( index ).rgb32 );
 }
 
 

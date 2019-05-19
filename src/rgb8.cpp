@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/table.h"
+#include "vivid/data/xterm.h"
 #include <glm/common.hpp>
 
 namespace vivid::rgb8 {
@@ -13,7 +13,7 @@ col8_t fromRgb( const col_t& rgb ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 col8_t fromIndex( const uint8_t index ) {
-    return rgb8::fromRgb32( table::xterm.at( index ).rgb32 );
+    return rgb8::fromRgb32( data::xterm.at( index ).rgb32 );
 }
 
 

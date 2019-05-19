@@ -1,11 +1,10 @@
 #pragma once
 
-#include "vivid/types.h"
 #include <string>
 #include <vector>
 #include <unordered_map>
 
-namespace vivid::table {
+namespace vivid::data {
 
 
 struct ColorEntry {
@@ -797,4 +796,4 @@ static const std::unordered_map<uint32_t, uint8_t> xterm_rgb32 =
 };
 
 
-}   //  ::vivid::table
+}   //  ::vivid::res

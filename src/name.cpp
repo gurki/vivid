@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/table.h"
+#include "vivid/data/xterm.h"
 
 namespace vivid::name {
 
@@ -12,7 +12,7 @@ const std::string& fromRgb( const col_t& rgb ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 const std::string& fromIndex( const uint8_t index ) {
-    return table::xterm.at( index ).name;
+    return data::xterm.at( index ).name;
 }
 
 

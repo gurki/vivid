@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/table.h"
+#include "vivid/data/xterm.h"
 #include <glm/common.hpp>
 
 namespace vivid::index {
@@ -11,7 +11,7 @@ uint8_t fromRgb8( const col8_t& rgb8 )
     //  search direct match
 
     const auto rgb32 = rgb32::fromRgb8( rgb8 );
-    const auto& tab = table::xterm_rgb32;
+    const auto& tab = data::xterm_rgb32;
     const auto it = tab.find( rgb32 );
 
     if ( it != tab.end() ) {
@@ -56,7 +56,7 @@ std::optional<uint8_t> fromName( const std::string& name )
     auto key = name;
     std::transform( key.begin(), key.end(), key.begin(), ::tolower);
 
-    const auto& tab = table::xterm_names;
+    const auto& tab = data::xterm_names;
     const auto it = tab.find( key );
 
     if ( it != tab.end() ) {

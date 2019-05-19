@@ -1,8 +1,8 @@
 #include "vivid/color.h"
-#include "vivid/table.h"
 #include "vivid/conversion.h"
 #include "vivid/functions.h"
 #include "vivid/stream.h"
+#include "vivid/data/xterm.h"
 
 namespace vivid {
 
@@ -193,7 +193,7 @@ const std::string& Color::name() const
         default: {
             //  space should always have a valid value
             assert( true );
-            return table::xterm.at( 0 ).name;
+            return data::xterm.at( 0 ).name;
         }
     }
 }
