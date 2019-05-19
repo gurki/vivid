@@ -40,6 +40,7 @@ fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 - [Interpolation](#interpolation)
 - [Color Maps](#color-maps)
 - [Encodings](#encodings)
+- [Attributions](#attributions)
 
 <!-- /TOC -->
 
@@ -84,17 +85,38 @@ Under the hood, `vivid` uses an extensive set of direct conversions (c.f. `inclu
 
 The following direct conversions are currently available.
 
-    hcl ← lab
+    adobe ← xyz
     hex ← rgb8, index
     hsl ← rgb, index
     hsv ← rgb
     index ← rgb8, name
-    lab ← xyz, hcl
+    lab ← xyz, lch
+    lch ← lab
+    linear ← srgb
     name ← index
-    rgb ← rgb8, hsv, hsl, xyz
+    rgb ← rgb8, hsv, hsl
     rgb32 ← rgb, hex
     rgb8 ← rgb, rgb32, index
-    xyz ← lab, rgb
+    srgb ← xyz
+    xyz ← lab, srgb, adobe
+
+### RGB Working Spaces
+
+`vivid` assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. However, you can easily extend this using the low-level API.
+
+```cpp
+//  manual wide gamut rgb to xyz conversion
+static const float wideGamutGamma = 2.2f;
+static const glm::mat3 wideToXyz = {    //  will be transposed due to column-major init
+    0.7161046f, 0.1009296f, 0.1471858f,
+    0.2581874f, 0.7249378f, 0.0168748f,
+    0.0000000f, 0.0517813f, 0.7734287f
+};
+
+col_t wide = { 1.f, 0.f, 0.f };
+auto linear = rgb::invGamma( wide, wideGamutGamma );
+auto xyz = linear * wideToXyz;          //  post-multiply to save transposition
+```
 
 
 ## Interpolation
