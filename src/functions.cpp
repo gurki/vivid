@@ -254,10 +254,10 @@ col_t lerp(
 {
     col_t delta = lch2 - lch1;
 
-    if ( delta.x > glm::pi<float>() ) {
-        delta.x -= glm::two_pi<float>();
-    } else if ( delta.x < - glm::pi<float>() ) {
-        delta.x += glm::two_pi<float>();
+    if ( delta.z > glm::pi<float>() ) {
+        delta.z -= glm::two_pi<float>();
+    } else if ( delta.z < - glm::pi<float>() ) {
+        delta.z += glm::two_pi<float>();
     }
 
     return lch1 + t * delta;
