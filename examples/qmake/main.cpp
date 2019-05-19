@@ -47,7 +47,7 @@ int main( int, char* argv[] )
     for ( const auto& type : defaults )
     {
         ColorMap cmap( type );
-        cmap.interpolation = ColorMap::InterpolationHcl;
+        cmap.interpolation = ColorMap::InterpolationLch;
         QImage img( 512, 32, QImage::Format_RGB32 );
 
         for ( int c = 0; c < img.width(); c++ )
@@ -80,7 +80,7 @@ int main( int, char* argv[] )
         { rgb::lerp, "lerpRgb" },
         { rgb::lerpHsv, "lerpHsv" },
         { rgb::lerpHsl, "lerpHsl" },
-        { rgb::lerpHcl, "lerpHcl" },
+        { rgb::lerpLch, "lerpLch" },
         { lerpHslClamp, "lerpHslClamped" }
     };
 

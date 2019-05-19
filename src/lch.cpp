@@ -8,7 +8,7 @@ namespace vivid::lch {
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromLab( const col_t& lab )
 {
-    const float h = glm::degrees( std::atan2f( lab.y, lab.z ) );
+    const float h = glm::degrees( std::atan2f( lab.z, lab.y ) );
 
     col_t lch;
     lch.x = lab.x;

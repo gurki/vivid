@@ -34,8 +34,8 @@ col_t fromLch( const col_t& lch )
 {
     col_t lab;
     lab.x = lch.x;
-    lab.y = lch.y * std::cosf( glm::radians( lch.y ) );
-    lab.z = lch.y * std::sinf( glm::radians( lch.y ) );
+    lab.y = lch.y * std::cosf( glm::radians( lch.z ) );
+    lab.z = lch.y * std::sinf( glm::radians( lch.z ) );
 
     return lab;
 }

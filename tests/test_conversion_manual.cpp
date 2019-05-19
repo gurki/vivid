@@ -12,17 +12,60 @@ TEST_CASE( "Manual Conversions", "[conversions]" )
     using namespace vivid;
     ColorTable::load( VIVID_ROOT_PATH "res/colors.json" );
 
-    col_t rgb1 = { 1.f, 0.f, 0.f };
-    auto xyz1 = xyz::fromRgb( rgb1 );
-    auto lab1 = lab::fromXyz( xyz1 );
-    auto lch1 = lch::fromRgb( rgb1 );
+    struct cieref {
+        col_t rgb;
+        col_t xyz;
+        col_t lab;
+        col_t lch;
+    };
 
-    col_t xyz2 = { 0.412456, 0.212673, 0.019334 };
-    col_t lab2 = { 53.2408, 80.0925, 67.2032 };
-    col_t lch2 = { 53.2408, 104.5518, 39.9990 };
+    std::vector<cieref> refs = {
+        {
+            { 1.f, 0.f, 0.f },
+            { 0.412456, 0.212673, 0.019334 },
+            { 53.2408, 80.0925, 67.2032 },
+            { 53.2408, 104.5518, 39.9990 }
+        },
+        {
+            { 0.7f, 0.3f, 0.3f },
+            { 0.224179, 0.152938, 0.086990 },
+            { 46.0340, 41.5389, 20.8161 },
+            { 46.0340, 46.4628, 26.6165 }
+        }
+    };
 
-    CAPTURE( rgb1, xyz1, xyz2, lab1, lab2, lch1, lch2 );
-    REQUIRE( fuzzyEqual( xyz1, xyz2 ) );
-    REQUIRE( fuzzyEqual( lab1, lab2 ) );
-    REQUIRE( fuzzyEqual( lch1, lch2 ) );
+
+    for ( const auto& ref : refs )
+    {
+        //  shorthands for aligned CAPTURE formatting
+
+        const auto& rrgb = ref.rgb;
+        const auto& rxyz = ref.xyz;
+        const auto& rlab = ref.lab;
+        const auto& rlch = ref.lch;
+
+        //  forward
+
+        const auto rgb1 = ref.rgb;
+        const auto xyz1 = xyz::fromRgb( rgb1 );
+        const auto lab1 = lab::fromXyz( xyz1 );
+        const auto lch1 = lch::fromLab( lab1 );
+
+        CAPTURE( rgb1, xyz1, rxyz, lab1, rlab, lch1, rlch );
+        REQUIRE( fuzzyEqual( xyz1, ref.xyz ) );
+        REQUIRE( fuzzyEqual( lab1, ref.lab ) );
+        REQUIRE( fuzzyEqual( lch1, ref.lch ) );
+
+        //  backward
+
+        const auto lch2 = ref.lch;
+        const auto lab2 = lab::fromLch( lch2 );
+        const auto xyz2 = xyz::fromLab( lab2 );
+        const auto rgb2 = rgb::fromXyz( xyz2 );
+
+        CAPTURE( lch2, lab2, rlab, xyz2, rxyz, rgb2, rrgb );
+        REQUIRE( fuzzyEqual( lab2, ref.lab ) );
+        REQUIRE( fuzzyEqual( xyz2, ref.xyz ) );
+        REQUIRE( fuzzyEqual( rgb1, ref.rgb ) );
+    }
 }
