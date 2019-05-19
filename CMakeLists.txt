@@ -1,13 +1,19 @@
 cmake_minimum_required( VERSION 3.8 )
-project( libvivid VERSION 1.0.0 LANGUAGES CXX )
+project( vivid VERSION 1.0.0 LANGUAGES CXX )
+
+set( VIVID_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
+add_compile_definitions( VIVID_ROOT_PATH="${VIVID_DIR}/")
 
 # make sure that custom modules are found
-list( INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake)
+list( INSERT CMAKE_MODULE_PATH 0 ${VIVID_DIR}/cmake )
 
 find_package( nlohmann_json REQUIRED )
 find_package( glm REQUIRED )
 
-add_library( libvivid SHARED
+message( STATUS "nlohmann-json included" )
+message( STATUS "glm included" )
+
+add_library( vivid SHARED
     src/adobe.cpp
     src/color.cpp
     src/colormap.cpp
@@ -26,21 +32,43 @@ add_library( libvivid SHARED
     src/xyz.cpp
 )
 
-add_library( vivid::library ALIAS libvivid )
+add_library( vivid::vivid ALIAS vivid )
 
-target_include_directories( libvivid
+target_compile_features( vivid
     PUBLIC
-        $<INSTALL_INTERFACE>:include>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        cxx_std_17
+    PRIVATE
+        cxx_auto_type
+        cxx_defaulted_functions
+        cxx_lambdas
+        cxx_range_for
+        cxx_trailing_return_types
+        cxx_unicode_literals
+        cxx_inline_namespaces
 )
 
-target_link_libraries( libvivid
-    PRIVATE
-        nlohmann_json
+target_include_directories( vivid
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+)
+
+target_link_libraries( vivid
+    PUBLIC
+        nlohmann_json::nlohmann_json
         glm
 )
 
 install(
-    DIRECTORY ${PROJECT_SOURCE_DIR}/res/
+    DIRECTORY ${VIVID_DIR}/res/
     DESTINATION res
 )
+
+export( TARGETS vivid FILE vividConfig.cmake)
+
+
+################################################################################
+#  examples
+################################################################################
+
+add_subdirectory( examples/cmake )

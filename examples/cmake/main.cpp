@@ -5,11 +5,13 @@
 int main( int, char* argv[] )
 {
     using namespace vivid;
+
+    std::cout << VIVID_ROOT_PATH "res/colors.json" << std::endl;
     ColorTable::load( VIVID_ROOT_PATH "res/colors.json" );
 
     //  introduction
 
-    ColorMap hslMap( ColorMap::PresetHsl );
+    const ColorMap hslMap( ColorMap::PresetHsl );
     std::cout << ansi::colorize( "vivid", hslMap ) << std::endl;
     std::cout << std::endl;
 
@@ -23,15 +25,15 @@ int main( int, char* argv[] )
 
     //  high-level conversions
 
-    Color color1, color2;
-    color1 = Color( c1 );
-    color2 = Color( c2 );
+    const Color color1( col_t( 0.7f, 0.3f, 0.3f ) );
+    const Color color2( col_t( 0.1f, 0.6f, 0.4f ) );
 
     std::cout << color1.hsl() << std::endl;
     std::cout << lerp( color1.hsl(), color2.hsl(), 0.5f ) << std::endl;
 
     //  encoding
 
+    std::cout << std::endl;
     std::cout << ansi::fg( 3 ) << "yay colors" << ansi::reset << std::endl;
     std::cout << html::fg( "#abc123" ) << "hex hex!" << html::close << std::endl;
     std::cout << html::fg( col8_t( 100, 144, 159 ) ) << "html, aw yes" << html::close << std::endl;
@@ -43,7 +45,7 @@ int main( int, char* argv[] )
 
     //  rainbow text
 
-    ColorMap rainbowMap( ColorMap::PresetRainbow );
+    const ColorMap rainbowMap( ColorMap::PresetRainbow );
     const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
     std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 
