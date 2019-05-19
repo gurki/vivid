@@ -118,6 +118,12 @@ col_t clamp( const col_t& rgb ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t gamma( const col_t& rgb, const float gamma ) {
+    return glm::pow( rgb, glm::vec3( 1.f / gamma ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+col_t invGamma( const col_t& rgb, const float gamma ) {
     return glm::pow( rgb, glm::vec3( gamma ) );
 }
 

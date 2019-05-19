@@ -25,4 +25,10 @@ col_t fromRgb( const col_t& rgb ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
+col_t fromXyz( const col_t& xyz ) {
+    return lch::fromLab( lab::fromXyz( xyz ) );
+}
+
+
 }   //  ::vivid::cielch

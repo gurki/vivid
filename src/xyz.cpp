@@ -35,6 +35,12 @@ col_t fromRgb( const col_t& rgb ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
+col_t fromLch( const col_t& lch ) {
+    return xyz::fromLab( lab::fromLch( lch ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 col_t fromAdobe( const col_t& adobe ) {
     col_t lrgb = rgb::gamma( adobe, adobe::gamma );
     return lrgb * matrices::adobe_to_xyz;

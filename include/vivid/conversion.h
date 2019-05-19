@@ -17,6 +17,7 @@ namespace lab {
 namespace lch {
     col_t fromLab( const col_t& );
     col_t fromRgb( const col_t& );  //  (-)
+    col_t fromXyz( const col_t& );  //  (-)
 }
 
 
@@ -111,6 +112,7 @@ namespace xyz
 
     col_t fromLab( const col_t& );
     col_t fromRgb( const col_t& );  //  assumes sRGB
+    col_t fromLch( const col_t& );  //  (-)
     col_t fromAdobe( const col_t& );
 }
 
