@@ -98,6 +98,12 @@ TEST_CASE( "Direct Conversions", "[conversions]" )
             CAPTURE( src, tar );
             REQUIRE( fuzzyHueEqual( src, tar ) );
         }
+
+/*
+        detected failures
+            src := col(0.239, 0.000173, 0.998)
+            tar := col(0.244, 0.000177, 0.998)
+*/
     }
 
     SECTION( "RGB <-> XYZ <-> LAB <-> LCH" )
