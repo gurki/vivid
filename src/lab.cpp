@@ -5,9 +5,6 @@ namespace vivid::lab {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  xyz \in [ 0, 1 ]
-//  l \in [ 0, 100 ]
-//  ab \in [ -128, 128 ]
 col_t fromXyz( const col_t& xyz )
 {
     auto xyz2lab = []( const float x ) -> float {

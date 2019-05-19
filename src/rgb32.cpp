@@ -28,6 +28,7 @@ uint32_t fromRgb8( const col8_t& rgb8 )
 uint32_t fromHex( const std::string& hexStr )
 {
     //  try hex
+
     std::regex re( "^#((?:[0-9a-fA-F]{3}){1,2})$" );
     std::smatch match;
     std::regex_match( hexStr, match, re );

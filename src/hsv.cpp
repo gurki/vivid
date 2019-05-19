@@ -8,9 +8,6 @@ namespace vivid::hsv {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  r: [0, 1], g: [0, 1], b: [0, 1]
-//  [2] https://www.cs.rit.edu/~ncs/color/t_convert.html
-////////////////////////////////////////////////////////////////////////////////
 col_t fromRgb( const col_t& rgb )
 {
     const float r = rgb.x;
@@ -39,7 +36,7 @@ col_t fromRgb( const col_t& rgb )
         hsv.x = 4 + ( r - g ) / delta;	// between magenta & cyan
     }
 
-    hsv.x /= 6.f;   // to degrees
+    hsv.x /= 6.f;
     hsv.x = std::fmodf( hsv.x + 1.f, 1.f );
 
     return hsv;
