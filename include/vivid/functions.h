@@ -15,6 +15,7 @@ namespace vivid::rgb
     col_t saturate( const col_t& );
     col_t clamp( const col_t& );
     col_t rainbow( const uint8_t k );
+    col_t gamma( const col_t&, const float );
 }
 
 

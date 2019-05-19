@@ -36,7 +36,7 @@ col_t fromRgb( const col_t& rgb ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromAdobe( const col_t& adobe ) {
-    col_t lrgb = glm::pow( adobe, glm::vec3( adobe::gamma ) );
+    col_t lrgb = rgb::gamma( adobe, adobe::gamma );
     return lrgb * matrices::adobe_to_xyz;
 }
 
