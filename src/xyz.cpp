@@ -1,4 +1,5 @@
 #include "vivid/conversion.h"
+#include "vivid/functions.h"
 #include <glm/glm.hpp>
 
 namespace vivid::xyz {
@@ -32,17 +33,10 @@ col_t fromLab( const col_t& lab )
 //  xyz \in [ 0, 1 ]
 col_t fromRgb( const col_t& rgb )
 {
-    //  inverse sRGB companding
-    static const auto invComp = []( const float x ) -> float {
-        return ( x <= 0.04045f ) ?
-            ( x / 12.92f ) :
-            ( std::powf( ( x + 0.055f ) / 1.055f, 2.4f ) );
-    };
-
     col_t lrgb;
-    lrgb.x = invComp( rgb.x );
-    lrgb.y = invComp( rgb.y );
-    lrgb.z = invComp( rgb.z );
+    lrgb.x = srgb::invComp( rgb.x );
+    lrgb.y = srgb::invComp( rgb.y );
+    lrgb.z = srgb::invComp( rgb.z );
 
     return lrgb * matrices::rgb_to_xyz;
 }

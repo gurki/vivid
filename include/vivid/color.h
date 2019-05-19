@@ -12,7 +12,7 @@ class Color
 
         enum Space {
             SpaceUndefined,
-            SpaceRgb,
+            SpaceRgb,   //  assumes sRGB for XYZ conversion
             SpaceHsl,
             SpaceHsv,
             SpaceHcl
@@ -29,6 +29,8 @@ class Color
         const col_t& value() const { return value_; }
         Space space() const { return space_; }
         std::string spaceInfo() const;
+        col_t compGamma( const float ) const;       //  gamma companding
+        col_t invCompGamma( const float ) const;    //  inverse gamma companding
 
         Color rgb() const;
         Color hsl() const;

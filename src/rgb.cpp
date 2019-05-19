@@ -65,7 +65,6 @@ col_t fromHsv( const col_t& hsv )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  [1] https://www.rapidtables.com/convert/color/hsl-to-rgb.html
 col_t fromHsl( const col_t& hsl )
 {
     const float k = hsl.x * 6.f;
@@ -94,18 +93,11 @@ col_t fromHsl( const col_t& hsl )
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromXyz( const col_t& xyz )
 {
-    //  sRGB companding
-    static const auto comp = []( const float x ) -> float {
-        return ( x <= 0.00304f ) ?
-            ( 12.92f * x ) :
-            ( 1.055f * std::pow( x, 1.f / 2.4f ) - 0.055f );
-    };
-
     const col_t lrgb = xyz * matrices::xyz_to_rgb;
     const col_t srgb = {
-        comp( lrgb.x ),
-        comp( lrgb.y ),
-        comp( lrgb.z )
+        srgb::comp( lrgb.x ),
+        srgb::comp( lrgb.y ),
+        srgb::comp( lrgb.z )
     };
 
     return rgb::saturate( srgb );

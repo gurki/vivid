@@ -17,13 +17,23 @@ namespace vivid::rgb
     col_t rainbow( const uint8_t k );
 }
 
+
+namespace vivid::srgb {
+    //  non-simplified compunding
+    float comp( const float k );
+    float invComp( const float k );
+}
+
+
 namespace vivid::hsv {
     col_t lerp( const col_t&, const col_t&, const float );
 }
 
+
 namespace vivid::hcl {
     col_t lerp( const col_t&, const col_t&, const float );
 }
+
 
 namespace vivid::hsl
 {
@@ -35,6 +45,7 @@ namespace vivid::hsl
         const float l = 0.5f
     );
 }
+
 
 namespace vivid::ansi {
     std::string colorize( const std::string& text, const ColorMap& cmap );

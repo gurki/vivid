@@ -13,6 +13,7 @@
 //  [8] https://jonasjacek.github.io/colors/
 //  [9] https://github.com/BIDS/colormap
 //  [10] http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
+//  [11] https://www.rapidtables.com/convert/color/hsl-to-rgb.html
 //
 
 #include "vivid/color.h"

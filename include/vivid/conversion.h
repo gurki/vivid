@@ -43,7 +43,7 @@ namespace rgb
     col_t fromAdobe( const col_t& );        //  (-)
     col_t fromHsv( const col_t& );
     col_t fromHsl( const col_t& );
-    col_t fromXyz( const col_t& );
+    col_t fromXyz( const col_t& );          //  to sRGB
     col_t fromHcl( const col_t& );          //  (-)
     col_t fromHex( const std::string& );    //  (-)
     col_t fromIndex( const uint8_t );       //  (-)
@@ -52,10 +52,9 @@ namespace rgb
 
 
 namespace adobe {
+    static const float gamma = 2.19921875f;
     col_t fromRgb( const col_t& );  //  (-)
     col_t fromXyz( const col_t& );
-
-    static const float gamma = 2.19921875f;
 }
 
 
@@ -106,12 +105,12 @@ namespace name {
 //  xyz \in [ ( 0, 0, 0 ), ( 1, 1, 1 ) ]
 namespace xyz
 {
-    col_t fromLab( const col_t& );
-    col_t fromRgb( const col_t& );
-    col_t fromAdobe( const col_t& );
-
     //  observer 2°, illuminant D65, sRGB
     static const col_t ref_d65 = { 0.95047f, 1.f, 1.08883f };
+
+    col_t fromLab( const col_t& );
+    col_t fromRgb( const col_t& );  //  assumes sRGB
+    col_t fromAdobe( const col_t& );
 }
 
 
