@@ -191,3 +191,8 @@ fout << html::fg( col ) << "colorized html text!" << html::close;
 ```
 
 [^4] [Gawin's xterm color demo](https://github.com/gawin/bash-colors-256)
+
+
+## Attributions
+
+Shoutout and thanks to the great reddit community over at [r/cpp](https://www.reddit.com/r/cpp/comments/bpu0hl/vivid_a_simpletouse_cpp_color_library) for comments, feedback and suggestions! <3
