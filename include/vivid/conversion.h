@@ -117,15 +117,19 @@ namespace xyz
 
 namespace matrices
 {
+    //  NOTE(tgurdan):
+    //    for readability, these are all initialized transposed due to
+    //    column-major order. must post-multiply colors accordingly.
+
     //  srgb <-> xyz, d65
 
-    static const glm::mat3 xyz_to_srgb = {
+    static const glm::mat3 xyz_to_rgb = {
          3.2404542f,-1.5371385f,-0.4985134f,
         -0.9692600f, 1.8760108f, 0.0415560f,
          0.0556434f,-0.2040259f, 1.0572252f
     };
 
-    static const glm::mat3 srgb_to_xyz = {
+    static const glm::mat3 rgb_to_xyz = {
         0.4124564f, 0.3575761f, 0.1804375f,
         0.2126729f, 0.7151522f, 0.0721750f,
         0.0193339f, 0.1191920f, 0.9503041f

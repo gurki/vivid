@@ -121,7 +121,7 @@ TEST_CASE( "Direct Conversions", "[conversions]" )
     {
         for ( size_t i = 0; i < fuzzIters; i++ )
         {
-            const uint8_t src = randi();
+            const uint8_t src = uint8_t( randi() );
             const auto hex_1 = vivid::hex::fromIndex( src );
             const auto rgb8_1 = vivid::rgb8::fromHex( hex_1 );
             const auto rgb32_1 = vivid::rgb32::fromRgb8( rgb8_1 );

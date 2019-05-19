@@ -21,6 +21,7 @@ col_t fromLab( const col_t& lab )
     xyz.x = lab2xyz( xyz.x );
     xyz.y = lab2xyz( xyz.y );
     xyz.z = lab2xyz( xyz.z );
+    xyz = xyz * xyz::ref_d65;
 
     return xyz;
 }
@@ -31,28 +32,26 @@ col_t fromLab( const col_t& lab )
 //  xyz \in [ 0, 1 ]
 col_t fromRgb( const col_t& rgb )
 {
-    auto srgb2xyz = []( const float x ) -> float {
+    //  inverse sRGB companding
+    static const auto invComp = []( const float x ) -> float {
         return ( x <= 0.04045f ) ?
             ( x / 12.92f ) :
             ( std::powf( ( x + 0.055f ) / 1.055f, 2.4f ) );
     };
 
-    col_t sxyz;
-    sxyz.x = srgb2xyz( rgb.x );
-    sxyz.y = srgb2xyz( rgb.y );
-    sxyz.z = srgb2xyz( rgb.z );
+    col_t lrgb;
+    lrgb.x = invComp( rgb.x );
+    lrgb.y = invComp( rgb.y );
+    lrgb.z = invComp( rgb.z );
 
-    col_t xyz = matrices::srgb_to_xyz * sxyz;
-    xyz = xyz / ref_d65;
-
-    return xyz;
+    return lrgb * matrices::rgb_to_xyz;
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromAdobe( const col_t& adobe ) {
     col_t lrgb = glm::pow( adobe, glm::vec3( adobe::gamma ) );
-    return matrices::adobe_to_xyz * lrgb;
+    return lrgb * matrices::adobe_to_xyz;
 }
 
 

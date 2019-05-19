@@ -94,20 +94,21 @@ col_t fromHsl( const col_t& hsl )
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromXyz( const col_t& xyz )
 {
-    auto xyz2srgb = []( const float x ) -> float {
+    //  sRGB companding
+    static const auto comp = []( const float x ) -> float {
         return ( x <= 0.00304f ) ?
             ( 12.92f * x ) :
             ( 1.055f * std::pow( x, 1.f / 2.4f ) - 0.055f );
     };
 
-    const col_t sxyz = xyz * xyz::ref_d65;
-    col_t rgb = matrices::xyz_to_srgb * sxyz;
+    const col_t lrgb = xyz * matrices::xyz_to_rgb;
+    const col_t srgb = {
+        comp( lrgb.x ),
+        comp( lrgb.y ),
+        comp( lrgb.z )
+    };
 
-    rgb.x = xyz2srgb( rgb.x );
-    rgb.y = xyz2srgb( rgb.y );
-    rgb.z = xyz2srgb( rgb.z );
-
-    return rgb::saturate( rgb );
+    return rgb::saturate( srgb );
 }
 
 

@@ -9,7 +9,8 @@ DEFINES += \
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/conversion.cpp
+    $$PWD/test_conversion_fuzzy.cpp \
+    $$PWD/test_conversion_manual.cpp
 
 HEADERS += \
     $$PWD/catch.hpp \

@@ -16,15 +16,17 @@ col_t fromXyz( const col_t& xyz )
             ( 7.787f * x + 16.f / 116.f );
     };
 
-    col_t sxyz;
-    sxyz.x = xyz2lab( xyz.x );
-    sxyz.y = xyz2lab( xyz.y );
-    sxyz.z = xyz2lab( xyz.z );
+    const auto xyzr = xyz / xyz::ref_d65;
+
+    col_t fxyz;
+    fxyz.x = xyz2lab( xyzr.x );
+    fxyz.y = xyz2lab( xyzr.y );
+    fxyz.z = xyz2lab( xyzr.z );
 
     col_t lab;
-    lab.x = 116.f * sxyz.y - 16.f;
-    lab.y = 500.f * ( sxyz.x - sxyz.y );
-    lab.z = 200.f * ( sxyz.y - sxyz.z );
+    lab.x = 116.f * fxyz.y - 16.f;
+    lab.y = 500.f * ( fxyz.x - fxyz.y );
+    lab.z = 200.f * ( fxyz.y - fxyz.z );
 
     return lab;
 }
