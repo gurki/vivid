@@ -7,6 +7,7 @@ A simple-to-use `cpp` color library
 - **xterm** names and **ansi** codes
 - ansi **escape sequences** and **html** encoding
 - (somewhat) **unit tested** in itself and against `QColor`
+- **qmake** and **cmake** support
 
 ```cpp
 using namespace vivid;
