@@ -31,26 +31,30 @@ col_t fromLab( const col_t& lab )
 //  xyz \in [ 0, 1 ]
 col_t fromRgb( const col_t& rgb )
 {
-    auto rgb2xyz = []( const float x ) -> float {
+    auto srgb2xyz = []( const float x ) -> float {
         return ( x <= 0.04045f ) ?
             ( x / 12.92f ) :
             ( std::powf( ( x + 0.055f ) / 1.055f, 2.4f ) );
     };
 
     col_t sxyz;
-    sxyz.x = rgb2xyz( rgb.x );
-    sxyz.y = rgb2xyz( rgb.y );
-    sxyz.z = rgb2xyz( rgb.z );
+    sxyz.x = srgb2xyz( rgb.x );
+    sxyz.y = srgb2xyz( rgb.y );
+    sxyz.z = srgb2xyz( rgb.z );
 
-    col_t xyz;
-    xyz.x = glm::dot( { 0.4124564f, 0.3575761f, 0.1804375f }, sxyz );
-    xyz.y = glm::dot( { 0.2126729f, 0.7151522f, 0.0721750f }, sxyz );
-    xyz.z = glm::dot( { 0.0193339f, 0.1191920f, 0.9503041f }, sxyz );
-
-    xyz = xyz / xyz_ref;
+    col_t xyz = matrices::srgb_to_xyz * sxyz;
+    xyz = xyz / ref_d65;
 
     return xyz;
 }
 
 
-}   //  ::vivid::ciexyz
+////////////////////////////////////////////////////////////////////////////////
+col_t fromAdobe( const col_t& adobe ) {
+    col_t lrgb = glm::pow( adobe, glm::vec3( adobe::gamma ) );
+    return matrices::adobe_to_xyz * lrgb;
+}
+
+
+
+}   //  ::vivid::xyz

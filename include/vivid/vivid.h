@@ -12,6 +12,7 @@
 //  [7] https://github.com/gawin/bash-colors-256
 //  [8] https://jonasjacek.github.io/colors/
 //  [9] https://github.com/BIDS/colormap
+//  [10] http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
 //
 
 #include "vivid/color.h"

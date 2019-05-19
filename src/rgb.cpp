@@ -94,22 +94,18 @@ col_t fromHsl( const col_t& hsl )
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromXyz( const col_t& xyz )
 {
-    auto xyz2rgb = []( const float x ) -> float {
+    auto xyz2srgb = []( const float x ) -> float {
         return ( x <= 0.00304f ) ?
             ( 12.92f * x ) :
             ( 1.055f * std::pow( x, 1.f / 2.4f ) - 0.055f );
     };
 
-    const col_t sxyz = xyz * xyz::xyz_ref;
+    const col_t sxyz = xyz * xyz::ref_d65;
+    col_t rgb = matrices::xyz_to_srgb * sxyz;
 
-    col_t rgb = {};
-    rgb.x = glm::dot( { 3.2404542f,-1.5371385f,-0.4985134f }, sxyz );
-    rgb.y = glm::dot( {-0.9692600f, 1.8760108f, 0.0415560f }, sxyz );
-    rgb.z = glm::dot( { 0.0556434f,-0.2040259f, 1.0572252f }, sxyz );
-
-    rgb.x = xyz2rgb( rgb.x );
-    rgb.y = xyz2rgb( rgb.y );
-    rgb.z = xyz2rgb( rgb.z );
+    rgb.x = xyz2srgb( rgb.x );
+    rgb.y = xyz2srgb( rgb.y );
+    rgb.z = xyz2srgb( rgb.z );
 
     return rgb::saturate( rgb );
 }
@@ -136,6 +132,12 @@ col_t fromIndex( const uint8_t code ) {
 ////////////////////////////////////////////////////////////////////////////////
 col_t fromName( const std::string& name ) {
     return rgb::fromIndex( index::fromName( name ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+col_t fromAdobe( const col_t& adobe ) {
+    return rgb::fromXyz( xyz::fromAdobe( adobe ) );
 }
 
 

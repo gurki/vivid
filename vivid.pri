@@ -7,6 +7,7 @@ INCLUDEPATH += \
     $$PWD/dependencies/glm
 
 SOURCES += \
+    $$PWD/src/adobe.cpp \
     $$PWD/src/color.cpp \
     $$PWD/src/colormap.cpp \
     $$PWD/src/colortable.cpp \
