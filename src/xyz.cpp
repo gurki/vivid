@@ -29,16 +29,8 @@ col_t fromLab( const col_t& lab )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-//  rgb \in [ 0, 1 ]
-//  xyz \in [ 0, 1 ]
-col_t fromRgb( const col_t& rgb )
-{
-    col_t lrgb;
-    lrgb.x = srgb::invComp( rgb.x );
-    lrgb.y = srgb::invComp( rgb.y );
-    lrgb.z = srgb::invComp( rgb.z );
-
-    return lrgb * matrices::rgb_to_xyz;
+col_t fromRgb( const col_t& rgb ) {
+    return srgb::toLinear( rgb ) * matrices::rgb_to_xyz;
 }
 
 

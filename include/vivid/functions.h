@@ -18,10 +18,14 @@ namespace vivid::rgb
 }
 
 
-namespace vivid::srgb {
+namespace vivid::srgb
+{
     //  non-simplified compunding
     float comp( const float k );
     float invComp( const float k );
+
+    col_t fromLinear( const col_t& lrgb );
+    col_t toLinear( const col_t& srgb );
 }
 
 

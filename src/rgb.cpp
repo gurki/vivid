@@ -91,16 +91,9 @@ col_t fromHsl( const col_t& hsl )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromXyz( const col_t& xyz )
-{
+col_t fromXyz( const col_t& xyz ) {
     const col_t lrgb = xyz * matrices::xyz_to_rgb;
-    const col_t srgb = {
-        srgb::comp( lrgb.x ),
-        srgb::comp( lrgb.y ),
-        srgb::comp( lrgb.z )
-    };
-
-    return rgb::saturate( srgb );
+    return rgb::saturate( srgb::fromLinear( lrgb ) );
 }
 
 

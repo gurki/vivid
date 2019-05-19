@@ -144,6 +144,28 @@ float invComp( const float k )
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
+col_t toLinear( const col_t& srgb )
+{
+    return {
+        srgb::invComp( srgb.x ),
+        srgb::invComp( srgb.y ),
+        srgb::invComp( srgb.z )
+    };
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+col_t fromLinear( const col_t& lrgb )
+{
+    return {
+        srgb::comp( lrgb.x ),
+        srgb::comp( lrgb.y ),
+        srgb::comp( lrgb.z )
+    };
+}
+
+
 }   //   ::vivid::srgb
 
 
