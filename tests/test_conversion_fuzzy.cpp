@@ -2,7 +2,6 @@
 
 #include "vivid/conversion.h"
 #include "vivid/stream.h"
-#include "vivid/colortable.h"
 
 #include "catch.hpp"
 #include <QColor>
@@ -21,7 +20,6 @@ TEST_CASE( "Direct Conversions", "[conversions]" )
 {
     using namespace vivid;
     static const size_t fuzzIters = 10'000;
-    ColorTable::load( VIVID_ROOT_PATH "res/colors.json" );
 
     SECTION( "RGB8 -> RGB" )
     {

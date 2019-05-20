@@ -2,7 +2,6 @@
 
 #include "vivid/conversion.h"
 #include "vivid/stream.h"
-#include "vivid/colortable.h"
 
 #include "catch.hpp"
 
@@ -11,7 +10,6 @@
 TEST_CASE( "Manual Conversions", "[conversions]" )
 {
     using namespace vivid;
-    ColorTable::load( VIVID_ROOT_PATH "res/colors.json" );
 
     struct cieref {
         col_t rgb;
