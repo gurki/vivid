@@ -16,11 +16,11 @@ using namespace vivid;
 Color c1( "indianred" );
 Color c2( { 0.f, 0.4f, 0.5f }, Color::SpaceHsl );
 
-auto interp = lerp( c1, c2, 0.5f );
+auto interp = lerp( c1.hsl(), c2, 0.5f );   //  interpolate in hsl
 std::string hex = interp.hex();
 
 //  quick access to popular colormaps for data visualization
-ColorMap cmap( ColorMap::Viridis );
+ColorMap cmap( ColorMap::PresetViridis );
 Color mid = cmap.at( 0.5f );
 
 //  ansi and html encodings
