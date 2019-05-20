@@ -1,5 +1,5 @@
 cmake_minimum_required( VERSION 3.8 )
-project( vivid VERSION 1.0.0 LANGUAGES CXX )
+project( vivid VERSION 1.1.2 LANGUAGES CXX )
 
 set( VIVID_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
 add_compile_definitions( VIVID_ROOT_PATH="${VIVID_DIR}/")
@@ -7,8 +7,10 @@ add_compile_definitions( VIVID_ROOT_PATH="${VIVID_DIR}/")
 # make sure that custom modules are found
 list( INSERT CMAKE_MODULE_PATH 0 ${VIVID_DIR}/cmake )
 
-find_package( nlohmann_json REQUIRED )
-find_package( glm REQUIRED )
+# find_package( nlohmann_json REQUIRED )
+# find_package( glm REQUIRED )
+add_subdirectory( dependencies/json )
+add_subdirectory( dependencies/glm )
 
 message( STATUS "nlohmann-json included" )
 message( STATUS "glm included" )
