@@ -77,7 +77,7 @@ int main( int, char* argv[] )
             }
         }
 
-        img.save( dir.filePath( QString::fromStdString( ColorMap::nameForPreset( preset ) + "_lch.png" ) ));
+        img.save( dir.filePath( QString::fromStdString( ColorMap::nameForPreset( preset ) + ".png" ) ));
     }
 
     //  interpolation
