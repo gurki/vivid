@@ -7,14 +7,14 @@
 namespace vivid {
 
 
-//  lab \in [ ( 0, -86.1827, -107.86 ), ( 100, 98.2343, 94.478 ) ]
+//  lab \in [ (0, -86.1827, -107.86); (100, 98.2343, 94.478) ]
 namespace lab {
     col_t fromXyz( const col_t& );
     col_t fromLch( const col_t& );
 }
 
 
-//  L*C*h(ab) \in [ ( 0, 0, -2 PI ), ( 100, 133.808, 2 PI ) ]
+//  L*C*h(ab) \in [ (0, 0, 0); (100, 140, 360) ]
 namespace lch {
     col_t fromLab( const col_t& );
     col_t fromRgb( const col_t& );  //  (-)
@@ -105,7 +105,7 @@ namespace name {
 }
 
 
-//  xyz \in [ ( 0, 0, 0 ), ( 1, 1, 1 ) ]
+//  xyz \in [ (0, 0, 0), ref_d65 ]
 namespace xyz
 {
     //  observer 2°, illuminant D65, sRGB

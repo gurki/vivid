@@ -1,9 +1,10 @@
 #include "utility.h"
+#include "catch.hpp"
 
 #include "vivid/conversion.h"
 #include "vivid/stream.h"
 
-#include "catch.hpp"
+#include <glm/glm.hpp>
 #include <QColor>
 
 
@@ -151,4 +152,45 @@ TEST_CASE( "Direct Conversions", "[conversions]" )
     }
 
     //  NOTE(tgurdan): can't test index <-> name conversion really, as names are not unique
+
+    SECTION( "Ranges" )
+    {
+        const col_t max = { 100000, 100000, 100000 };
+        const col_t min = { - 10000, - 1000000, - 100000 };
+
+        col_t rgb0, xyz0, lab0, lch0;
+        col_t rgb1, xyz1, lab1, lch1;
+        rgb0 = xyz0 = lab0 = lch0 = max;
+        rgb1 = xyz1 = lab1 = lch1 = min;
+
+        for ( size_t i = 0; i < fuzzIters; i++ )
+        {
+            const col_t src = vivid::rgb::rand();
+            const col_t xyz_1 = xyz::fromRgb( src );
+            const col_t lab_1 = lab::fromXyz( xyz_1 );
+            const col_t lch_1 = lch::fromLab( lab_1 );
+
+            rgb0 = glm::min( rgb0, src );
+            xyz0 = glm::min( xyz0, xyz_1 );
+            lab0 = glm::min( lab0, lab_1 );
+            lch0 = glm::min( lch0, lch_1 );
+
+            rgb1 = glm::max( rgb1, src );
+            xyz1 = glm::max( xyz1, xyz_1 );
+            lab1 = glm::max( lab1, lab_1 );
+            lch1 = glm::max( lch1, lch_1 );
+
+            CAPTURE( rgb0, rgb1, xyz0, xyz1, lab0, lab1, lch0, lch1 );
+
+            REQUIRE( glm::all( glm::greaterThanEqual( rgb0, col_t( 0 ) )));
+            REQUIRE( glm::all( glm::greaterThanEqual( xyz0, col_t( 0 ) )));
+            REQUIRE( glm::all( glm::greaterThanEqual( lab0, col_t( 0, -86.1827, -107.86 ) )));
+            REQUIRE( glm::all( glm::greaterThanEqual( lch0, col_t( 0 ) )));
+
+            REQUIRE( glm::all( glm::lessThanEqual( rgb1, col_t( 1 ) )));
+            REQUIRE( glm::all( glm::lessThanEqual( xyz1, col_t( 0.95047f, 1.f, 1.08883f ) )));
+            REQUIRE( glm::all( glm::lessThanEqual( lab0, col_t( 100, 98.2343, 94.478 ) )));
+            REQUIRE( glm::all( glm::lessThanEqual( lch0, col_t( 100, 140, 360 ) )));
+        }
+    }
 }
