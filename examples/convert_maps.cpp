@@ -31,11 +31,12 @@ int main( int, char*[] )
 
         fout << "#pragma once \n";
         fout << "\n";
-        fout << "#include <glm/vec3.hpp> \n";
+        fout << "#include \"vivid/types.h\" \n";
+        fout << "#include <vector> \n";
         fout << "\n";
         fout << "namespace vivid::data { \n";
         fout << "\n\n";
-        fout << "static const std::vector<glm::vec3> " << name << " = \n";
+        fout << "static const std::vector<col_t> " << name << " = \n";
         fout << "{ \n";
 
         for ( size_t i = 0; i < cmap.numStops(); i++ )
