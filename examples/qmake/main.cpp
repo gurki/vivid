@@ -45,7 +45,7 @@ int main( int, char* argv[] )
     dir.mkpath( "colormaps/" );
     dir.cd( "colormaps/" );
 
-    std::vector<ColorMap::Preset> defaults = {
+    std::vector<ColorMap::Preset> presets = {
         ColorMap::PresetBlueYellow,
         ColorMap::PresetCoolWarm,
         ColorMap::PresetInferno,
@@ -58,11 +58,11 @@ int main( int, char* argv[] )
         ColorMap::PresetVivid
     };
 
-    for ( const auto& type : defaults )
+    for ( const auto& preset : presets )
     {
-        std::cout << "Exporting " << ColorMap::nameForPreset( type ) << " ..." << std::endl;
+        std::cout << "Exporting " << ColorMap::nameForPreset( preset ) << " ..." << std::endl;
 
-        ColorMap cmap( type );
+        ColorMap cmap( preset );
         cmap.interpolation = ColorMap::InterpolationLch;
         QImage img( 512, 32, QImage::Format_RGB32 );
 
@@ -77,7 +77,7 @@ int main( int, char* argv[] )
             }
         }
 
-        img.save( dir.filePath( QString::fromStdString( ColorMap::nameForPreset( type ) + "_lch.png" ) ));
+        img.save( dir.filePath( QString::fromStdString( ColorMap::nameForPreset( preset ) + "_lch.png" ) ));
     }
 
     //  interpolation
