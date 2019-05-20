@@ -41,7 +41,7 @@ int main( int, char*[] )
 
         for ( size_t i = 0; i < cmap.numStops(); i++ )
         {
-            const auto& stop = cmap.stops_.at( i );
+            const auto& stop = cmap.stops().at( i );
             fout << "    { " << stop.x << ", " << stop.y << ", " << stop.z << " }";
 
             if ( i + 1 < cmap.numStops() ) {

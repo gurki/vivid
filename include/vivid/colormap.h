@@ -15,7 +15,7 @@
     work. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 */
 
-#include <glm/vec3.hpp>
+#include "vivid/types.h"
 #include <vector>
 
 namespace vivid {
@@ -52,7 +52,8 @@ class ColorMap
 
         bool empty() const { return stops_.empty(); }
         size_t numStops() const { return stops_.size(); }
-        glm::vec3 at( const float t ) const;
+        col_t at( const float t ) const;
+        const std::vector<col_t>& stops() const { return stops_; }
 
         Interpolation interpolation = InterpolationLinear;
 
@@ -60,9 +61,8 @@ class ColorMap
 
     private:
 
-        static std::vector<glm::vec3> loadFromFile( const std::string& filename );
-
-        std::vector<glm::vec3> stops_;
+        static std::vector<col_t> loadFromFile( const std::string& filename );
+        std::vector<col_t> stops_;
 };
 
 

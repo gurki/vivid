@@ -33,19 +33,18 @@ HEADERS += \
     $$PWD/include/vivid/types.h \
     $$PWD/include/vivid/vivid.h
 
-DISTFILES += \
-    $$PWD/res/colormaps/blue-yellow.json \
-    $$PWD/res/colormaps/cool-warm.json \
-    $$PWD/res/colormaps/hsl.json \
-    $$PWD/res/colormaps/hsl-pastel.json \
-    $$PWD/res/colormaps/inferno.json \
-    $$PWD/res/colormaps/magma.json \
-    $$PWD/res/colormaps/plasma.json \
-    $$PWD/res/colormaps/rainbow.json \
-    $$PWD/res/colormaps/viridis.json \
-    $$PWD/res/colormaps/vivid.json
-
 #  static color data and maps
 
 HEADERS += \
+    $$PWD/include/vivid/data/blue-yellow.h \
+    $$PWD/include/vivid/data/cool-warm.h \
+    $$PWD/include/vivid/data/hsl-pastel.h \
+    $$PWD/include/vivid/data/hsl.h \
+    $$PWD/include/vivid/data/inferno.h \
+    $$PWD/include/vivid/data/magma.h \
+    $$PWD/include/vivid/data/plasma.h \
+    $$PWD/include/vivid/data/rainbow.h \
+    $$PWD/include/vivid/data/viridis.h \
+    $$PWD/include/vivid/data/vivid.h \
     $$PWD/include/vivid/data/xterm.h
+

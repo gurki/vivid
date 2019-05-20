@@ -22,5 +22,4 @@
 #include "vivid/encoding.h"
 #include "vivid/functions.h"
 #include "vivid/stream.h"
-#include "vivid/table.h"
 #include "vivid/types.h"

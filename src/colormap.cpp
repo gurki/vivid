@@ -76,7 +76,7 @@ std::string ColorMap::nameForPreset( const Preset preset )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::vector<glm::vec3> ColorMap::loadFromFile( const std::string& filename )
+std::vector<col_t> ColorMap::loadFromFile( const std::string& filename )
 {
     std::ifstream fin;
     fin.open( filename );
@@ -93,11 +93,11 @@ std::vector<glm::vec3> ColorMap::loadFromFile( const std::string& filename )
         return {};
     }
 
-    std::vector<glm::vec3> stops;
+    std::vector<col_t> stops;
     stops.reserve( data.size() );
 
     for ( const auto& item : data ) {
-        glm::vec3 col( item[ 0 ], item[ 1 ], item[ 2 ] );
+        col_t col( item[ 0 ], item[ 1 ], item[ 2 ] );
         stops.push_back( col );
     }
 
