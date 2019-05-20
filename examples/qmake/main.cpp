@@ -60,7 +60,7 @@ int main( int, char* argv[] )
             }
         }
 
-        img.save( dir.filePath( QString::fromStdString( ColorMap::nameForPreset( type ) + ".png" ) ));
+        img.save( dir.filePath( QString::fromStdString( ColorMap::nameForPreset( type ) + "_lch.png" ) ));
     }
 
     //  interpolation

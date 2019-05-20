@@ -1,6 +1,7 @@
 #include "vivid/colormap.h"
 #include "vivid/conversion.h"
 #include "vivid/functions.h"
+#include "vivid/data.h"
 
 #include <glm/common.hpp>
 #include <nlohmann/json.hpp>
@@ -11,9 +12,21 @@ namespace vivid {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-ColorMap::ColorMap( const Preset preset ) {
-    const std::string name = nameForPreset( preset );
-    stops_ = loadFromFile( VIVID_ROOT_PATH "/res/colormaps/" + name + ".json" );
+ColorMap::ColorMap( const Preset preset )
+{
+    switch ( preset )
+    {
+        case PresetBlueYellow: stops_ = data::blue_yellow; break;
+        case PresetCoolWarm: stops_ = data::cool_warm; break;
+        case PresetInferno: stops_ = data::inferno; break;
+        case PresetMagma: stops_ = data::magma; break;
+        case PresetPlasma: stops_ = data::plasma; break;
+        case PresetRainbow: stops_ = data::rainbow; break;
+        case PresetHsl: stops_ = data::hsl; break;
+        case PresetHslPastel: stops_ = data::hsl_pastel; break;
+        case PresetViridis: stops_ = data::viridis; break;
+        case PresetVivid: stops_ = data::vivid; break;
+    }
 }
 
 

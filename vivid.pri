@@ -27,6 +27,7 @@ HEADERS += \
     $$PWD/include/vivid/color.h \
     $$PWD/include/vivid/colormap.h \
     $$PWD/include/vivid/conversion.h \
+    $$PWD/include/vivid/data.h \
     $$PWD/include/vivid/encoding.h \
     $$PWD/include/vivid/functions.h \
     $$PWD/include/vivid/stream.h \
