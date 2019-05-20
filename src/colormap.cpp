@@ -2,6 +2,7 @@
 #include "vivid/conversion.h"
 #include "vivid/functions.h"
 #include "vivid/data.h"
+#include "vivid/stream.h"
 
 #include <glm/common.hpp>
 #include <nlohmann/json.hpp>

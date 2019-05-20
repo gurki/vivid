@@ -14,6 +14,21 @@ int main( int, char* argv[] )
 {
     using namespace vivid;
 
+    //  debug stuff
+
+//    ColorMap cmap( ColorMap::PresetHsl );
+//    cmap.interpolation = ColorMap::InterpolationLinear;
+//    std::cout << cmap.at( 0.916f ) << std::endl;
+//    cmap.interpolation = ColorMap::InterpolationLch;
+//    std::cout << cmap.at( 0.916f ) << std::endl;
+
+//    return EXIT_SUCCESS;
+
+//    233, 234, 255: 0.914, 0.043 // col(0.978, 0.0734, 0.613)
+//    233, 234, 255: 0.916, 0.542 // col(0, 0.576, 1)
+
+    //  goto output dir
+
     QDir dir( argv[ 0 ] );
     dir.cdUp();
     dir.mkdir( "output/" );
@@ -45,6 +60,8 @@ int main( int, char* argv[] )
 
     for ( const auto& type : defaults )
     {
+        std::cout << "Exporting " << ColorMap::nameForPreset( type ) << " ..." << std::endl;
+
         ColorMap cmap( type );
         cmap.interpolation = ColorMap::InterpolationLch;
         QImage img( 512, 32, QImage::Format_RGB32 );
@@ -88,6 +105,7 @@ int main( int, char* argv[] )
 
     for ( const auto& lerp: lerps )
     {
+        std::cout << "Exporting " << lerp.second << " ..." << std::endl;
         QImage img( 512, 32, QImage::Format_RGB32 );
 
         for ( int c = 0; c < img.width(); c++ )

@@ -135,7 +135,7 @@ col_t lerpLch(
 {
     col_t lch1 = lch::fromRgb( rgb1 );
     col_t lch2 = lch::fromRgb( rgb2 );
-    return rgb::fromLch( vivid::lch::lerp( lch1, lch2, t ) );
+    return rgb::fromLch( lch::lerp( lch1, lch2, t ) );
 }
 
 
@@ -336,13 +336,19 @@ col_t lerp(
 {
     col_t delta = lch2 - lch1;
 
+    //  move along shortest path (wrap [0; 360])
     if ( delta.z > 180.f ) {
         delta.z -= 360.f;
     } else if ( delta.z < - 180.f ) {
-        delta.z += 180.f;
+        delta.z += 380.f;
     }
 
-    return lch1 + t * delta;
+    auto interp = lch1 + t * delta;
+
+    //  project back to [0; 360]
+    interp.z = std::fmodf( interp.z + 360.f, 360.f );
+
+    return interp;
 }
 
 }   //  ::vivid::lch
