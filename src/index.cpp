@@ -1,6 +1,7 @@
 #include "vivid/conversion.h"
 #include "vivid/data/xterm.h"
 #include <glm/common.hpp>
+#include <algorithm>
 
 namespace vivid::index {
 
