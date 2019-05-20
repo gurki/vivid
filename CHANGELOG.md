@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## Changed
 - Load color table and color map presets from static header files
+- Replace example images with `LCH` space versions
+- Add CMakeLists `add_subdirectory()` dependency import as default for convenience
 
 ## Fixed
 - Fix typo in `LCH` lerp shortest path
