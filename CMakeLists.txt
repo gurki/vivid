@@ -1,5 +1,11 @@
 cmake_minimum_required( VERSION 3.8 )
-project( vivid VERSION 1.1.2 LANGUAGES CXX )
+project(
+    vivid
+    VERSION 1.1.2
+    DESCRIPTION "A simple-to-use cpp color library"
+    HOMEPAGE_URL "https://github.com/gurki/vivid"
+    LANGUAGES CXX
+)
 
 set( VIVID_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
 add_compile_definitions( VIVID_ROOT_PATH="${VIVID_DIR}/")
