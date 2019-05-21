@@ -21,6 +21,7 @@ SOURCES += \
     $$PWD/src/rgb.cpp \
     $$PWD/src/rgb32.cpp \
     $$PWD/src/rgb8.cpp \
+    $$PWD/src/strong.cpp \
     $$PWD/src/xyz.cpp
 
 HEADERS += \
