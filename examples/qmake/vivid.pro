@@ -8,7 +8,8 @@ DEFINES += \
     QT_DEPRECATED_WARNINGS
 
 SOURCES += \
-    main.cpp
+#    main.cpp
+    strong_types.cpp
     # convert_maps.cpp
 
 DESTDIR = $$PWD/build/install/

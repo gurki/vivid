@@ -31,6 +31,7 @@ HEADERS += \
     $$PWD/include/vivid/encoding.h \
     $$PWD/include/vivid/functions.h \
     $$PWD/include/vivid/stream.h \
+    $$PWD/include/vivid/strong.h \
     $$PWD/include/vivid/types.h \
     $$PWD/include/vivid/vivid.h
 

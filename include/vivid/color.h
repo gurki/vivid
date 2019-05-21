@@ -47,7 +47,7 @@ class Color
 };
 
 
-Color lerp( const Color&, const Color&, const float );
+//Color lerp( const Color&, const Color&, const float );
 
 
 }   //  ::vivid
