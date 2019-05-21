@@ -21,5 +21,6 @@
 #include "vivid/conversion.h"
 #include "vivid/encoding.h"
 #include "vivid/functions.h"
+#include "vivid/interpolation.h"
 #include "vivid/stream.h"
 #include "vivid/types.h"

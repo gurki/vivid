@@ -6,7 +6,7 @@
 namespace vivid::data { 
 
 
-static const std::vector<col_t> rainbow = 
+static const std::vector<srgb_t> rainbow =
 { 
     { 0, 0, 1 },
     { 0, 0.04, 1 },

@@ -5,15 +5,19 @@ namespace vivid::adobe {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRgb( const col_t& rgb ) {
+adobe_t fromRgb( const rgb_t& rgb ) {
     return adobe::fromXyz( xyz::fromRgb( rgb ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromXyz( const col_t& xyz ) {
-    col_t lrgb = xyz * matrices::xyz_to_adobe;
-    return rgb::invGamma( lrgb, adobe::gamma );
+adobe_t fromXyz( const xyz_t& xyz )
+{
+    const auto lrgb = static_cast<lrgb_t>( xyz * matrices::xyz_to_adobe );
+
+    return static_cast<adobe_t>(
+        rgb::invGamma( lrgb, adobe::gamma )
+    );
 }
 
 

@@ -8,7 +8,7 @@ namespace vivid::hsv {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRgb( const col_t& rgb )
+hsv_t fromRgb( const rgb_t& rgb )
 {
     const float r = rgb.x;
     const float g = rgb.y;
@@ -18,7 +18,7 @@ col_t fromRgb( const col_t& rgb )
     const float cmin = glm::min( glm::min( r, g ), b );
     const float delta = cmax - cmin;
 
-    col_t hsv = { 0.f, 0.f, cmax };
+    hsv_t hsv = { 0.f, 0.f, cmax };
 
     if ( cmax != 0.f ) {
         hsv.y = delta / cmax;
@@ -44,7 +44,7 @@ col_t fromRgb( const col_t& rgb )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHsl( const col_t& hsl ) {
+hsv_t fromHsl( const hsl_t& hsl ) {
     return hsv::fromRgb( rgb::fromHsl( hsl ) );
 }
 

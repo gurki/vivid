@@ -6,7 +6,7 @@
 namespace vivid::data { 
 
 
-static const std::vector<col_t> cool_warm = 
+static const std::vector<srgb_t> cool_warm =
 { 
     { 0.229806, 0.298718, 0.753683 },
     { 0.266234, 0.353095, 0.801467 },

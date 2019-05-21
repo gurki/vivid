@@ -6,7 +6,7 @@
 namespace vivid::data { 
 
 
-static const std::vector<col_t> plasma = 
+static const std::vector<srgb_t> plasma =
 { 
     { 0.050383, 0.029803, 0.527975 },
     { 0.063536, 0.028426, 0.533124 },

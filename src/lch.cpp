@@ -1,4 +1,5 @@
 #include "vivid/conversion.h"
+#include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <cmath>
 
@@ -6,11 +7,11 @@ namespace vivid::lch {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromLab( const col_t& lab )
+lch_t fromLab( const lab_t& lab )
 {
     const float h = glm::degrees( std::atan2f( lab.z, lab.y ) );
 
-    col_t lch;
+    lch_t lch;
     lch.x = lab.x;
     lch.y = std::sqrtf( lab.y * lab.y + lab.z * lab.z );
     lch.z = ( h >= 0 ) ? h : ( h + 360.f );
@@ -20,13 +21,19 @@ col_t fromLab( const col_t& lab )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRgb( const col_t& rgb ) {
+lch_t fromRgb( const rgb_t& rgb ) {
     return lch::fromLab( lab::fromXyz( xyz::fromRgb( rgb ) ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromXyz( const col_t& xyz ) {
+lch_t froSrgb( const srgb_t& srgb ) {
+    return lch::fromLab( lab::fromXyz( xyz::fromSrgb( srgb ) ) );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+lch_t fromXyz( const xyz_t& xyz ) {
     return lch::fromLab( lab::fromXyz( xyz ) );
 }
 

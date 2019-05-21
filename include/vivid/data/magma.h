@@ -6,7 +6,7 @@
 namespace vivid::data { 
 
 
-static const std::vector<col_t> magma = 
+static const std::vector<srgb_t> magma =
 { 
     { 0.00146159, 0.000466128, 0.0138655 },
     { 0.00225764, 0.00129495, 0.0183311 },

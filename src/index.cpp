@@ -34,13 +34,13 @@ uint8_t fromRgb8( const col8_t& rgb8 )
 
 
 //////////////////////////////////////////////////////////////////////////////////
-uint8_t fromRgb( const col_t& rgb ) {
+uint8_t fromRgb( const rgb_t& rgb ) {
     return index::fromRgb8( rgb8::fromRgb( rgb ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-uint8_t fromHsl( const col_t& hsl ) {
+uint8_t fromHsl( const hsl_t& hsl ) {
     return index::fromRgb( rgb::fromHsl( hsl ) );
 }
 

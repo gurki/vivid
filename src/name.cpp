@@ -5,7 +5,7 @@ namespace vivid::name {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-const std::string& fromRgb( const col_t& rgb ) {
+const std::string& fromRgb( const rgb_t& rgb ) {
     return name::fromIndex( index::fromRgb( rgb ) );
 }
 

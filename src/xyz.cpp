@@ -6,9 +6,9 @@ namespace vivid::xyz {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromLab( const col_t& lab )
+xyz_t fromLab( const lab_t& lab )
 {
-    col_t xyz;
+    xyz_t xyz;
     xyz.y = ( lab.x + 16.f ) / 116.f;
     xyz.x = xyz.y + lab.y / 500.0f;
     xyz.z = xyz.y - lab.z / 200.0f;
@@ -22,28 +22,32 @@ col_t fromLab( const col_t& lab )
     xyz.x = lab2xyz( xyz.x );
     xyz.y = lab2xyz( xyz.y );
     xyz.z = lab2xyz( xyz.z );
-    xyz = xyz * xyz::ref_d65;
 
-    return xyz;
+    return static_cast<xyz_t>( xyz * xyz::ref_d65 );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+xyz_t fromSrgb( const srgb_t& srgb ) {
+    return static_cast<xyz_t>(
+        lrgb::fromSrgb( srgb ) * matrices::rgb_to_xyz
+    );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRgb( const col_t& rgb ) {
-    return srgb::toLinear( rgb ) * matrices::rgb_to_xyz;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromLch( const col_t& lch ) {
+xyz_t fromLch( const lch_t& lch ) {
     return xyz::fromLab( lab::fromLch( lch ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromAdobe( const col_t& adobe ) {
-    col_t lrgb = rgb::gamma( adobe, adobe::gamma );
-    return lrgb * matrices::adobe_to_xyz;
+xyz_t fromAdobe( const adobe_t& adobe )
+{
+    const auto lrgb = static_cast<lrgb_t>( rgb::gamma( adobe, adobe::gamma ) );
+
+    return static_cast<xyz_t>(
+        lrgb * matrices::adobe_to_xyz
+    );
 }
 
 

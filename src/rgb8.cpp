@@ -6,7 +6,7 @@ namespace vivid::rgb8 {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col8_t fromRgb( const col_t& rgb ) {
+col8_t fromRgb( const rgb_t& rgb ) {
     return glm::clamp( 255.f * rgb, 0.f, 255.f );
 }
 

@@ -6,7 +6,7 @@
 namespace vivid::data { 
 
 
-static const std::vector<col_t> inferno = 
+static const std::vector<srgb_t> inferno =
 { 
     { 0.001462, 0.000466, 0.013866 },
     { 0.002267, 0.00127, 0.01857 },

@@ -98,52 +98,10 @@ namespace rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t lerp( const col_t& rgb1, const col_t& rgb2, const float t ) {
-    return glm::mix( rgb1, rgb2, t );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t lerpHsv(
-    const col_t& rgb1,
-    const col_t& rgb2,
-    const float t )
-{
-    col_t hsv1 = hsv::fromRgb( rgb1 );
-    col_t hsv2 = hsv::fromRgb( rgb2 );
-    return rgb::fromHsv( vivid::hsv::lerp( hsv1, hsv2, t ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t lerpHsl(
-    const col_t& rgb1,
-    const col_t& rgb2,
-    const float t )
-{
-    col_t hsl1 = hsl::fromRgb( rgb1 );
-    col_t hsl2 = hsl::fromRgb( rgb2 );
-    return rgb::fromHsl( vivid::hsl::lerp( hsl1, hsl2, t ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t lerpLch(
-    const col_t& rgb1,
-    const col_t& rgb2,
-    const float t )
-{
-    col_t lch1 = lch::fromRgb( rgb1 );
-    col_t lch2 = lch::fromRgb( rgb2 );
-    return rgb::fromLch( lch::lerp( lch1, lch2, t ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
 // input 0..255 for rainbow colors!
-col_t rainbow( const uint8_t k )
+rgb_t rainbow( const uint8_t k )
 {
-    col_t col;
+    rgb_t col;
 
     if ( k < 42 ) {
         col.x = 255;
@@ -175,12 +133,12 @@ col_t rainbow( const uint8_t k )
         col.z = 0;
     }
 
-    return col / 255.0f;
+    return static_cast<rgb_t>( col / 255.0f );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t saturate( const col_t& rgb )
+rgb_t saturate( const rgb_t& rgb )
 {
     auto res = rgb;
 
@@ -193,20 +151,24 @@ col_t saturate( const col_t& rgb )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t clamp( const col_t& rgb ) {
-    return vivid::rgb::fromIndex( vivid::index::fromRgb( rgb ) );
+rgb_t clamp( const rgb_t& rgb ) {
+    return srgb::fromIndex( index::fromRgb( rgb ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t gamma( const col_t& rgb, const float gamma ) {
-    return glm::pow( rgb, glm::vec3( 1.f / gamma ) );
+rgb_t gamma( const rgb_t& rgb, const float gamma ) {
+    return static_cast<rgb_t>(
+        glm::pow( rgb, glm::vec3( 1.f / gamma ) )
+    );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t invGamma( const col_t& rgb, const float gamma ) {
-    return glm::pow( rgb, glm::vec3( gamma ) );
+rgb_t invGamma( const rgb_t& rgb, const float gamma ) {
+    return static_cast<rgb_t>(
+        glm::pow( rgb, glm::vec3( gamma ) )
+    );
 }
 
 
@@ -217,7 +179,7 @@ namespace srgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-float comp( const float k )
+float compound( const float k )
 {
     if ( k <= 0.00304f ) {
         return 12.92f * k;
@@ -228,7 +190,7 @@ float comp( const float k )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-float invComp( const float k )
+float inverseCompound( const float k )
 {
     if ( k <= 0.04045f ) {
         return k / 12.92f;
@@ -238,120 +200,18 @@ float invComp( const float k )
 }
 
 
-////////////////////////////////////////////////////////////////////////////////
-col_t toLinear( const col_t& srgb )
-{
-    return {
-        srgb::invComp( srgb.x ),
-        srgb::invComp( srgb.y ),
-        srgb::invComp( srgb.z )
-    };
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromLinear( const col_t& lrgb )
-{
-    return {
-        srgb::comp( lrgb.x ),
-        srgb::comp( lrgb.y ),
-        srgb::comp( lrgb.z )
-    };
-}
-
-
 }   //   ::vivid::srgb
 
 
 namespace hsl {
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t rainbow( const uint8_t k, const float s, const float l ) {
+rgb_t rainbow( const uint8_t k, const float s, const float l ) {
     const float t = k / 256.f;
     return { t, s, l };
 }
 
-
-////////////////////////////////////////////////////////////////////////////////
-col_t lerp(
-    const col_t& hsl1,
-    const col_t& hsl2,
-    const float t )
-{
-    col_t hsl1a = hsl1;
-
-    if ( std::abs( hsl1a.x - hsl2.x ) > 0.5f )
-    {
-        if( hsl1a.x > hsl2.x ) {
-            hsl1a.x -= 1.0f;
-        } else {
-            hsl1a.x += 1.0f;
-        }
-    }
-
-    col_t hsl = glm::mix( hsl1a, hsl2, t );
-    hsl.x = std::fmodf( hsl.x, 1.0f );
-
-    return hsl;
-}
-
 }   //  ::vivid::hsl
-
-
-namespace hsv {
-
-////////////////////////////////////////////////////////////////////////////////
-col_t lerp(
-    const col_t& hsv1,
-    const col_t& hsv2,
-    const float t )
-{
-    col_t hsv1a = hsv1;
-
-    if ( std::abs( hsv1a.x - hsv2.x ) > 0.5f )
-    {
-        if( hsv1a.x > hsv2.x ) {
-            hsv1a.x -= 1.0f;
-        } else {
-            hsv1a.x += 1.0f;
-        }
-    }
-
-    col_t hsv = glm::mix( hsv1a, hsv2, t );
-    hsv.x = std::fmodf( hsv.x, 1.0f );
-
-    return hsv;
-}
-
-}   //  ::vivid::hsv
-
-
-namespace lch {
-
-////////////////////////////////////////////////////////////////////////////////
-col_t lerp(
-    const col_t& lch1,
-    const col_t& lch2,
-    const float t )
-{
-    col_t delta = lch2 - lch1;
-
-    //  move along shortest path (wrap [0; 360])
-    if ( delta.z > 180.f ) {
-        delta.z -= 360.f;
-    } else if ( delta.z < - 180.f ) {
-        delta.z += 380.f;
-    }
-
-    auto interp = lch1 + t * delta;
-
-    //  project back to [0; 360]
-    interp.z = std::fmodf( interp.z + 360.f, 360.f );
-
-    return interp;
-}
-
-}   //  ::vivid::lch
 
 
 namespace ansi {
@@ -368,7 +228,7 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
 
     for ( size_t i = 0; i < n; i++ ) {
         const float t = i / n;
-        const uint8_t id = vivid::index::fromRgb( cmap.at( t ) );
+        const uint8_t id = index::fromRgb( cmap.at( t ) );
         ss << vivid::ansi::fg( id ) << text[ i ];
     }
 

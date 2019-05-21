@@ -6,7 +6,7 @@
 namespace vivid::data { 
 
 
-static const std::vector<col_t> viridis = 
+static const std::vector<srgb_t> viridis =
 { 
     { 0.267004, 0.00487433, 0.329415 },
     { 0.26851, 0.00960483, 0.335427 },

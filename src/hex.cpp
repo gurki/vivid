@@ -15,7 +15,7 @@ std::string fromIndex( const uint8_t index ) {
 
 
 //////////////////////////////////////////////////////////////////////////////////
-std::string fromRgb( const col_t& rgb ) {
+std::string fromRgb( const rgb_t& rgb ) {
     return hex::fromRgb8( rgb8::fromRgb( rgb ) );
 }
 

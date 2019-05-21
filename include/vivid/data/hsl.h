@@ -6,7 +6,7 @@
 namespace vivid::data { 
 
 
-static const std::vector<col_t> hsl = 
+static const std::vector<srgb_t> hsl =
 { 
     { 1, 0, 0 },
     { 1, 0.0234, 0 },

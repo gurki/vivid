@@ -1,5 +1,4 @@
 #include "vivid/vivid.h"
-#include "vivid/strong.h"
 
 
 int main( int, char*[] )
