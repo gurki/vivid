@@ -3,6 +3,7 @@
 #include "vivid/functions.h"
 #include "vivid/data.h"
 #include "vivid/stream.h"
+#include "vivid/interpolation.h"
 
 #include <glm/common.hpp>
 #include <nlohmann/json.hpp>
@@ -58,10 +59,22 @@ srgb_t ColorMap::at( const float t ) const
     switch ( interpolation )
     {
         case InterpolationNearest: return stops_[ k ];
-        case InterpolationLinear: return vivid::lerp( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHsv: return vivid::lerpHsv( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHsl: return vivid::lerpHsl( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationLch: return vivid::lerpLch( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationLinear: return lerp( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationHsv: return rgb::fromHsv( lerp(
+            hsv::fromRgb( stops_[ k ] ),
+            hsv::fromRgb( stops_[ k + 1 ] ),
+            u
+        ));
+        case InterpolationHsl: return rgb::fromHsl( lerp(
+            hsl::fromRgb( stops_[ k ] ),
+            hsl::fromRgb( stops_[ k + 1 ] ),
+            u
+        ));
+        case InterpolationLch: return srgb::fromLch( lerp(
+            lch::fromSrgb( stops_[ k ] ),
+            lch::fromSrgb( stops_[ k + 1 ] ),
+            u
+        ));
     }
 
     return {};

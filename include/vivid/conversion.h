@@ -19,7 +19,6 @@ namespace lab {
 //  CIE L*C*h(ab) \in [ (0, 0, 0); (100, 140, 360) ]
 namespace lch {
     lch_t fromLab( const lab_t& );
-    lch_t fromRgb( const rgb_t& );  //  assumes sRGB (-)
     lch_t fromSrgb( const srgb_t& );
     lch_t fromXyz( const xyz_t& );  //  (-)
 }
@@ -72,7 +71,7 @@ namespace rgb
 //  adobe rgb
 namespace adobe {
     static const float gamma = 2.19921875f;
-    adobe_t fromRgb( const rgb_t& );  //  (-)
+    adobe_t fromSrgb( const srgb_t& );  //  (-)
     adobe_t fromXyz( const xyz_t& );
 }
 
@@ -99,7 +98,7 @@ namespace rgb32 {
 namespace index {
     uint8_t fromRgb( const rgb_t& );        //  (-)
     uint8_t fromRgb8( const col8_t& );      //  *
-    uint8_t fromHsl( const col_t& );        //  (-)
+    uint8_t fromHsl( const hsl_t& );        //  (-)
     uint8_t fromHex( const std::string& );  //  (-)
     std::optional<uint8_t> fromName( const std::string& );
 }
@@ -128,7 +127,6 @@ namespace xyz
     static const xyz_t ref_d65 = { 0.95047f, 1.f, 1.08883f };
 
     xyz_t fromLab( const lab_t& );
-    xyz_t fromRgb( const rgb_t& );  //  assumes sRGB
     xyz_t fromSrgb( const srgb_t& );
     xyz_t fromLch( const lch_t& );  //  (-)
     xyz_t fromAdobe( const adobe_t& );

@@ -21,13 +21,7 @@ lch_t fromLab( const lab_t& lab )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-lch_t fromRgb( const rgb_t& rgb ) {
-    return lch::fromLab( lab::fromXyz( xyz::fromRgb( rgb ) ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-lch_t froSrgb( const srgb_t& srgb ) {
+lch_t fromSrgb( const srgb_t& srgb ) {
     return lch::fromLab( lab::fromXyz( xyz::fromSrgb( srgb ) ) );
 }
 

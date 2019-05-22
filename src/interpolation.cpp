@@ -1,12 +1,13 @@
 #include "vivid/interpolation.h"
 #include "vivid/conversion.h"
+#include "vivid/color.h"
 
 namespace vivid {
 
 
 ////////////////////////////////////////////////////////////////////////////////
 rgb_t lerp( const rgb_t& rgb1, const rgb_t& rgb2, const float t ) {
-    return glm::mix( rgb1, rgb2, t );
+    return static_cast<rgb_t>( rgb1 + t * ( rgb2 - rgb1 ) );
 }
 
 
@@ -18,16 +19,16 @@ hsl_t lerp( const hsl_t& hsl1, const hsl_t& hsl2, const float t )
     if ( std::abs( hsl1a.x - hsl2.x ) > 0.5f )
     {
         if( hsl1a.x > hsl2.x ) {
-            hsl1a.x -= 1.0f;
+            hsl1a.x -= 1.f;
         } else {
-            hsl1a.x += 1.0f;
+            hsl1a.x += 1.f;
         }
     }
 
-    auto hsl = glm::mix( hsl1a, hsl2, t );
-    hsl.x = std::fmodf( hsl.x, 1.0f );
+    auto hsl = hsl1a + t * ( hsl2 - hsl1a );
+    hsl.x = std::fmodf( hsl.x + 1.f, 1.f );
 
-    return hsl;
+    return static_cast<hsl_t>( hsl );
 }
 
 
@@ -39,16 +40,16 @@ hsv_t lerp( const hsv_t& hsv1, const hsv_t& hsv2, const float t )
     if ( std::abs( hsv1a.x - hsv2.x ) > 0.5f )
     {
         if( hsv1a.x > hsv2.x ) {
-            hsv1a.x -= 1.0f;
+            hsv1a.x -= 1.f;
         } else {
-            hsv1a.x += 1.0f;
+            hsv1a.x += 1.f;
         }
     }
 
-    auto hsv = glm::mix( hsv1a, hsv2, t );
-    hsv.x = std::fmodf( hsv.x, 1.0f );
+    auto hsv = hsv1a + t * ( hsv2 - hsv1a );
+    hsv.x = std::fmodf( hsv.x + 1.f, 1.f );
 
-    return hsv;
+    return static_cast<hsv_t>( hsv );
 }
 
 
@@ -73,38 +74,44 @@ lch_t lerp( const lch_t& lch1, const lch_t& lch2, const float t )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-rgb_t lerpHsv(
-    const rgb_t& rgb1,
-    const rgb_t& rgb2,
-    const float t )
+Color lerp( const Color& col1, const Color& col2, const float t )
 {
-    hsv_t hsv1 = hsv::fromRgb( rgb1 );
-    hsv_t hsv2 = hsv::fromRgb( rgb2 );
-    return rgb::fromHsv( lerp( hsv1, hsv2, t ) );
+    if ( col1.space() != col2.space() ) {
+        return {};
+    }
+
+    switch ( col1.space() )
+    {
+        case Color::SpaceRgb: return Color( lerp( col1.srgb_, col2.srgb_, t ), Color::SpaceRgb );
+        case Color::SpaceHsl: return Color( lerp( col1.hsl_, col2.hsl_, t ), Color::SpaceHsl );
+        case Color::SpaceHsv: return Color( lerp( col1.hsv_, col2.hsv_, t ), Color::SpaceHsv );
+        case Color::SpaceLch: return Color( lerp( col1.lch_, col2.lch_, t ), Color::SpaceLch );
+        default: return {};
+    }
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-rgb_t lerpHsl(
-    const rgb_t& rgb1,
-    const rgb_t& rgb2,
-    const float t )
-{
-    hsl_t hsl1 = hsl::fromRgb( rgb1 );
-    hsl_t hsl2 = hsl::fromRgb( rgb2 );
-    return rgb::fromHsl( lerp( hsl1, hsl2, t ) );
+Color lerpRgb( const Color& col1, const Color& col2, const float t ) {
+    return lerp( col1.rgb(), col2.rgb(), t );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-srgb_t lerpLch(
-    const srgb_t& srgb1,
-    const srgb_t& srgb2,
-    const float t )
-{
-    lch_t lch1 = lch::fromSrgb( srgb1 );
-    lch_t lch2 = lch::fromSrgb( srgb2 );
-    return srgb::fromLch( lerp( lch1, lch2, t ) );
+Color lerpHsv( const Color& col1, const Color& col2, const float t ) {
+    return lerp( col1.hsv(), col2.hsv(), t ).rgb();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+Color lerpHsl( const Color& col1, const Color& col2, const float t ) {
+    return lerp( col1.hsl(), col2.hsl(), t ).rgb();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+Color lerpLch( const Color& col1, const Color& col2, const float t ) {
+    return lerp( col1.lch(), col2.lch(), t ).rgb();
 }
 
 

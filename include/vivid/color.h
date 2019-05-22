@@ -40,14 +40,23 @@ class Color
         std::string hex() const;
         const std::string& name() const;
 
+        //  implemented in src/interpolation.cpp
+        friend Color lerp( const Color&, const Color&, const float );
+
     private:
 
-        col_t value_ = {};
+        union {
+            col_t value_;
+            srgb_t srgb_;
+            hsv_t hsv_;
+            hsl_t hsl_;
+            lch_t lch_;
+        };
+
         Space space_ = SpaceUndefined;
 };
 
 
-//Color lerp( const Color&, const Color&, const float );
 
 
 }   //  ::vivid

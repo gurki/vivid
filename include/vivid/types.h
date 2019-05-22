@@ -12,7 +12,10 @@ using col8_t = glm::vec<3, uint8_t>;
 
 struct lrgb_t;
 struct srgb_t;
+struct adobe_t;
 
+
+//  main color spaces
 
 struct rgb_t : public col_t
 {
@@ -20,6 +23,7 @@ struct rgb_t : public col_t
     rgb_t( const float x, const float y, const float z ) : col_t( x, y, z ) {}
     rgb_t( const srgb_t& srgb );    //  implicit cast
     rgb_t( const lrgb_t& lrgb );    //  implicit cast
+    rgb_t( const adobe_t& adobe );  //  implicit cast
 
     explicit rgb_t( const col_t& col ) : col_t( col ) {}
 };
@@ -52,26 +56,6 @@ struct lch_t : public col_t
 };
 
 
-struct srgb_t : public col_t
-{
-    srgb_t() = default;
-    srgb_t( const float x, const float y, const float z ) : col_t( x, y, z ) {}
-    srgb_t( const rgb_t& rgb ) : col_t( rgb ) {}    //  implicit cast
-
-    explicit srgb_t( const col_t& col ) : col_t( col ) {}
-};
-
-
-struct lrgb_t : public col_t
-{
-    lrgb_t() = default;
-    lrgb_t( const float x, const float y, const float z ) : col_t( x, y, z ) {}
-    lrgb_t( const rgb_t& rgb ) : col_t( rgb ) {}    //  implicit cast
-
-    explicit lrgb_t( const col_t& col ) : col_t( col ) {}
-};
-
-
 struct lab_t : public col_t
 {
     lab_t() = default;
@@ -90,37 +74,42 @@ struct xyz_t : public col_t
 };
 
 
-struct adobe_t : public col_t
-{
-    adobe_t() = default;
-    adobe_t( const float x, const float y, const float z ) : col_t( x, y, z ) {}
+//  derived rgb working spaces
 
-    explicit adobe_t( const col_t& col ) : col_t( col ) {}
+struct srgb_t : public rgb_t
+{
+    srgb_t() = default;
+    srgb_t( const float x, const float y, const float z ) : rgb_t( x, y, z ) {}
+    srgb_t( const rgb_t& rgb ) : rgb_t( rgb ) {}    //  implicit cast
+
+    explicit srgb_t( const col_t& col ) : rgb_t( col ) {}
 };
 
 
-rgb_t::rgb_t( const srgb_t& srgb ) : col_t( srgb ) {}
-rgb_t::rgb_t( const lrgb_t& lrgb ) : col_t( lrgb ) {}
-
-
-inline bool fuzzyEqual( const col_t& c1, const col_t& c2 ) {
-    //  compares to ~1/255th
-    return glm::all( glm::lessThan( glm::abs( c1 - c2 ), glm::vec3( 0.004f ) ));
-}
-
-
-inline bool fuzzyHueEqual( const col_t& c1, const col_t& c2 )
+struct lrgb_t : public rgb_t
 {
-    //  compares to ~1/255th and wraps hue
+    lrgb_t() = default;
+    lrgb_t( const float x, const float y, const float z ) : rgb_t( x, y, z ) {}
+    lrgb_t( const rgb_t& rgb ) : rgb_t( rgb ) {}    //  implicit cast
 
-    const auto delta = glm::abs( c1 - c2 );
+    explicit lrgb_t( const col_t& col ) : rgb_t( col ) {}
+};
 
-    return (
-        ( delta.x < 0.004f || delta.x > 0.096f ) &&
-        ( delta.y < 0.004f ) &&
-        ( delta.z < 0.004f )
-    );
-}
+
+struct adobe_t : public rgb_t
+{
+    adobe_t() = default;
+    adobe_t( const float x, const float y, const float z ) : rgb_t( x, y, z ) {}
+    adobe_t( const rgb_t& rgb ) : rgb_t( rgb ) {}    //  implicit cast
+
+    explicit adobe_t( const col_t& col ) : rgb_t( col ) {}
+};
+
+
+//  color operators
+
+bool fuzzyEqual( const col_t& c1, const col_t& c2 );
+bool fuzzyHueEqual( const col_t& c1, const col_t& c2 );
 
 
 }   //  ::vivid

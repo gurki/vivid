@@ -159,7 +159,7 @@ rgb_t clamp( const rgb_t& rgb ) {
 ////////////////////////////////////////////////////////////////////////////////
 rgb_t gamma( const rgb_t& rgb, const float gamma ) {
     return static_cast<rgb_t>(
-        glm::pow( rgb, glm::vec3( 1.f / gamma ) )
+        glm::max( glm::pow( rgb, glm::vec3( 1.f / gamma ) ), col_t( 0 ) )
     );
 }
 
@@ -167,7 +167,7 @@ rgb_t gamma( const rgb_t& rgb, const float gamma ) {
 ////////////////////////////////////////////////////////////////////////////////
 rgb_t invGamma( const rgb_t& rgb, const float gamma ) {
     return static_cast<rgb_t>(
-        glm::pow( rgb, glm::vec3( gamma ) )
+        glm::max( glm::pow( rgb, glm::vec3( gamma ) ), col_t( 0 ) )
     );
 }
 

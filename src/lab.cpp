@@ -31,7 +31,7 @@ lab_t fromXyz( const xyz_t& xyz )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-lab_t fromLch( const col_t& lch )
+lab_t fromLch( const lch_t& lch )
 {
     lab_t lab;
     lab.x = lch.x;

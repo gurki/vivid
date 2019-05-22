@@ -10,13 +10,13 @@ namespace vivid::hsl {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRgb( const col_t& rgb )
+hsl_t fromRgb( const rgb_t& rgb )
 {
-    const auto cmax = glm::compMax( rgb );
-    const auto cmin = glm::compMin( rgb );
+    const auto cmax = glm::compMax( static_cast<col_t>( rgb ) );
+    const auto cmin = glm::compMin( static_cast<col_t>( rgb ) );
     const auto delta = cmax - cmin;
 
-    col_t hsl = {
+    hsl_t hsl = {
         0.f,
         0.f,
         ( cmax + cmin ) / 2.f
@@ -43,13 +43,13 @@ col_t fromRgb( const col_t& rgb )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHsv( const col_t& hsv ) {
+hsl_t fromHsv( const hsv_t& hsv ) {
     return hsl::fromRgb( rgb::fromHsv( hsv ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromIndex( const uint8_t index ) {
+hsl_t fromIndex( const uint8_t index ) {
     return hsl::fromRgb( rgb::fromRgb32( data::xterm.at( index ).rgb32 ) );
 }
 

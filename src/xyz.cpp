@@ -26,6 +26,7 @@ xyz_t fromLab( const lab_t& lab )
     return static_cast<xyz_t>( xyz * xyz::ref_d65 );
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////
 xyz_t fromSrgb( const srgb_t& srgb ) {
     return static_cast<xyz_t>(
@@ -41,12 +42,9 @@ xyz_t fromLch( const lch_t& lch ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-xyz_t fromAdobe( const adobe_t& adobe )
-{
-    const auto lrgb = static_cast<lrgb_t>( rgb::gamma( adobe, adobe::gamma ) );
-
+xyz_t fromAdobe( const adobe_t& adobe ) {
     return static_cast<xyz_t>(
-        lrgb * matrices::adobe_to_xyz
+        rgb::gamma( adobe, adobe::gamma ) * matrices::adobe_to_xyz
     );
 }
 

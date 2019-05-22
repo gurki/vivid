@@ -6,13 +6,13 @@
 namespace vivid::data { 
 
 
-static const std::vector<srgb_t> vivid =
+static const std::vector<srgb_t> vivid = 
 { 
-    { 0.45, 0.36, 0.69 },
-    { 0, 0.64, 0.94 },
-    { 0.42, 0.71, 0.24 },
-    { 0.91, 0.62, 0.25 },
-    { 0.99, 0.25, 0.52 }
+    { 0.45f, 0.36f, 0.69f },
+    { 0.f, 0.64f, 0.94f },
+    { 0.42f, 0.71f, 0.24f },
+    { 0.91f, 0.62f, 0.25f },
+    { 0.99f, 0.25f, 0.52f }
 }; 
 
 

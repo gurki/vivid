@@ -71,17 +71,17 @@ int main( int, char* argv[] )
     dir.mkdir( "interpolations/" );
     dir.cd( "interpolations/" );
 
-    using colorlerp_t = std::function< col_t( const col_t&, const col_t&, const float ) >;
-    using annotated_colorlerp_t = std::pair<colorlerp_t, std::string>;
-    auto lerpHslClamp = []( const col_t& c1, const col_t& c2, const float t ) {
-        return rgb::clamp( rgb::lerpHsl( c1, c2, t ) );
+    using lerp_t = std::function< Color( const Color&, const Color&, const float ) >;
+    using alerp_t = std::pair<lerp_t, std::string>; //  annotated lerp function
+    auto lerpHslClamp = []( const Color& c1, const Color& c2, const float t ) -> Color {
+        return rgb::clamp( rgb_t( lerpHsl( c1, c2, t ).value() ) );
     };
 
-    const std::vector<annotated_colorlerp_t> lerps = {
-        { rgb::lerp, "lerpRgb" },
-        { rgb::lerpHsv, "lerpHsv" },
-        { rgb::lerpHsl, "lerpHsl" },
-        { rgb::lerpLch, "lerpLch" },
+    const std::vector<alerp_t> lerps = {
+        { lerpRgb, "lerpRgb" },
+        { lerpHsv, "lerpHsv" },
+        { lerpHsl, "lerpHsl" },
+        { lerpLch, "lerpLch" },
         { lerpHslClamp, "lerpHslClamped" }
     };
 
@@ -96,7 +96,7 @@ int main( int, char* argv[] )
         for ( int c = 0; c < img.width(); c++ )
         {
             const float t = c / ( img.width() - 1.f );
-            const auto col = glm::vec<3, double>( lerp.first( c1, c2, t ) );
+            const auto col = lerp.first( c1, c2, t ).value();
             const QColor qcol = QColor::fromRgbF( col.x, col.y, col.z );
 
             for ( int r = 0; r < img.height(); r++ ) {
@@ -110,8 +110,8 @@ int main( int, char* argv[] )
     //  low-level conversions
 
     static const col_t col( 1.f, 0.7f, 0.5f );
-    const auto hsl = hsl::fromRgb( col );
-    const auto rgb_2 = rgb::fromHsl( hsl );
+    const hsl_t hsl = hsl::fromRgb( rgb_t( col ) );
+    const rgb_t rgb_2 = rgb::fromHsl( hsl );
 
     std::cout << col << " -> " << hsl << " -> " << rgb_2 << std::endl;
 
@@ -134,7 +134,14 @@ int main( int, char* argv[] )
 
     //  escape codes
 
-    printColorTable();
+//    printColorTable();
+
+    //  wide gamut conversions
+
+    adobe_t adobe = { 1, 0, 0 };
+    srgb_t srgb = { 1, 0, 0 };
+    std::cout << srgb::fromAdobe( adobe ) << std::endl;
+    std::cout << ( 255.f * adobe::fromSrgb( srgb ) ) << std::endl;
 
     //  rainbow text
 

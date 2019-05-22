@@ -24,6 +24,7 @@ SOURCES += \
     $$PWD/src/rgb32.cpp \
     $$PWD/src/rgb8.cpp \
     $$PWD/src/srgb.cpp \
+    $$PWD/src/types.cpp \
     $$PWD/src/xyz.cpp
 
 HEADERS += \
@@ -34,6 +35,7 @@ HEADERS += \
     $$PWD/include/vivid/interpolation.h \
     $$PWD/include/vivid/encoding.h \
     $$PWD/include/vivid/functions.h \
+    $$PWD/include/vivid/profiles.h \
     $$PWD/include/vivid/stream.h \
     $$PWD/include/vivid/types.h \
     $$PWD/include/vivid/vivid.h

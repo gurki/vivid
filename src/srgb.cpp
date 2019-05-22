@@ -8,18 +8,18 @@ namespace vivid::srgb {
 ////////////////////////////////////////////////////////////////////////////////
 srgb_t fromLrgb( const lrgb_t& lrgb )
 {
-    return {
+    return rgb::saturate({
         srgb::compound( lrgb.x ),
         srgb::compound( lrgb.y ),
         srgb::compound( lrgb.z )
-    };
+    });
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 srgb_t fromXyz( const xyz_t& xyz ) {
     const auto lrgb = static_cast<lrgb_t>( xyz * matrices::xyz_to_rgb );
-    return rgb::saturate( srgb::fromLinear( lrgb ) );
+    return rgb::saturate( srgb::fromLrgb( lrgb ) );
 }
 
 
@@ -37,7 +37,9 @@ srgb_t fromAdobe( const adobe_t& adobe ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 srgb_t fromIndex( const uint8_t index ) {
-    return rgb::fromRgb32( data::xterm.at( index ).rgb32 );
+    return static_cast<srgb_t>(
+        rgb::fromRgb32( data::xterm.at( index ).rgb32 )
+    );
 }
 
 

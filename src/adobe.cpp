@@ -5,8 +5,8 @@ namespace vivid::adobe {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-adobe_t fromRgb( const rgb_t& rgb ) {
-    return adobe::fromXyz( xyz::fromRgb( rgb ) );
+adobe_t fromSrgb( const srgb_t& srgb ) {
+    return adobe::fromXyz( xyz::fromSrgb( srgb ) );
 }
 
 
