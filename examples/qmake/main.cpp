@@ -120,12 +120,9 @@ int main( int, char* argv[] )
 
     //  high-level conversions
 
-    Color color1, color2;
-    color1 = Color( c1 );
-    color2 = Color( c2 );
-
-    std::cout << color1.hsl() << std::endl;
-    std::cout << lerp( color1.hsl(), color2.hsl(), 0.5f ) << std::endl;
+    Color color( c1 );
+    std::cout << color.hsl() << std::endl;
+    std::cout << lerpHsl( color, c2, 0.5f ) << std::endl;   //  implicit Color() construction from c2
 
     //  encoding
 
