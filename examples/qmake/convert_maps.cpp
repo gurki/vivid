@@ -28,7 +28,7 @@ int main( int, char*[] )
 
         auto name = ColorMap::nameForPreset( type );
         std::ofstream fout;
-        fout.open( name + ".h" );
+        fout.open( "out/" + name + ".h" );
         std::replace( name.begin(), name.end(), '-', '_' );
 
         fout << "#pragma once \n";

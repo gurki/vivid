@@ -17,8 +17,8 @@ int main( int, char* argv[] )
 
     QDir dir( argv[ 0 ] );
     dir.cdUp();
-    dir.mkdir( "output/" );
-    dir.cd( "output/" );
+    dir.mkdir( "out/" );
+    dir.cd( "out/" );
 
     //  introduction
 
@@ -89,6 +89,8 @@ int main( int, char* argv[] )
     static const col_t c1( 0.7f, 0.3f, 0.3f );
     static const col_t c2( 0.1f, 0.6f, 0.4f );
 
+    std::cout << "\n";
+
     for ( const auto& lerp: lerps )
     {
         std::cout << "Exporting " << lerp.second << " ..." << std::endl;
@@ -114,6 +116,7 @@ int main( int, char* argv[] )
     const hsl_t hsl = hsl::fromRgb( rgb_t( col ) );
     const rgb_t rgb_2 = rgb::fromHsl( hsl );
 
+    std::cout << "\n";
     std::cout << col << " -> " << hsl << " -> " << rgb_2 << std::endl;
 
     //  high-level conversions
@@ -135,19 +138,22 @@ int main( int, char* argv[] )
 
     //  escape codes
 
-//    printColorTable();
+    printColorTable();
 
     //  wide gamut conversions
 
     adobe_t adobe = { 1, 0, 0 };
     srgb_t srgb = { 1, 0, 0 };
+
     std::cout << srgb::fromAdobe( adobe ) << std::endl;
-    std::cout << ( 255.f * adobe::fromSrgb( srgb ) ) << std::endl;
+    std::cout << adobe::fromSrgb( srgb ) << std::endl;
 
     //  rainbow text
 
     ColorMap rainbowMap( ColorMap::PresetRainbow );
     const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
+
+    std::cout << "\n";
     std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 
     return EXIT_SUCCESS;
