@@ -82,6 +82,12 @@ Color::Color( const std::string& hexOrName )
 
 
 ////////////////////////////////////////////////////////////////////////////////
+Color::Color( const uint8_t r, const uint8_t g, const uint8_t b ) :
+    Color( rgb_t( r, g, b ) )
+{}
+
+
+////////////////////////////////////////////////////////////////////////////////
 std::string Color::spaceInfo() const
 {
     switch ( space_ ) {
