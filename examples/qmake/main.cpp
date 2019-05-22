@@ -1,5 +1,4 @@
 #include "vivid/vivid.h"
-#include "vivid/profiles.h"
 
 #include <QImage>
 #include <QColor>
@@ -55,7 +54,7 @@ int main( int, char* argv[] )
         for ( int c = 0; c < img.width(); c++ )
         {
             const float t = c / ( img.width() - 1.f );
-            const auto col = glm::vec<3, double>( cmap.at( t ) );
+            const auto col = cmap.at( t );
             const QColor qcol = QColor::fromRgbF( col.x, col.y, col.z );
 
             for ( int r = 0; r < img.height(); r++ ) {
@@ -146,7 +145,7 @@ int main( int, char* argv[] )
     srgb_t srgb = { 1, 0, 0 };
 
     std::cout << srgb::fromAdobe( adobe ) << std::endl;
-    std::cout << adobe::fromSrgb( srgb ) << std::endl;
+    std::cout << srgb::fromAdobe( adobe::fromSrgb( srgb ) ) << std::endl;
 
     //  rainbow text
 

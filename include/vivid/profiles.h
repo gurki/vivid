@@ -52,6 +52,9 @@ namespace profiles
 
     //  pre-computed tristimulus values
     static const glm::vec3 tri_d65 = { 0.95047f, 1.f, 1.08883f };
+
+    //  gammas
+    static const float gamma_adobe = 2.19921875f;
 }
 
 

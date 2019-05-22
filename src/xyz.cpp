@@ -1,7 +1,6 @@
 #include "vivid/conversion.h"
 #include "vivid/functions.h"
 #include "vivid/profiles.h"
-#include <glm/glm.hpp>
 
 namespace vivid::xyz {
 
@@ -45,7 +44,7 @@ xyz_t fromLch( const lch_t& lch ) {
 ////////////////////////////////////////////////////////////////////////////////
 xyz_t fromAdobe( const adobe_t& adobe ) {
     return static_cast<xyz_t>(
-        matrices::adobe_to_xyz * rgb::gamma( adobe, adobe::gamma )
+        matrices::adobe_to_xyz * rgb::gamma( adobe, 1.f / profiles::gamma_adobe )
     );
 }
 

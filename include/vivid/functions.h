@@ -1,11 +1,12 @@
 #pragma once
 
 #include "vivid/types.h"
-#include "vivid/colormap.h"
 #include <string>
 
-
 namespace vivid {
+
+
+class ColorMap;
 
 
 void printColorTable(
@@ -18,9 +19,8 @@ namespace rgb
 {
     rgb_t saturate( const rgb_t& );
     rgb_t clamp( const rgb_t& );
-    rgb_t rainbow( const uint8_t k );
     rgb_t gamma( const rgb_t&, const float );
-    rgb_t invGamma( const rgb_t&, const float );
+    rgb_t rainbow( const uint8_t k );
 }
 
 
