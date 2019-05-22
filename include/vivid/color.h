@@ -19,7 +19,7 @@ class Color
         };
 
         Color() = default;        
-        Color( const srgb_t& srgb );
+        Color( const rgb_t& rgb );
         Color( const hsl_t& hsl );
         Color( const hsv_t& hsv );
         Color( const lch_t& lch );

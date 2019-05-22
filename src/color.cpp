@@ -9,8 +9,8 @@ namespace vivid {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-Color::Color( const srgb_t& srgb ) :
-    Color( srgb, SpaceRgb )
+Color::Color( const rgb_t& rgb ) :
+    Color( rgb, SpaceRgb )
 {}
 
 

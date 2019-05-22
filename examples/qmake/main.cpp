@@ -85,8 +85,8 @@ int main( int, char* argv[] )
         { lerpHslClamp, "lerpHslClamped" }
     };
 
-    static const col_t c1( 0.7f, 0.3f, 0.3f );
-    static const col_t c2( 0.1f, 0.6f, 0.4f );
+    static const rgb_t c1( 0.7f, 0.3f, 0.3f );
+    static const rgb_t c2( 0.1f, 0.6f, 0.4f );
 
     std::cout << "\n";
 
@@ -111,7 +111,7 @@ int main( int, char* argv[] )
 
     //  low-level conversions
 
-    static const col_t col( 1.f, 0.7f, 0.5f );
+    static const rgb_t col( 1.f, 0.7f, 0.5f );
     const hsl_t hsl = hsl::fromRgb( rgb_t( col ) );
     const rgb_t rgb_2 = rgb::fromHsl( hsl );
 
@@ -127,7 +127,7 @@ int main( int, char* argv[] )
     //  encoding
 
     std::cout << std::endl;
-    std::cout << ansi::fg( 3 ) << "yay colors" << ansi::reset << std::endl;
+    std::cout << ansi::fg( 9 ) << "yay colors" << ansi::reset << std::endl;
     std::cout << html::fg( "#abc123" ) << "hex hex!" << html::close << std::endl;
     std::cout << html::fg( col8_t( 100, 144, 159 ) ) << "html, aw yes" << html::close << std::endl;
     std::cout << std::endl;
@@ -141,7 +141,7 @@ int main( int, char* argv[] )
     adobe_t adobe = { 1, 0, 0 };
     srgb_t srgb = { 1, 0, 0 };
 
-    std::cout << srgb::fromAdobe( adobe ) << std::endl;
+    std::cout << adobe::fromSrgb( srgb::fromAdobe( adobe ) ) << std::endl;
     std::cout << srgb::fromAdobe( adobe::fromSrgb( srgb ) ) << std::endl;
 
     //  rainbow text
