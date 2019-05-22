@@ -88,7 +88,7 @@ inline std::ostream& operator << ( std::ostream& out, const vivid::xyz_t& col ) 
 
 ////////////////////////////////////////////////////////////////////////////////
 inline std::ostream& operator << ( std::ostream& out, const vivid::col8_t& col ) {
-    out << "rgb8(" << int( col.x ) << ", " << int( col.y ) << ", " << int( col.z ) << ")";
+    out << "rgb(" << int( col.x ) << ", " << int( col.y ) << ", " << int( col.z ) << ")";
     return out;
 }
 

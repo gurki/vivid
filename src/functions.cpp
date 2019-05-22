@@ -198,12 +198,40 @@ float inverseCompound( const float k )
 namespace hsl {
 
 ////////////////////////////////////////////////////////////////////////////////
-rgb_t rainbow( const uint8_t k, const float s, const float l ) {
+hsl_t rainbow( const uint8_t k, const float s, const float l ) {
     const float t = k / 256.f;
     return { t, s, l };
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+hsl_t compact( const col_t& col ) {
+    return static_cast<hsl_t>( col / sup );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+hsl_t readable( const col_t& col ) {
+    return static_cast<hsl_t>( col * sup );
+}
+
 }   //  ::vivid::hsl
+
+
+namespace hsv {
+
+////////////////////////////////////////////////////////////////////////////////
+hsv_t compact( const col_t& col ) {
+    return static_cast<hsv_t>( col / sup );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+hsv_t readable( const col_t& col ) {
+    return static_cast<hsv_t>( col * sup );
+}
+
+}   //  ::vivid::hsv
 
 
 namespace ansi {
@@ -229,6 +257,7 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
 }
 
 }   //  ::vivid::ansi
+
 
 
 }   //  ::vivid

@@ -34,6 +34,7 @@ class Color
         const col_t& value() const { return value_; }
         Space space() const { return space_; }
         std::string spaceInfo() const;
+        std::string valueInfo() const;
 
         Color rgb() const;
         Color hsl() const;

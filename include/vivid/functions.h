@@ -9,12 +9,6 @@ namespace vivid {
 class ColorMap;
 
 
-void printColorTable(
-    const bool foreground = true,
-    const bool background = true
-);
-
-
 namespace rgb
 {
     rgb_t saturate( const rgb_t& );
@@ -33,11 +27,25 @@ namespace srgb {
 
 namespace hsl
 {
-    rgb_t rainbow(
+    static const glm::vec3 sup = { 360, 100, 100 };
+
+    hsl_t rainbow(
         const uint8_t k,
         const float s = 1.f,
         const float l = 0.5f
     );
+
+    hsl_t compact( const col_t& col );
+    hsl_t readable( const col_t& col );
+}
+
+
+namespace hsv
+{
+    static const glm::vec3 sup = { 360, 100, 100 };
+
+    hsv_t compact( const col_t& col );
+    hsv_t readable( const col_t& col );
 }
 
 
@@ -48,6 +56,12 @@ namespace ansi
         const ColorMap& cmap
     );
 }
+
+
+void printColorTable(
+    const bool foreground = true,
+    const bool background = true
+);
 
 
 }   //   ::vivid

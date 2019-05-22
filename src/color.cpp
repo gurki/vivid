@@ -4,6 +4,9 @@
 #include "vivid/interpolation.h"
 #include "vivid/stream.h"
 #include "vivid/data/xterm.h"
+#include "vivid/encoding.h"
+
+#include <sstream>
 
 namespace vivid {
 
@@ -83,7 +86,7 @@ Color::Color( const std::string& hexOrName )
 
 ////////////////////////////////////////////////////////////////////////////////
 Color::Color( const uint8_t r, const uint8_t g, const uint8_t b ) :
-    Color( rgb_t( r, g, b ) )
+    Color( rgb_t( col_t( r, g, b ) / 255.f ) )
 {}
 
 
@@ -117,6 +120,28 @@ std::string Color::spaceInfo() const
         case SpaceLch: return "lch";
         default: return {};
     }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+std::string Color::valueInfo() const
+{
+    std::stringstream sstr;
+
+    using namespace std::string_literals;
+    const auto spacer = ansi::fg( "grey42"s ) + u8"\u00b7 " + ansi::reset;
+
+    const auto srgb = rgb().srgb_;
+    sstr << ansi::fg( hex() ) << hex() << ansi::reset << "\n";
+    sstr << spacer << rgb8::fromRgb( srgb ) << "\n";
+    sstr << spacer << hsv::readable( hsv().hsv_ ) << "\n";
+    sstr << spacer << hsl::readable( hsl().hsl_ ) << "\n";
+    sstr << spacer << xyz::fromSrgb( srgb_ ) << "\n";
+    sstr << spacer << lab::fromXyz( xyz::fromSrgb( srgb ) ) << "\n";
+    sstr << spacer << lch().lch_ << "\n";
+    sstr << spacer << "'" << name() << "'\n";
+
+    return sstr.str();
 }
 
 

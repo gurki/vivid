@@ -121,6 +121,7 @@ int main( int, char* argv[] )
     //  high-level conversions
 
     Color color = { 255, 123, 0 };
+    std::cout << color.valueInfo() << std::endl;
     std::cout << color.hsl() << std::endl;
     std::cout << lerpHsl( color, c2, 0.5f ) << std::endl;   //  implicit Color() construction from c2
 
