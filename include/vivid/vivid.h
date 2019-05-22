@@ -14,6 +14,7 @@
 //  [9] https://github.com/BIDS/colormap
 //  [10] http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
 //  [11] https://www.rapidtables.com/convert/color/hsl-to-rgb.html
+//  [12] https://docs.rs/crate/ansi_colours/1.0.1/source/src/ansi256.c
 //
 
 #include "vivid/color.h"
