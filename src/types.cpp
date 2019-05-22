@@ -1,4 +1,5 @@
 #include "vivid/types.h"
+#include "vivid/fuzzy.h"
 
 namespace vivid {
 
@@ -12,7 +13,7 @@ rgb_t::rgb_t( const adobe_t& adobe ) : col_t( adobe ) {}
 ////////////////////////////////////////////////////////////////////////////////
 bool fuzzyEqual( const col_t& c1, const col_t& c2 ) {
     //  compares to ~1/255th
-    return glm::all( glm::lessThan( glm::abs( c1 - c2 ), glm::vec3( 0.004f ) ));
+    return fuzzyEqual( c1, c2, 0.004f );
 }
 
 

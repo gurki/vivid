@@ -120,53 +120,14 @@ namespace name {
 }
 
 
-//  CIE XYZ \in [ (0, 0, 0), ref_d65 ]
-namespace xyz
-{
-    //  observer 2°, illuminant D65, sRGB
-    static const xyz_t ref_d65 = { 0.95047f, 1.f, 1.08883f };
-
+//  CIE XYZ \in [ (0, 0, 0), profiles::XYZ_d65 ]
+namespace xyz {
     xyz_t fromLab( const lab_t& );
     xyz_t fromSrgb( const srgb_t& );
     xyz_t fromLch( const lch_t& );  //  (-)
     xyz_t fromAdobe( const adobe_t& );
 }
 
-
-namespace matrices
-{
-    //  NOTE(tgurdan):
-    //    for readability, these are all initialized transposed due to
-    //    column-major order. must post-multiply colors accordingly.
-
-    //  srgb <-> xyz, d65
-
-    static const glm::mat3 xyz_to_rgb = {
-         3.2404542f,-1.5371385f,-0.4985134f,
-        -0.9692600f, 1.8760108f, 0.0415560f,
-         0.0556434f,-0.2040259f, 1.0572252f
-    };
-
-    static const glm::mat3 rgb_to_xyz = {
-        0.4124564f, 0.3575761f, 0.1804375f,
-        0.2126729f, 0.7151522f, 0.0721750f,
-        0.0193339f, 0.1191920f, 0.9503041f
-    };
-
-    //  adobe <-> xyz, d65
-
-    static const glm::mat3 xyz_to_adobe = {
-         2.0413690f,-0.5649464f,-0.3446944f,
-        -0.9692660f, 1.8760108f, 0.0415560f,
-         0.0134474f,-0.1183897f, 1.0154096f,
-    };
-
-    static const glm::mat3 adobe_to_xyz = {
-        0.5767309f, 0.1855540f, 0.1881852f,
-        0.2973769f, 0.6273491f, 0.0752741f,
-        0.0270343f, 0.0706872f, 0.9911085f
-    };
-}
 
 
 }   //  ::vivid

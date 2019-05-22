@@ -3,13 +3,22 @@
 #include "vivid/types.h"
 #include "vivid/color.h"
 
+#include <glm/gtx/string_cast.hpp>
+
 #include <iostream>
 #include <iomanip>
 
 
 ////////////////////////////////////////////////////////////////////////////////
-inline std::ostream& operator << ( std::ostream& out, const glm::vec3& col ) {
-    out << "vec3(" << std::setprecision( 5 ) << col.x << ", " << col.y << ", " << col.z << ")";
+inline std::ostream& operator << ( std::ostream& out, const glm::vec3& vec ) {
+    out << glm::to_string( vec );
+    return out;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+inline std::ostream& operator << ( std::ostream& out, const glm::mat3& mat ) {
+    out << glm::to_string( mat );
     return out;
 }
 

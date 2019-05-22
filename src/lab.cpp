@@ -1,4 +1,5 @@
 #include "vivid/conversion.h"
+#include "vivid/profiles.h"
 #include <glm/glm.hpp>
 #include <cmath>
 
@@ -14,7 +15,7 @@ lab_t fromXyz( const xyz_t& xyz )
             ( 7.787f * x + 16.f / 116.f );
     };
 
-    const auto xyzr = xyz / xyz::ref_d65;
+    const auto xyzr = xyz / profiles::tri_d65;
 
     xyz_t fxyz;
     fxyz.x = xyz2lab( xyzr.x );

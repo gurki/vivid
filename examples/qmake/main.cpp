@@ -1,4 +1,5 @@
 #include "vivid/vivid.h"
+#include "vivid/profiles.h"
 
 #include <QImage>
 #include <QColor>

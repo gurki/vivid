@@ -1,5 +1,6 @@
 #include "vivid/conversion.h"
 #include "vivid/functions.h"
+#include "vivid/profiles.h"
 #include "vivid/data.h"
 
 namespace vivid::srgb {
@@ -18,7 +19,7 @@ srgb_t fromLrgb( const lrgb_t& lrgb )
 
 ////////////////////////////////////////////////////////////////////////////////
 srgb_t fromXyz( const xyz_t& xyz ) {
-    const auto lrgb = static_cast<lrgb_t>( xyz * matrices::xyz_to_rgb );
+    const auto lrgb = static_cast<lrgb_t>( matrices::xyz_to_rgb * xyz );
     return rgb::saturate( srgb::fromLrgb( lrgb ) );
 }
 
