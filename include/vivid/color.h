@@ -30,7 +30,7 @@ class Color
         Color( const col_t& value, const Space );
         Color( const uint8_t r, const uint8_t g, const uint8_t b );
 
-        bool valid() const { return space_ != SpaceUndefined; }
+        bool valid() const;
         const col_t& value() const { return value_; }
         Space space() const { return space_; }
         std::string spaceInfo() const;

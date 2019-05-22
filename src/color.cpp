@@ -88,6 +88,26 @@ Color::Color( const uint8_t r, const uint8_t g, const uint8_t b ) :
 
 
 ////////////////////////////////////////////////////////////////////////////////
+bool Color::valid() const
+{
+    if ( space_ == SpaceUndefined ) {
+        return false;
+    }
+
+    //  concerned space values are non-negative
+    if ( glm::any( glm::lessThan( value_, {} ) )) {
+        return false;
+    }
+
+    if ( space_ == SpaceLch ) {
+        return glm::all( glm::lessThan( lch_, { 100, 140, 360 } ));
+    }
+
+    return glm::all( glm::lessThan( value_, { 1, 1, 1 } ));
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 std::string Color::spaceInfo() const
 {
     switch ( space_ ) {
