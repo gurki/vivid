@@ -5,14 +5,14 @@
 namespace vivid {
 
 
+using col_t = glm::vec<3, float>;
+using col8_t = glm::vec<3, uint8_t>;
+
 //  rgb8 (col8_t) \in [0;255]
 //  rgb32 (uint32_t) as 0xffRRGGBB
 //  ansi color index (uint8_t) (for use in e.g. ansi escape codes)
 //  hex string (std::string)
 //  xterm color name (std::string)
-
-using col_t = glm::vec<3, float>;
-using col8_t = glm::vec<3, uint8_t>;
 
 struct lrgb_t;
 struct srgb_t;

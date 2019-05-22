@@ -12,18 +12,22 @@ class Color
 
         enum Space {
             SpaceUndefined,
-            SpaceRgb,   //  assumes sRGB for XYZ conversion
+            SpaceRgb,   //  assumes sRGB, wording for confusion-free high-level API
             SpaceHsl,
             SpaceHsv,
-            SpaceLch    //  L*C*h(ab)
+            SpaceLch
         };
 
         Color() = default;        
-        Color( const col_t& value, const Space = SpaceRgb );
+        Color( const srgb_t& srgb );
+        Color( const hsl_t& hsl );
+        Color( const hsv_t& hsv );
+        Color( const lch_t& lch );
         Color( const col8_t& rgb8 );
         Color( const uint32_t rgb32 );
         Color( const uint8_t index );
         Color( const std::string& hexOrName );
+        Color( const col_t& value, const Space );
 
         bool valid() const { return space_ != SpaceUndefined; }
         const col_t& value() const { return value_; }
