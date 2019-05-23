@@ -126,31 +126,16 @@ std::string Color::spaceInfo() const
 ////////////////////////////////////////////////////////////////////////////////
 std::string Color::quickInfo() const
 {
-    using namespace std::string_literals;
-    std::stringstream sstr;
-
-
     const auto fg = ansi::fg( index() );
-    const auto fg1 = ansi::fg( rgb::grey( 100 ) );
-    const auto fg2 = ansi::fg( rgb::grey( 150 ) );
-    const auto ar = ansi::reset;
-    const std::string split = fg2 + " // " + ar;
+    const auto split = ansi::grey150 + " // " + ansi::reset;
+
     const auto srgb = rgb().srgb_;
     const auto rgb8 = rgb8::fromRgb( srgb );
     const auto hsl = hsl::readable( this->hsl().hsl_ );
 
-    auto vcol = [&fg1, &fg2, &ar]( const col_t& col, const std::string& label )
-    {
-        std::stringstream sstr;
-        sstr << fg1 << label << fg2 << "(" << ar;
-        sstr << col.x << fg2 << ", " << ar;
-        sstr << col.y << fg2 << ", " << ar;
-        sstr << col.z << fg2 << ")" << ar;
-        return sstr.str();
-    };
-
+    std::stringstream sstr;
     sstr << fg << hex() << split << fg << name() << split;
-    sstr << vcol( rgb8, "rgb" ) << split << vcol( glm::round( hsl ), "hsl" );
+    sstr << ansi::colorize( rgb8, "rgb" ) << split << ansi::colorize( glm::round( hsl ), "hsl" );
 
     return sstr.str();
 }
@@ -159,40 +144,27 @@ std::string Color::quickInfo() const
 ////////////////////////////////////////////////////////////////////////////////
 std::string Color::info() const
 {
-    using namespace std::string_literals;
-    std::stringstream sstr;
-
     const auto fg = ansi::fg( index() );
-    const auto fg1 = ansi::fg( rgb::grey( 100 ) );
-    const auto fg2 = ansi::fg( rgb::grey( 150 ) );
-    const auto ar = ansi::reset;
-    const auto spacer = fg1 + "~ " + ar;
-    const auto split = fg2 + " // " + ar;
+    const auto spacer = ansi::grey100 + "~ " + ansi::reset;
+    const auto split = ansi::grey150 + " // " + ansi::reset;
 
     const auto srgb = rgb().srgb_;
     const auto rgb8 = rgb8::fromRgb( srgb );
     const auto hsv = this->hsv().hsv_;
     const auto hsl = this->hsl().hsl_;
 
-    auto vcol = [&fg1, &fg2, &ar]( const col_t& col, const std::string& label )
-    {
-        std::stringstream sstr;
-        sstr << fg1 << label << fg2 << "(" << ar;
-        sstr << col.x << fg2 << ", " << ar;
-        sstr << col.y << fg2 << ", " << ar;
-        sstr << col.z << fg2 << ")" << ar;
-        return sstr.str();
-    };
+    using namespace std::string_literals;
 
-    sstr << fg << hex() << split << fg << name() << "\n" << ar;
-    sstr << fg2 << "space: " << ar << spaceInfo() << ", ";
+    std::stringstream sstr;
+    sstr << fg << hex() << split << fg << name() << "\n" << ansi::reset;
+    sstr << ansi::grey150 << "space: " << ansi::reset << spaceInfo() << ", ";
     sstr << ( valid() ? ( ansi::fg( "green"s ) + "valid" ) : ( ansi::fg( "red"s ) + "invalid" ) ) << "\n";
-    sstr << spacer << vcol( rgb8, "rgb" ) << split << vcol( srgb, "rgbf" ) << "\n";
-    sstr << spacer << vcol( hsv::readable( hsv ), "hsv" ) << split << vcol( hsv, "hsvf" ) << "\n";
-    sstr << spacer << vcol( hsl::readable( hsl ), "hsl" ) << split << vcol( hsl, "hslf" ) << "\n";
-    sstr << spacer << vcol( xyz::fromSrgb( srgb_ ), "xyz" ) << "\n";
-    sstr << spacer << vcol( lab::fromXyz( xyz::fromSrgb( srgb ) ), "lab" ) << "\n";
-    sstr << spacer << vcol( lch().lch_, "lch" );
+    sstr << spacer << ansi::colorize( rgb8, "rgb" ) << split << ansi::colorize( srgb, "rgbf" ) << "\n";
+    sstr << spacer << ansi::colorize( hsv::readable( hsv ), "hsv" ) << split << ansi::colorize( hsv, "hsvf" ) << "\n";
+    sstr << spacer << ansi::colorize( hsl::readable( hsl ), "hsl" ) << split << ansi::colorize( hsl, "hslf" ) << "\n";
+    sstr << spacer << ansi::colorize( xyz::fromSrgb( srgb_ ), "xyz" ) << "\n";
+    sstr << spacer << ansi::colorize( lab::fromXyz( xyz::fromSrgb( srgb ) ), "lab" ) << "\n";
+    sstr << spacer << ansi::colorize( lch().lch_, "lch" );
 
     return sstr.str();
 }

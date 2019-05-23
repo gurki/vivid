@@ -1,8 +1,11 @@
 #pragma once
 
-#include "vivid/conversion.h"
 #include "vivid/color.h"
+#include "vivid/conversion.h"
+#include "vivid/functions.h"
+
 #include <string>
+#include <sstream>
 
 
 namespace vivid::ansi
@@ -24,6 +27,18 @@ namespace vivid::ansi
     }
 
     static const std::string reset = "\x1b[0m";
+    static const auto grey100 = ansi::fg( 241 );
+    static const auto grey150 = ansi::fg( 246 );
+
+    inline std::string colorize( const col_t& col, const std::string& label )
+    {
+        std::stringstream sstr;
+        sstr << grey100 << label << grey150 << "(" << ansi::reset;
+        sstr << col.x << grey150 << ", " << ansi::reset;
+        sstr << col.y << grey150 << ", " << ansi::reset;
+        sstr << col.z << grey150 << ")" << ansi::reset;
+        return sstr.str();
+    }
 }
 
 

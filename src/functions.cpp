@@ -12,7 +12,7 @@
 
 #include <iostream>
 #include <sstream>
-
+#include <cstdio>
 
 namespace vivid {
 namespace rgb {
@@ -156,7 +156,7 @@ void printColorTable( const bool foreground, const bool background )
     auto escapeCode = [=]( const uint8_t& id ) -> std::string
     {
         char idstr[ 4 ];
-        std::sprintf( idstr, "%03d", id );
+        std::snprintf( idstr, 4, "%03d", id );
 
         const std::string bgstr = vivid::ansi::bg( id ) + " " + idstr + " " + vivid::ansi::reset;
         const std::string fgstr = vivid::ansi::fg( id ) + " " + idstr + " " + vivid::ansi::reset;
