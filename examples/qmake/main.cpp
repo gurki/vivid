@@ -22,23 +22,6 @@ int main( int, char* argv[] )
     dir.cd( "out/" );
 
 
-    std::cout << ansi::lightRed << "light" << ansi::red << " red \n";
-    std::cout << ansi::lightGreen << "light" << ansi::green << " green \n";
-    std::cout << ansi::lightBlue << "light" << ansi::blue << " blue \n";
-    std::cout << ansi::lightYellow << "light" << ansi::yellow << " yellow \n";
-
-    std::cout << ansi::black << "black ";
-    std::cout << ansi::grey50 << "grey50 ";
-    std::cout << ansi::grey100 << "grey100 ";
-    std::cout << ansi::grey150 << "grey150 ";
-    std::cout << ansi::grey200 << "grey200 ";
-    std::cout << ansi::white << "white \n";
-
-    std::cout << ansi::subtleText << "subtle" << ansi::text << " text \n";
-    std::cout << ansi::subtleSymbol << "subtle" << ansi::symbol << " symbol \n";
-
-    std::cout << ansi::reset;
-
     //  introduction
 
     ColorMap hslMap( ColorMap::PresetHsl );
@@ -47,7 +30,10 @@ int main( int, char* argv[] )
     //  escape codes
 
     std::cout << "\n";
-    printColorTable();
+    ansi::printColorTable();
+
+    std::cout << "\n";
+    ansi::printColorPresets();
 
     //  colormaps
 

@@ -173,9 +173,6 @@ std::string colorize( const col_t& col, const std::string& label )
 }
 
 
-}   //  ::vivid::ansi
-
-
 ////////////////////////////////////////////////////////////////////////////////////
 //  layout inspired by gawin's kool xterm color demo [1]
 //  [1] https://github.com/gawin/bash-colors-256
@@ -248,6 +245,33 @@ void printColorTable( const bool foreground, const bool background )
         }
     }
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+void printColorPresets()
+{
+    std::cout << ansi::lightRed << "light" << ansi::red << " red \n";
+    std::cout << ansi::lightGreen << "light" << ansi::green << " green \n";
+    std::cout << ansi::lightBlue << "light" << ansi::blue << " blue \n";
+    std::cout << ansi::lightYellow << "light" << ansi::yellow << " yellow \n";
+
+    std::cout << "\n";
+    std::cout << ansi::subtleText << "subtle" << ansi::text << " text \n";
+    std::cout << ansi::subtleSymbol << "subtle" << ansi::symbol << " symbol \n";
+
+    std::cout << "\n";
+    std::cout << ansi::black << "black ";
+    std::cout << ansi::grey50 << "grey50 ";
+    std::cout << ansi::grey100 << "grey100 ";
+    std::cout << ansi::grey150 << "grey150 ";
+    std::cout << ansi::grey200 << "grey200 ";
+    std::cout << ansi::white << "white \n";
+
+    std::cout << ansi::reset;
+}
+
+
+}   //  ::vivid::ansi
 
 
 }   //  ::vivid

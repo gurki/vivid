@@ -58,16 +58,22 @@ namespace xyz
 }
 
 
-namespace ansi {
+namespace ansi
+{
     std::string colorize( const std::string& text, const ColorMap& cmap );
     std::string colorize( const col_t& col, const std::string& label );
+
+    void printColorTable(
+        const bool foreground = true,
+        const bool background = true
+    );
+
+    void printColorPresets();
 }
 
 
-void printColorTable(
-    const bool foreground = true,
-    const bool background = true
-);
+
+
 
 
 }   //   ::vivid
