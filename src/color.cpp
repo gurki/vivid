@@ -128,17 +128,33 @@ std::string Color::valueInfo() const
 {
     std::stringstream sstr;
 
-    const auto spacer = ansi::fg( rgb::grey( 100 ) ) + u8"\u00b7 " + ansi::reset;
+    const auto fg = ansi::fg( index() );
+    const auto fg1 = ansi::fg( rgb::grey( 128 ) );
+    const auto fg2 = ansi::fg( rgb::grey( 192 ) );
+    const auto ar = ansi::reset;
+    const auto spacer = fg1 + u8"\u00b7 " + ansi::reset;
 
     const auto srgb = rgb().srgb_;
-    sstr << ansi::fg( hex() ) << hex() << ansi::reset << "\n";
-    sstr << spacer << rgb8::fromRgb( srgb ) << "\n";
-    sstr << spacer << hsv::readable( hsv().hsv_ ) << "\n";
-    sstr << spacer << hsl::readable( hsl().hsl_ ) << "\n";
-    sstr << spacer << xyz::fromSrgb( srgb_ ) << "\n";
-    sstr << spacer << lab::fromXyz( xyz::fromSrgb( srgb ) ) << "\n";
-    sstr << spacer << lch().lch_ << "\n";
-    sstr << spacer << "'" << name() << "'\n";
+    const auto rgb8 = rgb8::fromRgb( srgb );
+
+    auto vcol = [&fg1, &fg2, &ar]( const col_t& col, const std::string& label )
+    {
+        std::stringstream sstr;
+        sstr << fg1 << label << fg2 << "(" << ar;
+        sstr << col.x << fg2 << ", " << ar;
+        sstr << col.y << fg2 << ", " << ar;
+        sstr << col.z << fg2 << ")" << ar;
+        return sstr.str();
+    };
+
+    sstr << fg << hex() << fg2 << " // ";
+    sstr << fg << name() << "\n" << ar;
+    sstr << spacer << vcol( rgb8, "rgb" ) << "\n";
+    sstr << spacer << vcol( hsv::readable( hsv().hsv_ ), "hsv" ) << "\n";
+    sstr << spacer << vcol( hsl::readable( hsl().hsl_ ), "hsl" ) << "\n";
+    sstr << spacer << vcol( xyz::fromSrgb( srgb_ ), "xyz" ) << "\n";
+    sstr << spacer << vcol( lab::fromXyz( xyz::fromSrgb( srgb ) ), "lab" ) << "\n";
+    sstr << spacer << vcol( lch().lch_, "lch" ) << "\n";
 
     return sstr.str();
 }
