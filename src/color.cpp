@@ -106,7 +106,7 @@ bool Color::valid() const
         return glm::all( glm::lessThan( lch_, { 100, 140, 360 } ));
     }
 
-    return glm::all( glm::lessThan( value_, { 1, 1, 1 } ));
+    return glm::all( glm::lessThanEqual( value_, { 1, 1, 1 } ));
 }
 
 
@@ -126,6 +126,7 @@ std::string Color::spaceInfo() const
 ////////////////////////////////////////////////////////////////////////////////
 std::string Color::valueInfo() const
 {
+    using namespace std::string_literals;
     std::stringstream sstr;
 
     const auto fg = ansi::fg( index() );
@@ -151,6 +152,8 @@ std::string Color::valueInfo() const
     };
 
     sstr << fg << hex() << split << fg << name() << "\n" << ar;
+    sstr << fg2 << "space: " << ar << spaceInfo() << "\n";
+    sstr << ( valid() ? ( ansi::fg( "green"s ) + "valid" ) : ( ansi::fg( "red"s ) + "invalid" ) ) << "\n";
     sstr << spacer << vcol( rgb8, "rgb" ) << split << vcol( srgb, "rgbf" ) << "\n";
     sstr << spacer << vcol( hsv::readable( hsv ), "hsv" ) << split << vcol( hsv, "hsvf" ) << "\n";
     sstr << spacer << vcol( hsl::readable( hsl ), "hsl" ) << split << vcol( hsl, "hslf" ) << "\n";
