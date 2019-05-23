@@ -1,6 +1,7 @@
 # vivid 🌈
 A simple-to-use `cpp` color library
 
+- **strongly-typed** colors
 - color space **conversions**
 - perceptual color **interpolation**
 - popular and custom **color maps**
@@ -14,9 +15,9 @@ using namespace vivid;
 
 //  create and interpolate colors
 Color c1( "indianred" );
-Color c2( { 0.f, 0.4f, 0.5f }, Color::SpaceHsl );
+Color c2 = hsl_t( 0.f, 0.4f, 0.5f );
 
-auto interp = lerp( c1.hsl(), c2, 0.5f );   //  interpolate in hsl
+auto interp = lerpLch( c1, c2, 0.5f );   //  perceptual interpolation in L*C*h(ab)
 std::string hex = interp.hex();
 
 //  quick access to popular colormaps for data visualization
@@ -79,14 +80,41 @@ cmake .. && make
 - [Catch2](https://github.com/catchorg/Catch2/tree/master/examples) for testing
 
 
-## Types
+## High-Level API ⛰️
 
-`vivid` provides a convenient `Color` class, which is intended to be flexible and easy to use. It stores colors as combination of float-triplet `values` (`col_t ≡ glm::vec<3, float>`) and their associated `space ∈ {RGB, HSV, HSL, LCH}`. It can be implicitly constructed from any of the supported color formats and spaces, e.g. `Color col( "#abcdef" );`. Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. 8-bit colors are represented using either byte-triplets (`col8_t ≡ glm::vec<3, uint8_t>`) or compactly as `uint32_t` (`ARGB`), where alpha is set to `0xff` by default. Lossy conversion, e.g. getting the name or index of some non-xterm color, will return the closest valid color/value in that space.
+`vivid` provides a convenient `Color` class, which is intended to be flexible and easy to use. It stores the `value` (_col_t_) and the associated `space` _∈ {`RGB`, `HSV`, `HSL`, `LCH`}_ of its underlying type. `Colors` can be implicitly constructed from any of the above native color spaces and their representations.
 
+```cpp
+//  c.f. _include/vivid/color.h_ for all available constructors
+Color col1( "#abcdef" );
+Color col2 = { 255, 0, 128 };
+Color col3 = { 1.f, 0.3f, 0.6f }, Color::SpaceHsl );
+```
+
+Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. Moving to one of the four native spaces will return another `Color` instance with its `value` and `space` converted accordingly.
+
+```cpp
+Color newCol = col1.hsl();  //  convert to hsl, whatever the current space
+std::cout << col1.spaceInfo() << std::endl;     //  rgb
+std::cout << newCol.spaceInfo() << std::endl;   //  hsl
+```
+
+`8-bit` colors are represented using either byte-triplets (_col8_t_) or compactly as `ARGB` (_uint32_t_), where alpha is set to `0xff` by default. Lossy conversion, e.g. getting the name or index of some non-xterm color, will return the closest valid color/value in that space.
+
+```cpp
+Color original( "#a1b2c3" );
+Color lossy = original.index(); //  clamps to nearest ansi color code
+std::cout << original.hex() << std::endl;   //  #a1b2c3
+std::cout << lossy.hex() << std::endl;      //  #afafd7
+```
+
+## Low-Level API 🛠️
+
+Under the hood, `vivid` uses inheritance-based **strong typing**, where the base _col_t_-type aliases directly to _glm::vec<3, float>_ (c.f. _include/vivid/types.h_). Parenting to a `glm` vector type allows efficient and effective handling of colors using all of `glm`'s vector goodness right out of the box.
 
 ## Color Spaces
 
-Under the hood, `vivid` uses an extensive set of direct conversions (c.f. `include/vivid/conversion.h`). It additionally provides a bunch of shortcuts for multi-step conversions. All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The caller must (to some degree) ensure the integrity of the input data passed. E.g. `vivid::xyz::fromLab` indeed assumes, that it is handed a `vivid::col_t` encoding a valid `L*a*b` color representation.
+Under the hood, `vivid` uses an extensive set of inheritance-based **strongly-typed** conversions between color spaces (c.f. _include/vivid/conversion.h_). All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces.
 
 ### Direct Conversions
 
@@ -161,7 +189,7 @@ As shown in the example in the beginning, it's quick and easy to query colors fr
 
 ```cpp
 //  loading a custom color map
-ColorMap cmap( VIVID_ROOT_PATH "res/colormaps/mycolormap.json" );
+ColorMap cmap( "res/colormaps/mycolormap.json" );
 auto mid = cmap.at( 0.5f );
 ```
 
@@ -224,4 +252,5 @@ fout << html::fg( col ) << "colorized html text!" << html::close;
 
 ## Attributions
 
-Shoutout and thanks to the great reddit community over at [r/cpp](https://www.reddit.com/r/cpp/comments/bpu0hl/vivid_a_simpletouse_cpp_color_library) for comments, feedback and suggestions! <3
+Massive thanks to all the colour enthusiasts out there for references and material, without which this project would not have been possible.
+Shoutout and thanks to the community over at [r/cpp](https://www.reddit.com/r/cpp/comments/bpu0hl/vivid_a_simpletouse_cpp_color_library) for comments, feedback and suggestions! <3
