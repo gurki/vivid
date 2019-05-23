@@ -145,7 +145,7 @@ std::string Color::quickInfo() const
 std::string Color::info() const
 {
     const auto fg = ansi::fg( index() );
-    const auto spacer = ansi::grey100 + "~ " + ansi::reset;
+    const auto spacer = ansi::grey100 + "\u2022 " + ansi::reset;
     const auto split = ansi::grey150 + " // " + ansi::reset;
 
     const auto srgb = rgb().srgb_;
