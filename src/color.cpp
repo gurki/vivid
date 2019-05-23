@@ -128,8 +128,7 @@ std::string Color::valueInfo() const
 {
     std::stringstream sstr;
 
-    using namespace std::string_literals;
-    const auto spacer = ansi::fg( "grey42"s ) + u8"\u00b7 " + ansi::reset;
+    const auto spacer = ansi::fg( rgb::grey( 100 ) ) + u8"\u00b7 " + ansi::reset;
 
     const auto srgb = rgb().srgb_;
     sstr << ansi::fg( hex() ) << hex() << ansi::reset << "\n";

@@ -14,7 +14,7 @@ namespace rgb
     rgb_t saturate( const rgb_t& );
     rgb_t clamp( const rgb_t& );
     rgb_t gamma( const rgb_t&, const float );
-    rgb_t rainbow( const uint8_t k );
+    rgb_t grey( const uint8_t k );
 }
 
 

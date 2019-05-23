@@ -19,6 +19,12 @@ uint8_t fromRgb8( const col8_t& rgb8 )
         return it->second;
     }
 
+    //  grey value
+
+    if ( rgb8.x == rgb8.y && rgb8.y == rgb8.z ) {
+        return data::xterm_grey.at( rgb8.x );
+    }
+
     //  snap to closest 6x6x6 rgb cube
 
     auto conv = []( const uint8_t v ) -> uint8_t {
