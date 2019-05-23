@@ -9,10 +9,12 @@ namespace vivid::lab {
 ////////////////////////////////////////////////////////////////////////////////
 lab_t fromXyz( const xyz_t& xyz )
 {
+    static const float eps = 0.008856f;
+
     auto xyz2lab = []( const float x ) -> float {
-        return ( x > 0.008856f ) ?
+        return ( x > eps ) ?
             std::cbrtf( x ) :
-            ( 7.787f * x + 16.f / 116.f );
+            ( 7.78448275862069f * x + 0.137931034482759f ); //  ( kappa * x + 16 ) / 116
     };
 
     const auto xyzr = xyz / profiles::tri_d65;
