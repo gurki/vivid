@@ -1,5 +1,7 @@
 #include "vivid/vivid.h"
 
+#include <glm/gtc/random.hpp>
+
 #include <QImage>
 #include <QColor>
 #include <QDir>
@@ -129,9 +131,20 @@ int main( int, char* argv[] )
 
     std::cout << color.hsl() << std::endl;
     std::cout << lerpHsl( color, c2, 0.5f ) << std::endl;   //  implicit Color() construction from c2
-
     std::cout << "\n";
-    std::cout << color.valueInfo() << std::endl;
+
+    srand( time( nullptr ) );
+
+    for ( size_t i = 0; i < 10; i++ ) {
+        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );
+        std::cout << col.quickInfo() << "\n";
+    }
+
+    for ( size_t i = 0; i < 3; i++ ) {
+        std::cout << "\n";
+        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );
+        std::cout << col.info() << "\n";
+    }
 
     //  encoding
 

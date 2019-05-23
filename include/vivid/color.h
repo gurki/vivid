@@ -33,8 +33,9 @@ class Color
         bool valid() const;
         const col_t& value() const { return value_; }
         Space space() const { return space_; }
+        std::string info() const;
+        std::string quickInfo() const;
         std::string spaceInfo() const;
-        std::string valueInfo() const;
 
         Color rgb() const;
         Color hsl() const;

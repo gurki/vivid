@@ -124,7 +124,40 @@ std::string Color::spaceInfo() const
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::string Color::valueInfo() const
+std::string Color::quickInfo() const
+{
+    using namespace std::string_literals;
+    std::stringstream sstr;
+
+
+    const auto fg = ansi::fg( index() );
+    const auto fg1 = ansi::fg( rgb::grey( 100 ) );
+    const auto fg2 = ansi::fg( rgb::grey( 150 ) );
+    const auto ar = ansi::reset;
+    const std::string split = fg2 + " // " + ar;
+    const auto srgb = rgb().srgb_;
+    const auto rgb8 = rgb8::fromRgb( srgb );
+    const auto hsl = hsl::readable( this->hsl().hsl_ );
+
+    auto vcol = [&fg1, &fg2, &ar]( const col_t& col, const std::string& label )
+    {
+        std::stringstream sstr;
+        sstr << fg1 << label << fg2 << "(" << ar;
+        sstr << col.x << fg2 << ", " << ar;
+        sstr << col.y << fg2 << ", " << ar;
+        sstr << col.z << fg2 << ")" << ar;
+        return sstr.str();
+    };
+
+    sstr << fg << hex() << split << fg << name() << split;
+    sstr << vcol( rgb8, "rgb" ) << split << vcol( glm::round( hsl ), "hsl" );
+
+    return sstr.str();
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+std::string Color::info() const
 {
     using namespace std::string_literals;
     std::stringstream sstr;
@@ -133,7 +166,7 @@ std::string Color::valueInfo() const
     const auto fg1 = ansi::fg( rgb::grey( 100 ) );
     const auto fg2 = ansi::fg( rgb::grey( 150 ) );
     const auto ar = ansi::reset;
-    const auto spacer = fg1 + u8"\u00b7 " + ar;
+    const auto spacer = fg1 + "~ " + ar;
     const auto split = fg2 + " // " + ar;
 
     const auto srgb = rgb().srgb_;
@@ -152,7 +185,7 @@ std::string Color::valueInfo() const
     };
 
     sstr << fg << hex() << split << fg << name() << "\n" << ar;
-    sstr << fg2 << "space: " << ar << spaceInfo() << "\n";
+    sstr << fg2 << "space: " << ar << spaceInfo() << ", ";
     sstr << ( valid() ? ( ansi::fg( "green"s ) + "valid" ) : ( ansi::fg( "red"s ) + "invalid" ) ) << "\n";
     sstr << spacer << vcol( rgb8, "rgb" ) << split << vcol( srgb, "rgbf" ) << "\n";
     sstr << spacer << vcol( hsv::readable( hsv ), "hsv" ) << split << vcol( hsv, "hsvf" ) << "\n";
