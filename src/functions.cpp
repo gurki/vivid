@@ -151,8 +151,6 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
 //  [7] https://github.com/gawin/bash-colors-256
 void printColorTable( const bool foreground, const bool background )
 {
-    std::cout << std::endl;
-
     auto escapeCode = [=]( const uint8_t& id ) -> std::string
     {
         char idstr[ 4 ];
@@ -219,8 +217,6 @@ void printColorTable( const bool foreground, const bool background )
             std::cout << std::endl;
         }
     }
-
-    std::cout << std::endl << std::endl;
 }
 
 
