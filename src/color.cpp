@@ -85,8 +85,8 @@ Color::Color( const std::string& hexOrName )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-Color::Color( const float r, const float g, const float b ) :
-    Color( srgb_t( r, g, b ) )
+Color::Color( const uint8_t r, const uint8_t g, const uint8_t b ) :
+    Color( rgb::fromRgb8( { r, g, b } ) )
 {}
 
 
@@ -129,13 +129,11 @@ std::string Color::quickInfo() const
     const auto fg = ansi::fg( index() );
     const auto split = ansi::grey150 + " // " + ansi::reset;
 
-    const auto srgb = rgb().srgb_;
-    const auto rgb8 = rgb8::fromRgb( srgb );
-    const auto hsl = hsl::readable( this->hsl().hsl_ );
-
     std::stringstream sstr;
-    sstr << fg << hex() << split << fg << name() << split;
-    sstr << ansi::colorize( rgb8, "rgb" ) << split << ansi::colorize( glm::round( hsl ), "hsl" );
+    sstr << fg << hex();
+    sstr << split << fg << std::setw( 3 ) << std::right << int( index() );
+    sstr << split << fg << std::setw( 17 ) << std::left << name();
+    sstr << ansi::reset;
 
     return sstr.str();
 }
@@ -148,23 +146,34 @@ std::string Color::info() const
     const auto spacer = ansi::grey100 + "\u2022 " + ansi::reset;
     const auto split = ansi::grey150 + " // " + ansi::reset;
 
-    const auto srgb = rgb().srgb_;
-    const auto rgb8 = rgb8::fromRgb( srgb );
+    const auto rgb8 = this->rgb8();
+    const auto srgb = this->rgb().srgb_;
     const auto hsv = this->hsv().hsv_;
     const auto hsl = this->hsl().hsl_;
+    const auto lch = this->lch().lch_;
+    const auto xyz = xyz::fromSrgb( srgb );
+    const auto lab = lab::fromXyz( xyz );
 
     using namespace std::string_literals;
 
     std::stringstream sstr;
-    sstr << fg << hex() << split << fg << name() << "\n" << ansi::reset;
+    sstr << quickInfo() << "\n";
     sstr << ansi::grey150 << "space: " << ansi::reset << spaceInfo() << ", ";
     sstr << ( valid() ? ( ansi::fg( "green"s ) + "valid" ) : ( ansi::fg( "red"s ) + "invalid" ) ) << "\n";
-    sstr << spacer << ansi::colorize( rgb8, "rgb" ) << split << ansi::colorize( srgb, "rgbf" ) << "\n";
-    sstr << spacer << ansi::colorize( hsv::readable( hsv ), "hsv" ) << split << ansi::colorize( hsv, "hsvf" ) << "\n";
-    sstr << spacer << ansi::colorize( hsl::readable( hsl ), "hsl" ) << split << ansi::colorize( hsl, "hslf" ) << "\n";
-    sstr << spacer << ansi::colorize( xyz::fromSrgb( srgb_ ), "xyz" ) << "\n";
-    sstr << spacer << ansi::colorize( lab::fromXyz( xyz::fromSrgb( srgb ) ), "lab" ) << "\n";
-    sstr << spacer << ansi::colorize( lch().lch_, "lch" );
+
+    sstr << ansi::grey150 << "readable: \n";
+    sstr << spacer << ansi::colorize( rgb8, "rgb" ) << "\n";
+    sstr << spacer << ansi::colorize( hsv::readable( hsv ), "hsv" ) << "\n";
+    sstr << spacer << ansi::colorize( hsl::readable( hsl ), "hsl" ) << "\n";
+    sstr << spacer << ansi::colorize( xyz::readable( xyz ), "xyz" ) << "\n";
+
+    sstr << ansi::grey150 << "unscaled: \n";
+    sstr << spacer << ansi::colorize( srgb, "rgb" ) << "\n";
+    sstr << spacer << ansi::colorize( hsv, "hsv" ) << "\n";
+    sstr << spacer << ansi::colorize( hsl, "hsl" ) << "\n";
+    sstr << spacer << ansi::colorize( xyz, "xyz" ) << "\n";
+    sstr << spacer << ansi::colorize( lab, "lab" ) << "\n";
+    sstr << spacer << ansi::colorize( lch, "lch" );
 
     return sstr.str();
 }

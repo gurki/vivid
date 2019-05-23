@@ -147,6 +147,15 @@ int main( int, char* argv[] )
         std::cout << col.info() << "\n";
     }
 
+    //  lossy conversion
+
+    Color original( "#a1b2c3" );
+    Color lossy = original.index();
+
+    std::cout << "\n";
+    std::cout << "original: " << original.quickInfo() << "\n";
+    std::cout << "lossy:    " << lossy.quickInfo() << "\n";
+
     //  encoding
 
     std::cout << "\n";

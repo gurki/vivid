@@ -6,6 +6,7 @@
 
 #include <string>
 #include <sstream>
+#include <iomanip>
 
 
 namespace vivid::ansi
@@ -34,9 +35,9 @@ namespace vivid::ansi
     {
         std::stringstream sstr;
         sstr << grey100 << label << grey150 << "(" << ansi::reset;
-        sstr << col.x << grey150 << ", " << ansi::reset;
-        sstr << col.y << grey150 << ", " << ansi::reset;
-        sstr << col.z << grey150 << ")" << ansi::reset;
+        sstr << std::setw( 3 ) << std::right << col.x << grey150 << "," << ansi::reset;
+        sstr << std::setw( 3 ) << std::right << col.y << grey150 << "," << ansi::reset;
+        sstr << std::setw( 3 ) << std::right << col.z << grey150 << ")" << ansi::reset;
         return sstr.str();
     }
 }
@@ -56,8 +57,8 @@ namespace vivid::html
     {
         return (
             "<span style='color:rgb(" +
-            std::to_string( rgb8.x ) + ", " +
-            std::to_string( rgb8.y ) + ", " +
+            std::to_string( rgb8.x ) + "," +
+            std::to_string( rgb8.y ) + "," +
             std::to_string( rgb8.z ) + ")'>"
         );
     }
@@ -66,8 +67,8 @@ namespace vivid::html
     {
         return (
             "<span style='background-color:rgb(" +
-            std::to_string( rgb8.x ) + ", " +
-            std::to_string( rgb8.y ) + ", " +
+            std::to_string( rgb8.x ) + "," +
+            std::to_string( rgb8.y ) + "," +
             std::to_string( rgb8.z ) + ")'>"
         );
     }

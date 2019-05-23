@@ -99,7 +99,7 @@ hsl_t compact( const col_t& col ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 hsl_t readable( const col_t& col ) {
-    return static_cast<hsl_t>( col * sup );
+    return static_cast<hsl_t>( glm::round( col * sup ) );
 }
 
 }   //  ::vivid::hsl
@@ -115,10 +115,26 @@ hsv_t compact( const col_t& col ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 hsv_t readable( const col_t& col ) {
-    return static_cast<hsv_t>( col * sup );
+    return static_cast<hsv_t>( glm::round( col * sup ) );
 }
 
 }   //  ::vivid::hsv
+
+
+namespace xyz {
+
+////////////////////////////////////////////////////////////////////////////////
+xyz_t compact( const xyz_t& col ) {
+    return static_cast<xyz_t>( col / sup );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+xyz_t readable( const xyz_t& col ) {
+    return static_cast<xyz_t>( glm::round( col * sup ) );
+}
+
+}   //  ::vivid::xyz
 
 
 namespace ansi {

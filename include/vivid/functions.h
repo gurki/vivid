@@ -49,6 +49,15 @@ namespace hsv
 }
 
 
+namespace xyz
+{
+    static const glm::vec3 sup = { 100, 100, 100 };
+
+    xyz_t compact( const xyz_t& col );
+    xyz_t readable( const xyz_t& col );
+}
+
+
 namespace ansi
 {
     std::string colorize(
