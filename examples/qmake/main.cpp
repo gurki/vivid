@@ -21,7 +21,6 @@ int main( int, char* argv[] )
     dir.mkdir( "out/" );
     dir.cd( "out/" );
 
-
     //  introduction
 
     ColorMap hslMap( ColorMap::PresetHsl );

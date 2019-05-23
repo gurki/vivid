@@ -21,13 +21,13 @@ inline glm::vec2 chromaticity( const float X, const float Y, const float Z ) {
 
 inline glm::mat3 workingSpaceMatrix(
     const glm::vec2& xy,
-    const glm::vec3& rgbx,
-    const glm::vec3& rgby )
+    const glm::vec3& ciex,
+    const glm::vec3& ciey )
 {
     const glm::mat3 K = {
-        rgbx.r / rgby.r, 1.f, ( 1.f - rgbx.r - rgby.r ) / rgby.r,
-        rgbx.g / rgby.g, 1.f, ( 1.f - rgbx.g - rgby.g ) / rgby.g,
-        rgbx.b / rgby.b, 1.f, ( 1.f - rgbx.b - rgby.b ) / rgby.b,
+        ciex.r / ciey.r, 1.f, ( 1.f - ciex.r - ciey.r ) / ciey.r,
+        ciex.g / ciey.g, 1.f, ( 1.f - ciex.g - ciey.g ) / ciey.g,
+        ciex.b / ciey.b, 1.f, ( 1.f - ciex.b - ciey.b ) / ciey.b,
     };
 
     const glm::vec3 XYZ = tristimulus( xy.x, xy.y );

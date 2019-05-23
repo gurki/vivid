@@ -82,10 +82,10 @@ cmake .. && make
 
 ## High-Level API ⛰️
 
-`vivid` provides a convenient `Color` class, which is intended to be flexible and easy to use. It stores the `value` (_col_t_) and the associated `space` _∈ {`RGB`, `HSV`, `HSL`, `LCH`}_ of its underlying type. `Colors` can be implicitly constructed from any of the above native color spaces and their representations.
+`vivid` provides a convenient `Color` class, which is intended to be flexible and easy to use. It stores the `value` (_col_t_) and the associated `space` _∈ {`RGB`, `HSV`, `HSL`, `LCH`}_ of its underlying type. `Colors` can be implicitly constructed from any of the above native color spaces and their representations (c.f. _include/vivid/color.h_ for all available constructors).
 
 ```cpp
-//  c.f. _include/vivid/color.h_ for all available constructors
+//  instantiation
 Color col1( "#abcdef" );
 Color col2 = { 255, 0, 128 };
 Color col3 = { 1.f, 0.3f, 0.6f }, Color::SpaceHsl );
@@ -94,18 +94,20 @@ Color col3 = { 1.f, 0.3f, 0.6f }, Color::SpaceHsl );
 Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. Moving to one of the four native spaces will return another `Color` instance with its `value` and `space` converted accordingly.
 
 ```cpp
-Color newCol = col1.hsl();  //  convert to hsl, whatever the current space
-std::cout << col1.spaceInfo() << std::endl;     //  rgb
-std::cout << newCol.spaceInfo() << std::endl;   //  hsl
+//  native conversion
+Color conv = col1.hsl();    //  convert to hsl, whatever the current space
+col1.spaceInfo();   //  rgb
+conv.spaceInfo();   //  hsl
 ```
 
 `8-bit` colors are represented using either byte-triplets (_col8_t_) or compactly as `ARGB` (_uint32_t_), where alpha is set to `0xff` by default. Lossy conversion, e.g. getting the name or index of some non-xterm color, will return the closest valid color/value in that space.
 
 ```cpp
+//  lossy conversion
 Color original( "#a1b2c3" );
 Color lossy = original.index(); //  clamps to nearest ansi color code
-std::cout << original.hex() << std::endl;   //  #a1b2c3
-std::cout << lossy.hex() << std::endl;      //  #afafd7
+original.hex(); //  #a1b2c3
+lossy.hex();    //  #afafd7
 ```
 
 ## Low-Level API 🛠️
@@ -140,17 +142,18 @@ The following direct conversions are currently available.
 `vivid` assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can also extend this using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :). You can use this library as high-level or low-level as you like.
 
 ```cpp
-//  manual wide gamut rgb to xyz conversion
-static const float wideGamutGamma = 2.2f;
-static const glm::mat3 wideToXyz = {    //  will be transposed due to column-major init
-    0.7161046f, 0.1009296f, 0.1471858f,
-    0.2581874f, 0.7249378f, 0.0168748f,
-    0.0000000f, 0.0517813f, 0.7734287f
-};
+//  manual wide gamut rgb to xyz d50 conversion
+rgb_t wg = { 1.f, 0.f, 0.f };
 
-col_t wide = { 1.f, 0.f, 0.f };
-auto linear = rgb::invGamma( wide, wideGamutGamma );
-auto xyz = linear * wideToXyz;          //  post-multiply to save transposition
+const glm::vec2 d50 = { 0.3457f, 0.3585f };
+const glm::vec3 ciex = { 0.7347f, 0.1152f, 0.1566f };
+const glm::vec3 ciey = { 0.2653f, 0.8264f, 0.0177f };
+const auto wg_to_xyz = workingSpaceMatrix( d50, ciex, ciey );
+
+const float gamma = 2.19921875f;
+auto linear = rgb::gamma( wg, gamma );
+
+auto xyz = wg_to_xyz * linear;
 ```
 
 
