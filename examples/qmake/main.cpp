@@ -28,6 +28,7 @@ int main( int, char* argv[] )
 
     //  escape codes
 
+    std::cout << "\n";
     printColorTable();
 
     //  colormaps
@@ -105,7 +106,7 @@ int main( int, char* argv[] )
         for ( int c = 0; c < img.width(); c++ )
         {
             const float t = c / ( img.width() - 1.f );
-            const auto col = lerp.first( c1, c2, t ).value();
+            const auto col = glm::vec<3, double>( lerp.first( c1, c2, t ).value() );
             const QColor qcol = QColor::fromRgbF( col.x, col.y, col.z );
 
             for ( int r = 0; r < img.height(); r++ ) {
@@ -133,7 +134,7 @@ int main( int, char* argv[] )
     std::cout << lerpHsl( color, c2, 0.5f ) << std::endl;   //  implicit Color() construction from c2
     std::cout << "\n";
 
-    srand( time( nullptr ) );
+    srand( uint32_t( time( nullptr ) ));
 
     for ( size_t i = 0; i < 10; i++ ) {
         Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );

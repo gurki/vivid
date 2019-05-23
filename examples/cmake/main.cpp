@@ -6,9 +6,6 @@ int main( int, char* argv[] )
 {
     using namespace vivid;
 
-    std::cout << VIVID_ROOT_PATH "res/colors.json" << std::endl;
-    ColorTable::load( VIVID_ROOT_PATH "res/colors.json" );
-
     //  introduction
 
     const ColorMap hslMap( ColorMap::PresetHsl );
@@ -17,19 +14,19 @@ int main( int, char* argv[] )
 
     //  low-level conversions
 
-    static const col_t col( 1.f, 0.7f, 0.5f );
-    const auto hsl = hsl::fromRgb( col );
-    const auto rgb_2 = rgb::fromHsl( hsl );
+    static const rgb_t rgb1( 1.f, 0.7f, 0.5f );
+    const auto hsl = hsl::fromRgb( rgb1 );
+    const auto rgb2 = rgb::fromHsl( hsl );
 
-    std::cout << col << " -> " << hsl << " -> " << rgb_2 << std::endl;
+    std::cout << rgb1 << " -> " << hsl << " -> " << rgb2 << std::endl;
 
     //  high-level conversions
 
-    const Color color1( col_t( 0.7f, 0.3f, 0.3f ) );
-    const Color color2( col_t( 0.1f, 0.6f, 0.4f ) );
+    const Color color1 = { 0.7f, 0.3f, 0.3f };
+    const Color color2 = { 0.1f, 0.6f, 0.4f };
 
-    std::cout << color1.hsl() << std::endl;
-    std::cout << lerp( color1.hsl(), color2.hsl(), 0.5f ) << std::endl;
+    std::cout << color1.hsv() << std::endl;
+    std::cout << lerpHsl( color1, color2, 0.5f ) << std::endl;
 
     //  encoding
 
