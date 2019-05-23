@@ -24,12 +24,16 @@ add_library( vivid SHARED
     src/hsl.cpp
     src/hsv.cpp
     src/index.cpp
+    src/interpolation.cpp
     src/lab.cpp
     src/lch.cpp
+    src/lrgb.cpp
     src/name.cpp
     src/rgb.cpp
     src/rgb32.cpp
     src/rgb8.cpp
+    src/srgb.cpp
+    src/types.cpp
     src/xyz.cpp
 )
 
