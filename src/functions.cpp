@@ -139,6 +139,7 @@ xyz_t readable( const xyz_t& col ) {
 
 namespace ansi {
 
+
 ////////////////////////////////////////////////////////////////////////////////
 std::string colorize( const std::string& text, const ColorMap& cmap )
 {
@@ -159,12 +160,25 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
     return ss.str();
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+std::string colorize( const col_t& col, const std::string& label )
+{
+    std::stringstream sstr;
+    sstr << grey100 << label << grey150 << "(" << ansi::reset;
+    sstr << std::setw( 3 ) << std::right << col.x << grey150 << "," << ansi::reset;
+    sstr << std::setw( 3 ) << std::right << col.y << grey150 << "," << ansi::reset;
+    sstr << std::setw( 3 ) << std::right << col.z << grey150 << ")" << ansi::reset;
+    return sstr.str();
+}
+
+
 }   //  ::vivid::ansi
 
 
 ////////////////////////////////////////////////////////////////////////////////////
-//  layout inspired by gawin's kool xterm color demo
-//  [7] https://github.com/gawin/bash-colors-256
+//  layout inspired by gawin's kool xterm color demo [1]
+//  [1] https://github.com/gawin/bash-colors-256
 void printColorTable( const bool foreground, const bool background )
 {
     auto escapeCode = [=]( const uint8_t& id ) -> std::string

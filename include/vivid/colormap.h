@@ -3,7 +3,7 @@
 //  colormaps from [1], great job guys!
 
 /*
-    [9] https://github.com/BIDS/colormap
+    [1] https://github.com/BIDS/colormap
 
     mpl-colormaps by Nathaniel Smith & Stefan van der Walt
 

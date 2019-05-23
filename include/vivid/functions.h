@@ -58,12 +58,9 @@ namespace xyz
 }
 
 
-namespace ansi
-{
-    std::string colorize(
-        const std::string& text,
-        const ColorMap& cmap
-    );
+namespace ansi {
+    std::string colorize( const std::string& text, const ColorMap& cmap );
+    std::string colorize( const col_t& col, const std::string& label );
 }
 
 
