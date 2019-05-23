@@ -23,7 +23,10 @@ int main( int, char* argv[] )
 
     ColorMap hslMap( ColorMap::PresetHsl );
     std::cout << ansi::colorize( "vivid", hslMap ) << std::endl;
-    std::cout << std::endl;
+
+    //  escape codes
+
+    printColorTable();
 
     //  colormaps
 
@@ -42,6 +45,8 @@ int main( int, char* argv[] )
         ColorMap::PresetViridis,
         ColorMap::PresetVivid
     };
+
+    std::cout << "\n";
 
     for ( const auto& preset : presets )
     {
@@ -122,28 +127,25 @@ int main( int, char* argv[] )
 
     Color color = { 255, 123, 0 };
 
-    std::cout << "\n";
-    std::cout << color.valueInfo() << std::endl;
     std::cout << color.hsl() << std::endl;
     std::cout << lerpHsl( color, c2, 0.5f ) << std::endl;   //  implicit Color() construction from c2
 
+    std::cout << "\n";
+    std::cout << color.valueInfo() << std::endl;
+
     //  encoding
 
-    std::cout << std::endl;
+    std::cout << "\n";
     std::cout << ansi::fg( 9 ) << "yay colors" << ansi::reset << std::endl;
     std::cout << html::fg( "#abc123" ) << "hex hex!" << html::close << std::endl;
     std::cout << html::fg( col8_t( 100, 144, 159 ) ) << "html, aw yes" << html::close << std::endl;
-    std::cout << std::endl;
-
-    //  escape codes
-
-    printColorTable();
 
     //  wide gamut conversions
 
     adobe_t adobe = { 1, 0, 0 };
     srgb_t srgb = { 1, 0, 0 };
 
+    std::cout << "\n";
     std::cout << adobe::fromSrgb( srgb::fromAdobe( adobe ) ) << std::endl;
     std::cout << srgb::fromAdobe( adobe::fromSrgb( srgb ) ) << std::endl;
 
