@@ -85,8 +85,8 @@ Color::Color( const std::string& hexOrName )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-Color::Color( const uint8_t r, const uint8_t g, const uint8_t b ) :
-    Color( rgb_t( col_t( r, g, b ) / 255.f ) )
+Color::Color( const float r, const float g, const float b ) :
+    Color( srgb_t( r, g, b ) )
 {}
 
 
