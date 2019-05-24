@@ -189,7 +189,7 @@ LCH           | ![lerp-lch](docs/images/interpolations/lerpLch.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
 
-`vivid` provides low-level interpolations for the four main spaces `RGB, HSL, HSV, LCH`. They can be accessed directly via e.g. `rgb::lerp( const col_t&, const col_t&, const float )`, or implicitly via `lerp( const Color&, const Color&, const float )`. Note, that the latter requires the `Color` objects to be in the same space. Otherwise, an invalid color is returned.
+`vivid` provides color interpolations in the four main spaces `RGB, HSL, HSV, LCH`. They can be accessed directly via e.g. `rgb::lerp( const col_t&, const col_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
 
 [\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
 
