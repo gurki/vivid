@@ -149,20 +149,22 @@ The `Color` class assumes a default `sRGB` working space. Specifically, the conv
 rgb_t wg = { 1.f, 0.f, 0.f };
 
 //  working space matrix from primary color chromaticities and white point
-const glm::vec2 d50 = { 0.3457f, 0.3585f };
 const glm::vec3 ciex = { 0.7347f, 0.1152f, 0.1566f };
 const glm::vec3 ciey = { 0.2653f, 0.8264f, 0.0177f };
-const auto wg_to_xyz = workingSpaceMatrix( d50, ciex, ciey );
+const auto wg_to_xyz = workingSpaceMatrix( profiles::xy_d50, ciex, ciey );
 
 //  linearized rgb via inverse gamma compounding
 const float gamma = 2.19921875f;
 auto linear = rgb::gamma( wg, gamma );
 
-//  xyz with d50 white point using the computed linear transformation
-auto xyz50 = wg_to_xyz * linear;
+//  xyz with d50 white point using above linear transformation
+auto xyz50 = xyz_t( wg_to_xyz * linear );
+
+//  xyz with d65 white point via chromatic adaptation
+auto xyz65 = chromaticAdaptation( xyz50, profiles::xy_d50, profiles::xy_d65 );
 ```
 
-Note that `vivid` assumes a default `D65` white point, which means chromatic adaptation should be applied after above result in order to work properly with e.g. `srgb::fromXyz()` conversions.
+Note that `vivid` uses the _D65_ white point and _2° Standard Observer_, which is why we apply chromatic adaptation in the example above. This let's us subsequently use e.g. `srgb::fromXyz( xyz65 )`.
 
 
 ## Interpolation
