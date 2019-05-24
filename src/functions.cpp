@@ -19,15 +19,10 @@ namespace rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-rgb_t saturate( const rgb_t& rgb )
-{
-    auto res = rgb;
-
-    res.x = glm::clamp( rgb.x, 0.f, 1.f );
-    res.y = glm::clamp( rgb.y, 0.f, 1.f );
-    res.z = glm::clamp( rgb.z, 0.f, 1.f );
-
-    return res;
+rgb_t saturate( const rgb_t& rgb ) {
+    return static_cast<rgb_t>(
+        glm::clamp( rgb, 0.f, 1.f )
+    );
 }
 
 
@@ -135,6 +130,21 @@ xyz_t readable( const xyz_t& col ) {
 }
 
 }   //  ::vivid::xyz
+
+
+namespace lch {
+
+////////////////////////////////////////////////////////////////////////////////
+lch_t saturate( const lch_t& lch )
+{
+    return {
+        glm::clamp( lch.x, 0.f , 100.f ),
+        glm::clamp( lch.y, 0.f , 140.f ),
+        glm::clamp( lch.z, 0.f , 360.f )
+    };
+}
+
+}   //  ::vivid::lch
 
 
 namespace ansi {

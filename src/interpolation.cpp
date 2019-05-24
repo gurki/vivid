@@ -1,6 +1,10 @@
 #include "vivid/interpolation.h"
 #include "vivid/conversion.h"
 #include "vivid/color.h"
+#include "vivid/functions.h"
+
+#include "vivid/stream.h"
+#include <iostream>
 
 namespace vivid {
 
@@ -111,7 +115,7 @@ Color lerpHsl( const Color& col1, const Color& col2, const float t ) {
 
 ////////////////////////////////////////////////////////////////////////////////
 Color lerpLch( const Color& col1, const Color& col2, const float t ) {
-    return lerp( col1.lch(), col2.lch(), t ).rgb();
+    return lerp( col1.lch(), col2.lch(), t ).rgb().saturated();
 }
 
 

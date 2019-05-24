@@ -91,6 +91,20 @@ Color::Color( const uint8_t r, const uint8_t g, const uint8_t b ) :
 
 
 ////////////////////////////////////////////////////////////////////////////////
+Color Color::saturated() const
+{
+    switch ( space_ )
+    {
+        case SpaceRgb: return Color( rgb::saturate( srgb_ ), SpaceRgb );
+        case SpaceHsl: return Color( rgb::saturate( srgb_ ), SpaceHsl );
+        case SpaceHsv: return Color( rgb::saturate( srgb_ ), SpaceHsv );
+        case SpaceLch: return Color( lch::saturate( lch_ ), SpaceLch );
+        default: assert( true ); return {};
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 bool Color::valid() const
 {
     if ( space_ == SpaceUndefined ) {
@@ -113,12 +127,13 @@ bool Color::valid() const
 ////////////////////////////////////////////////////////////////////////////////
 std::string Color::spaceInfo() const
 {
-    switch ( space_ ) {
+    switch ( space_ )
+    {
         case SpaceRgb: return "rgb";
         case SpaceHsl: return "hsl";
         case SpaceHsv: return "hsv";
         case SpaceLch: return "lch";
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -188,7 +203,7 @@ Color Color::rgb() const
         case SpaceHsl: return Color( rgb::fromHsl( hsl_ ), SpaceRgb );
         case SpaceHsv: return Color( rgb::fromHsv( hsv_ ), SpaceRgb );
         case SpaceLch: return Color( srgb::fromLch( lch_ ), SpaceRgb );
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -202,7 +217,7 @@ Color Color::hsl() const
         case SpaceHsl: return Color( hsl_, SpaceHsl );
         case SpaceHsv: return Color( hsl::fromHsv( hsv_ ), SpaceHsl );
         case SpaceLch: return Color( hsl::fromRgb( srgb::fromLch( lch_ ) ), SpaceHsl );
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -216,7 +231,7 @@ Color Color::hsv() const
         case SpaceHsl: return Color( hsv::fromHsl( hsl_ ), SpaceHsv );
         case SpaceHsv: return Color( hsv_, SpaceHsv );
         case SpaceLch: return Color( hsv::fromRgb( srgb::fromLch( lch_ ) ), SpaceHsv );
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -230,7 +245,7 @@ Color Color::lch() const
         case SpaceHsl: return Color( lch::fromSrgb( static_cast<srgb_t>( rgb::fromHsl( hsl_ ) )), SpaceLch );
         case SpaceHsv: return Color( lch::fromSrgb( static_cast<srgb_t>( rgb::fromHsv( hsv_ ) )), SpaceLch );
         case SpaceLch: return Color( lch_, SpaceLch );
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -244,7 +259,7 @@ col8_t Color::rgb8() const
         case SpaceHsl: return rgb8::fromRgb( rgb::fromHsl( hsl_ ) );
         case SpaceHsv: return rgb8::fromRgb( rgb::fromHsv( hsv_ ) );
         case SpaceLch: return rgb8::fromRgb( srgb::fromLch( lch_ ) );
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -258,7 +273,7 @@ uint32_t Color::rgb32() const
         case SpaceHsl: return rgb32::fromRgb( rgb::fromHsl( hsl_ ) );
         case SpaceHsv: return rgb32::fromRgb( rgb::fromHsv( hsv_ ) );
         case SpaceLch: return rgb32::fromRgb( srgb::fromLch( lch_ ) );
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -272,7 +287,7 @@ uint8_t Color::index() const
         case SpaceHsl: return index::fromHsl( hsl_ );
         case SpaceHsv: return index::fromRgb( rgb::fromHsv( hsv_ ) );
         case SpaceLch: return index::fromRgb( srgb::fromLch( lch_ ) );
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -286,7 +301,7 @@ std::string Color::hex() const
         case SpaceHsl: return hex::fromRgb( rgb::fromHsl( hsl_ ) );
         case SpaceHsv: return hex::fromRgb( rgb::fromHsv( hsv_ ) );
         case SpaceLch: return hex::fromRgb( srgb::fromLch( lch_ ) );
-        default: return {};
+        default: assert( true ); return {};
     }
 }
 
@@ -300,11 +315,7 @@ const std::string& Color::name() const
         case SpaceHsl: return name::fromRgb( rgb::fromHsl( hsl_ ) );
         case SpaceHsv: return name::fromRgb( rgb::fromHsv( hsv_ ) );
         case SpaceLch: return name::fromRgb( srgb::fromLch( lch_ ) );
-        default: {
-            //  space should always have a valid value
-            assert( true );
-            return data::xterm.at( 0 ).name;
-        }
+        default: assert( true ); return data::xterm.at( 0 ).name;
     }
 }
 

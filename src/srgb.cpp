@@ -9,18 +9,18 @@ namespace vivid::srgb {
 ////////////////////////////////////////////////////////////////////////////////
 srgb_t fromLrgb( const lrgb_t& lrgb )
 {
-    return rgb::saturate({
+    return {
         srgb::compound( lrgb.x ),
         srgb::compound( lrgb.y ),
         srgb::compound( lrgb.z )
-    });
+    };
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
 srgb_t fromXyz( const xyz_t& xyz ) {
     const auto lrgb = static_cast<lrgb_t>( matrices::xyz_to_rgb * xyz );
-    return rgb::saturate( srgb::fromLrgb( lrgb ) );
+    return srgb::fromLrgb( lrgb );
 }
 
 

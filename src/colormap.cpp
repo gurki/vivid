@@ -70,10 +70,12 @@ srgb_t ColorMap::at( const float t ) const
             hsl::fromRgb( stops_[ k + 1 ] ),
             u
         ));
-        case InterpolationLch: return srgb::fromLch( lerp(
-            lch::fromSrgb( stops_[ k ] ),
-            lch::fromSrgb( stops_[ k + 1 ] ),
-            u
+        case InterpolationLch: return rgb::saturate(
+            srgb::fromLch( lerp(
+                lch::fromSrgb( stops_[ k ] ),
+                lch::fromSrgb( stops_[ k + 1 ] ),
+                u
+            )
         ));
     }
 

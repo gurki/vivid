@@ -58,6 +58,11 @@ namespace xyz
 }
 
 
+namespace lch {
+    lch_t saturate( const lch_t& );
+}
+
+
 namespace ansi
 {
     std::string colorize( const std::string& text, const ColorMap& cmap );

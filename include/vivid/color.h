@@ -30,6 +30,7 @@ class Color
         Color( const col_t& value, const Space );
         Color( const uint8_t r, const uint8_t g, const uint8_t b );
 
+
         bool valid() const;
         const col_t& value() const { return value_; }
         Space space() const { return space_; }
@@ -46,6 +47,7 @@ class Color
         uint8_t index() const;
         std::string hex() const;
         const std::string& name() const;
+        Color saturated() const;
 
         //  implemented in src/interpolation.cpp
         friend Color lerp( const Color&, const Color&, const float );
