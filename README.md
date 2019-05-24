@@ -139,22 +139,30 @@ The following direct conversions are currently available.
 
 ### RGB Working Spaces
 
-`vivid` assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can also extend this using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :). You can use this library as high-level or low-level as you like.
+The `Color` class assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can however extend this freely and work with custom color spaces using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :).
+
+    You can use this library as high- or low-level as you like!
 
 ```cpp
-//  manual wide gamut rgb to xyz d50 conversion
+//  manual wide-gamut rgb to xyz conversion
+
 rgb_t wg = { 1.f, 0.f, 0.f };
 
+//  working space matrix from primary color chromaticities and white point
 const glm::vec2 d50 = { 0.3457f, 0.3585f };
 const glm::vec3 ciex = { 0.7347f, 0.1152f, 0.1566f };
 const glm::vec3 ciey = { 0.2653f, 0.8264f, 0.0177f };
 const auto wg_to_xyz = workingSpaceMatrix( d50, ciex, ciey );
 
+//  linearized rgb via inverse gamma compounding
 const float gamma = 2.19921875f;
 auto linear = rgb::gamma( wg, gamma );
 
-auto xyz = wg_to_xyz * linear;
+//  xyz with d50 white point using the computed linear transformation
+auto xyz50 = wg_to_xyz * linear;
 ```
+
+Note that `vivid` assumes a default `D65` white point, which means chromatic adaptation should be applied after above result in order to work properly with e.g. `srgb::fromXyz()` conversions.
 
 
 ## Interpolation
@@ -163,7 +171,7 @@ auto xyz = wg_to_xyz * linear;
 //  pseudo-code to generate the images in this section
 for ( auto& pixel : image ) {
     const float t = pixel.x / image.width;
-    const auto col = lerp( c1, c2, t );
+    const Color col = lerpLch( c1, c2, t );
     image.setColor( pixel, col );
 }
 ```
