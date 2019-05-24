@@ -227,7 +227,7 @@ std::cout << ansi::fg( 136 ) << "and tada, colorized font" << ansi::reset;
 
 To get an overview of all color codes or quickly check if your console has 8-bit color support, you can call `printColorTable()` (shoutout to Gawin [^4] for the layout idea).
 
-![colortable](docs/images/console/colortable.png)
+![colortable](docs/images/console/color-table.png)
 
 Escape codes can also be used in conjunction with `ColorMaps` to create some joyful effects.
 

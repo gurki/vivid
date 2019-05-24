@@ -183,8 +183,8 @@ void printColorTable( const bool foreground, const bool background )
         char idstr[ 4 ];
         std::snprintf( idstr, 4, "%03d", id );
 
-        const std::string bgstr = vivid::ansi::bg( id ) + " " + idstr + " " + vivid::ansi::reset;
-        const std::string fgstr = vivid::ansi::fg( id ) + " " + idstr + " " + vivid::ansi::reset;
+        const std::string bgstr = ansi::bg( id ) + ansi::white + " " + idstr + " " + ansi::reset;
+        const std::string fgstr = ansi::fg( id ) + " " + idstr + " " + ansi::reset;
 
         if ( ! background ) {
             return fgstr;
