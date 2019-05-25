@@ -140,6 +140,8 @@ auto xyz = static_cast<xyz_t>( src );   //  init from external source
 
 The base type _col_t_ aliases directly to _glm::vec<3, float>_ (c.f. _include/vivid/types.h_). This allows effective and efficient use of colors, providing all of `glm`'s vector goodness right out of the box.
 
+<details><summary>Click to expand example</summary><p>
+
 ```cpp
 //  some uses of _glm_ in _vivid_
 
@@ -152,15 +154,15 @@ inline glm::mat3 workingSpaceMatrix( ... ) {
     const glm::vec3 S = glm::inverse( K ) * XYZ;
     return K * glm::diagonal3x3( S );
 }
+
 ```
+
+</p></details>
 
 
 ## Color Spaces
 
 Under the hood, `vivid` uses an extensive set of strongly-typed conversions between color spaces (c.f. _include/vivid/conversion.h_). All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The following direct conversions are currently available.
-
-
-<details><summary>Click to expand conversions</summary><p>
 
     adobe ← xyz
     hex ← rgb8
@@ -177,14 +179,12 @@ Under the hood, `vivid` uses an extensive set of strongly-typed conversions betw
     srgb ← index, lrgb, xyz
     xyz ← adobe, lab, srgb
 
-</p></details>
-
 
 ### Working Spaces
 
     Note: You can use this library as high- or low-level as you like!
 
-<details><summary>Click to expand</summary><p>
+<details><summary>Click to expand section</summary><p>
 
 The `Color` class assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can however extend this freely and work with custom color spaces using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :).
 
@@ -236,7 +236,7 @@ LCH           | ![lerp-lch](docs/images/interpolations/lerpLch.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
 
-`vivid` provides color interpolations in the four main spaces `RGB`, `HSL`, `HSV`, `LCH`. They can be accessed directly via e.g. `rgb::lerp( const col_t&, const col_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
+`vivid` provides color interpolations in the four main spaces `RGB`, `HSL`, `HSV`, `LCH`. They can be accessed directly via e.g. `lch_t::lerp( const lch_t&, const lch_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
 
 [\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
 
@@ -303,12 +303,7 @@ To get an overview of all available xterm colors and associated codes or quickly
 
 `vivid` in fact makes use of colored output itself! Any `Color` can be debugged using a one-line `Color::quickInfo()` or the more extensive `Color::info()`.
 
-
-<details><summary>Click to expand example</summary><p>
-
 ![colorinfo](docs/images/console/color-infos.png)
-
-</p></details>
 
 `ColorMaps` can also be quickly visualized directly in the terminal, or used to create some joyful text effects.
 
