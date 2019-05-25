@@ -2,12 +2,12 @@
 A simple-to-use `cpp` color library
 
 - **strongly-typed** colors
-- color space **conversions**
+- safe color space **conversions**
 - perceptual color **interpolation**
 - popular and custom **color maps**
 - **xterm** names and **ansi** codes
 - ansi **escape sequences** and **html** encoding
-- (somewhat) **unit tested** in itself and against `QColor`
+- (somewhat™) **unit tested** in itself and against `QColor`
 - **qmake** and **cmake** support
 
 ```cpp
@@ -25,7 +25,7 @@ ColorMap cmap( ColorMap::PresetViridis );
 Color mid = cmap.at( 0.5f );
 
 //  ansi and html encodings
-std::cout << ansi::fg( 163 ) << "woah!!" << ansi::reset;
+std::cout << ansi::fg( c1 ) << "woah!!" << ansi::reset;
 fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 ```
 
@@ -80,9 +80,9 @@ cmake .. && make
 - [Catch2](https://github.com/catchorg/Catch2/tree/master/examples) for testing
 
 
-## High-Level API ⛰️
+## Types
 
-`vivid` provides a convenient `Color` class, which is intended to be flexible and easy to use. It stores the `value` (_col_t_) and the associated `space` _∈ {`RGB`, `HSV`, `HSL`, `LCH`}_ of its underlying type. `Colors` can be implicitly constructed from any of the above native color spaces and their representations (c.f. _include/vivid/color.h_ for all available constructors).
+`vivid` provides a convenient high-level `Color` class, which is intended to be flexible and easy to use. It stores the `value` (_col_t_) and its associated `space` _∈ {`RGB`, `HSV`, `HSL`, `LCH`}_ of the underlying type. `Colors` can be implicitly constructed from any of above native color spaces and their representations (c.f. _include/vivid/color.h_).
 
 ```cpp
 //  instantiation
@@ -91,7 +91,7 @@ Color col2 = { 255, 0, 128 };
 Color col3 = { 1.f, 0.3f, 0.6f }, Color::SpaceHsl );
 ```
 
-Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. Moving to one of the four native spaces will return another `Color` instance with its `value` and `space` converted accordingly.
+Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. Moving to one of the four native spaces will return another `Color` instance with its `value` converted and `space` set accordingly.
 
 ```cpp
 //  native conversion
@@ -110,34 +110,71 @@ original.hex(); //  #a1b2c3
 lossy.hex();    //  #afafd7
 ```
 
-## Low-Level API 🛠️
+### Strong Typing
 
-Under the hood, `vivid` uses inheritance-based **strong typing**, where the base _col_t_-type aliases directly to _glm::vec<3, float>_ (c.f. _include/vivid/types.h_). Parenting to a `glm` vector type allows efficient and effective handling of colors using all of `glm`'s vector goodness right out of the box.
+Under the hood, `vivid` uses _inheritance-based strong typing_. This means, that the compiler will give you a heads-up if e.g. you're trying to convert from the wrong color. This also enables `Colors` to be implicitly initialized from the native spaces.
+
+```cpp
+//  type-safe conversions
+rgb_t col1 = { 1.f, 0.f, 0.4f };
+hsl_t col2 = hsl::fromHsv( col1 );
+//  [...] error: no viable conversion from 'vivid::rgb_t' to 'const vivid::hsv_t'
+
+//  implicit initialization from native spaces
+Color col3 = lch_t( 93.f, 104.5f, 272.3f );
+Color col4 = xyz_t( 0.f, 0.f, 1.f );
+//  [...] error: no viable conversion from 'vivid::xyz_t' to 'vivid::Color'
+```
+
+If need be, you can always explicitly cast `col_t` to other spaces. This simplifies color handling and allows for some flexibility, but also introduces the risk of manually circumventing the type system, so use with care.
+
+```cpp
+//  explicit type casts
+auto srgb = srgb_t( col1 ); //  init child from parent
+
+glm::vec3 src = { 0, 1, 0 };
+auto xyz = static_cast<xyz_t>( src );   //  init from external source
+```
+
+### Color Math
+
+The base type _col_t_ aliases directly to _glm::vec<3, float>_ (c.f. _include/vivid/types.h_). This allows effective and efficient use of colors, providing all of `glm`'s vector goodness right out of the box.
+
+```cpp
+//  some uses of _glm_ in _vivid_
+
+rgb_t saturate( const rgb_t& rgb ) {
+    return glm::clamp( rgb, 0.f, 1.f );
+}
+
+inline glm::mat3 workingSpaceMatrix( ... ) {
+    //  ...
+    const glm::vec3 S = glm::inverse( K ) * XYZ;
+    return K * glm::diagonal3x3( S );
+}
+```
+
 
 ## Color Spaces
 
-Under the hood, `vivid` uses an extensive set of inheritance-based **strongly-typed** conversions between color spaces (c.f. _include/vivid/conversion.h_). All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces.
-
-### Direct Conversions
-
-The following direct conversions are currently available.
+Under the hood, `vivid` uses an extensive set of strongly-typed conversions between color spaces (c.f. _include/vivid/conversion.h_). All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The following direct conversions are currently available.
 
     adobe ← xyz
-    hex ← rgb8, index
-    hsl ← rgb, index
+    hex ← rgb8
+    hsl ← rgb
     hsv ← rgb
-    index ← rgb8, name
-    lab ← xyz, lch
+    index ← name, rgb8
+    lab ← lch, xyz
     lch ← lab
-    linear ← srgb
+    lrgb ← srgb
     name ← index
-    rgb ← rgb8, hsv, hsl
-    rgb32 ← rgb, hex
-    rgb8 ← rgb, rgb32, index
-    srgb ← xyz
-    xyz ← lab, srgb, adobe
+    rgb ← hsl, hsv, rgb8
+    rgb32 ← hex, rgb
+    rgb8 ← rgb, rgb32
+    srgb ← index, lrgb, xyz
+    xyz ← adobe, lab, srgb
 
-### RGB Working Spaces
+### Working Spaces
 
 The `Color` class assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can however extend this freely and work with custom color spaces using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :).
 
@@ -178,7 +215,7 @@ for ( auto& pixel : image ) {
 }
 ```
 
-Color interpolation is an interesting topic. What should the color halfway in-between <span style="color:rgb(178, 76, 76)">red</span> and <span style="color:rgb(25, 153, 102)">green</span> look like? There is a great article introducing this topic by Grego Aisch [^1]. In order to do a perceptually linear transition from one color to another, we can't simply linearly interpolate two _RGB_-vectors. Rather, we move to a more suitable color space, interpolate there, and then move back again. Namely, we use the _CIE L\*C\*h(ab)_ space, or _LCH_, which matches the human visual system rather well. There are more suitable color spaces nowadays to do so, but _LCH_ has a nice balance between complexity (code and computation) and outcome.
+Color interpolation is an interesting topic. What should the color halfway in-between <span style="color:rgb(178, 76, 76)">red</span> and <span style="color:rgb(25, 153, 102)">green</span> look like? There is a great article introducing this topic by Grego Aisch [^1]. In order to do a perceptually linear transition from one color to another, we can't simply linearly interpolate two `RGB`-vectors. Rather, we move to a more suitable color space, interpolate there, and then move back again. Namely, we use the `CIE L*C*h(ab)` space, or `LCH`, which matches the human visual system rather well. There are more suitable color spaces nowadays to do so, but `LCH` has a nice balance between complexity (code and computation) and outcome.
 
 Compare the following table to get an idea of interpolating in different color spaces.
 
@@ -189,7 +226,7 @@ LCH           | ![lerp-lch](docs/images/interpolations/lerpLch.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
 
-`vivid` provides color interpolations in the four main spaces `RGB, HSL, HSV, LCH`. They can be accessed directly via e.g. `rgb::lerp( const col_t&, const col_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
+`vivid` provides color interpolations in the four main spaces `RGB`, `HSL`, `HSV`, `LCH`. They can be accessed directly via e.g. `rgb::lerp( const col_t&, const col_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
 
 [\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
 
@@ -217,7 +254,7 @@ Rainbow     | ![vivid](docs/images/colormaps/rainbow.png)
 Hsl         | ![hsl](docs/images/colormaps/hsl.png)
 Hsl Pastel  | ![hsl-pastel](docs/images/colormaps/hsl-pastel.png)
 Blue-Yellow | ![vivid](docs/images/colormaps/blue-yellow.png)
-Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)  |  
+Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
 
 [\^2] [Stefan & Nathaniel - MPL Colormaps](http://bids.github.io/colormap/) <br>
 [\^3] [SciVisColor](https://sciviscolor.org/)
@@ -227,19 +264,30 @@ Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)  |
 
 `vivid` provides encodings for **ansi** escape codes (pretty console <3) and **html** using spans.
 
-### ANSI
+### Console
 
-You can colorize console messages very simply using the `vivid::ansi` helpers.
+You can colorize console messages using the `ansi::fg()` and `ansi::bg()` helpers, or using one of the pre-defined constants, e.g. `ansi::white`. There's also a hand-picked set of the most useful™ and some of my favorite colors in there for you! You can take a look via `ansi::printColorPresets()`. Note, that for all of those your console must support `8-bit` colors, which however almost all modern consoles do.
 
 ```cpp
-std::cout << ansi::fg( 136 ) << "and tada, colorized font" << ansi::reset;
+std::cout << ansi::fg( 228 )  << "and tada, colorized font ";
+std::cout << ansi::lightRed << "(so pretty " << ansi::red << "<3" << ansi::lightRed << ") \n\n";
+std::cout << ansi::reset;  //  resets all formatting, i.e. white font, no backgorund
+ansi::printColorPresets();
 ```
 
-To get an overview of all color codes or quickly check if your console has 8-bit color support, you can call `printColorTable()` (shoutout to Gawin [^4] for the layout idea).
+![colorpresets](docs/images/console/color-output.png)
+
+To get an overview of all available xterm colors and associated codes or quickly check if your console has 8-bit color support, you can call `ansi::printColorTable()` (shoutout to Gawin [^4] for the layout idea).
 
 ![colortable](docs/images/console/color-table.png)
 
-Escape codes can also be used in conjunction with `ColorMaps` to create some joyful effects.
+### Debugging
+
+`vivid` in fact makes use of colored output itself! Any `Color` can be debugged using a one-line `Color::quickInfo()` or the more extensive `Color::info()`.
+
+![colorinfo](docs/images/console/color-infos.png)
+
+`ColorMaps` can also be quickly visualized directly in the terminal, or used to create some joyful text effects.
 
 ```cpp
 ColorMap rainbowMap( ColorMap::PresetRainbow );
