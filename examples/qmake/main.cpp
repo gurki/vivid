@@ -1,5 +1,7 @@
 #include "vivid/vivid.h"
 
+#include <glm/gtc/random.hpp>
+
 #include <QImage>
 #include <QColor>
 #include <QDir>
@@ -16,14 +18,21 @@ int main( int, char* argv[] )
 
     QDir dir( argv[ 0 ] );
     dir.cdUp();
-    dir.mkdir( "output/" );
-    dir.cd( "output/" );
+    dir.mkdir( "out/" );
+    dir.cd( "out/" );
 
     //  introduction
 
     ColorMap hslMap( ColorMap::PresetHsl );
     std::cout << ansi::colorize( "vivid", hslMap ) << std::endl;
-    std::cout << std::endl;
+
+    //  escape codes
+
+    std::cout << "\n";
+    ansi::printColorTable();
+
+    std::cout << "\n";
+    ansi::printColorPresets();
 
     //  colormaps
 
@@ -43,6 +52,8 @@ int main( int, char* argv[] )
         ColorMap::PresetVivid
     };
 
+    std::cout << "\n";
+
     for ( const auto& preset : presets )
     {
         std::cout << "Exporting " << ColorMap::nameForPreset( preset ) << " ..." << std::endl;
@@ -54,7 +65,7 @@ int main( int, char* argv[] )
         for ( int c = 0; c < img.width(); c++ )
         {
             const float t = c / ( img.width() - 1.f );
-            const auto col = glm::vec<3, double>( cmap.at( t ) );
+            const auto col = cmap.at( t );
             const QColor qcol = QColor::fromRgbF( col.x, col.y, col.z );
 
             for ( int r = 0; r < img.height(); r++ ) {
@@ -71,22 +82,24 @@ int main( int, char* argv[] )
     dir.mkdir( "interpolations/" );
     dir.cd( "interpolations/" );
 
-    using colorlerp_t = std::function< col_t( const col_t&, const col_t&, const float ) >;
-    using annotated_colorlerp_t = std::pair<colorlerp_t, std::string>;
-    auto lerpHslClamp = []( const col_t& c1, const col_t& c2, const float t ) {
-        return rgb::clamp( rgb::lerpHsl( c1, c2, t ) );
+    using lerp_t = std::function< Color( const Color&, const Color&, const float ) >;
+    using alerp_t = std::pair<lerp_t, std::string>; //  annotated lerp function
+    auto lerpHslClamp = []( const Color& c1, const Color& c2, const float t ) -> Color {
+        return rgb::clamp( rgb_t( lerpHsl( c1, c2, t ).value() ) );
     };
 
-    const std::vector<annotated_colorlerp_t> lerps = {
-        { rgb::lerp, "lerpRgb" },
-        { rgb::lerpHsv, "lerpHsv" },
-        { rgb::lerpHsl, "lerpHsl" },
-        { rgb::lerpLch, "lerpLch" },
+    const std::vector<alerp_t> lerps = {
+        { lerpRgb, "lerpRgb" },
+        { lerpHsv, "lerpHsv" },
+        { lerpHsl, "lerpHsl" },
+        { lerpLch, "lerpLch" },
         { lerpHslClamp, "lerpHslClamped" }
     };
 
-    static const col_t c1( 0.7f, 0.3f, 0.3f );
-    static const col_t c2( 0.1f, 0.6f, 0.4f );
+    static const rgb_t c1( 0.7f, 0.3f, 0.3f );
+    static const rgb_t c2( 0.1f, 0.6f, 0.4f );
+
+    std::cout << "\n";
 
     for ( const auto& lerp: lerps )
     {
@@ -96,7 +109,7 @@ int main( int, char* argv[] )
         for ( int c = 0; c < img.width(); c++ )
         {
             const float t = c / ( img.width() - 1.f );
-            const auto col = glm::vec<3, double>( lerp.first( c1, c2, t ) );
+            const auto col = glm::vec<3, double>( lerp.first( c1, c2, t ).value() );
             const QColor qcol = QColor::fromRgbF( col.x, col.y, col.z );
 
             for ( int r = 0; r < img.height(); r++ ) {
@@ -109,37 +122,65 @@ int main( int, char* argv[] )
 
     //  low-level conversions
 
-    static const col_t col( 1.f, 0.7f, 0.5f );
-    const auto hsl = hsl::fromRgb( col );
-    const auto rgb_2 = rgb::fromHsl( hsl );
+    static const rgb_t col( 1.f, 0.7f, 0.5f );
+    const hsl_t hsl = hsl::fromRgb( rgb_t( col ) );
+    const rgb_t rgb_2 = rgb::fromHsl( hsl );
 
+    std::cout << "\n";
     std::cout << col << " -> " << hsl << " -> " << rgb_2 << std::endl;
 
     //  high-level conversions
 
-    Color color1, color2;
-    color1 = Color( c1 );
-    color2 = Color( c2 );
+    Color color = { 255, 123, 0 };
 
-    std::cout << color1.hsl() << std::endl;
-    std::cout << lerp( color1.hsl(), color2.hsl(), 0.5f ) << std::endl;
+    std::cout << color.hsl() << std::endl;
+    std::cout << lerpHsl( color, c2, 0.5f ) << std::endl;   //  implicit Color() construction from c2
+    std::cout << "\n";
+
+    srand( uint32_t( time( nullptr ) ));
+
+    for ( size_t i = 0; i < 10; i++ ) {
+        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );
+        std::cout << col.quickInfo() << "\n";
+    }
+
+    for ( size_t i = 0; i < 3; i++ ) {
+        std::cout << "\n";
+        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );
+        std::cout << col.info() << "\n";
+    }
+
+    //  lossy conversion
+
+    Color original( "#a1b2c3" );
+    Color lossy = original.index();
+
+    std::cout << "\n";
+    std::cout << "original: " << original.quickInfo() << "\n";
+    std::cout << "lossy:    " << lossy.quickInfo() << "\n";
 
     //  encoding
 
-    std::cout << std::endl;
-    std::cout << ansi::fg( 3 ) << "yay colors" << ansi::reset << std::endl;
+    std::cout << "\n";
+    std::cout << ansi::fg( 9 ) << "yay colors" << ansi::reset << std::endl;
     std::cout << html::fg( "#abc123" ) << "hex hex!" << html::close << std::endl;
     std::cout << html::fg( col8_t( 100, 144, 159 ) ) << "html, aw yes" << html::close << std::endl;
-    std::cout << std::endl;
 
-    //  escape codes
+    //  wide gamut conversions
 
-    printColorTable();
+    adobe_t adobe = { 1, 0, 0 };
+    srgb_t srgb = { 1, 0, 0 };
+
+    std::cout << "\n";
+    std::cout << adobe::fromSrgb( srgb::fromAdobe( adobe ) ) << std::endl;
+    std::cout << srgb::fromAdobe( adobe::fromSrgb( srgb ) ) << std::endl;
 
     //  rainbow text
 
     ColorMap rainbowMap( ColorMap::PresetRainbow );
     const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
+
+    std::cout << "\n";
     std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 
     return EXIT_SUCCESS;

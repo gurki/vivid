@@ -1,19 +1,24 @@
 #include "vivid/conversion.h"
-#include "vivid/functions.h"
+#include "vivid/utility.h"
+#include "vivid/profiles.h"
 
 namespace vivid::adobe {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRgb( const col_t& rgb ) {
-    return adobe::fromXyz( xyz::fromRgb( rgb ) );
+adobe_t fromSrgb( const srgb_t& srgb ) {
+    return adobe::fromXyz( xyz::fromSrgb( srgb ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromXyz( const col_t& xyz ) {
-    col_t lrgb = xyz * matrices::xyz_to_adobe;
-    return rgb::invGamma( lrgb, adobe::gamma );
+adobe_t fromXyz( const xyz_t& xyz )
+{
+    const auto lrgb = static_cast<lrgb_t>( matrices::xyz_to_adobe * xyz );
+
+    return static_cast<adobe_t>(
+        rgb::gamma( lrgb, profiles::gamma_adobe )
+    );
 }
 
 

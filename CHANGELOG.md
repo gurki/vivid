@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## Added
+- Introduce inheritance-based strong typing
+- Add color info strings
+- Add hand-picked default color
+- Add color validity check
+- Add explicit ANSI grey scale map
+- Add white point and working space utilities
+- Add working space unit tests
+
+## Changed
+- Move `printColorTable` to `vivid::ansi` namespace
+- Rework everything to strong types
+- Rename functions to utility
+
+## Fixed
+- Fix some `LAB` and `XYZ` bugs
+- Fix conversion matrix number twist
+
+## Removed
+- Remove automatic color saturation in low-level conversions
+- Remove additional line breaks around color table print
+
 
 ## [v1.1.2] - 2019-05-20
 

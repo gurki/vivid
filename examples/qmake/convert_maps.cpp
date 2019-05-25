@@ -1,5 +1,7 @@
 #include "vivid/vivid.h"
+#include <algorithm>
 #include <fstream>
+#include <iomanip>
 
 
 int main( int, char*[] )
@@ -26,7 +28,7 @@ int main( int, char*[] )
 
         auto name = ColorMap::nameForPreset( type );
         std::ofstream fout;
-        fout.open( name + ".h" );
+        fout.open( "out/" + name + ".h" );
         std::replace( name.begin(), name.end(), '-', '_' );
 
         fout << "#pragma once \n";
@@ -36,13 +38,25 @@ int main( int, char*[] )
         fout << "\n";
         fout << "namespace vivid::data { \n";
         fout << "\n\n";
-        fout << "static const std::vector<col_t> " << name << " = \n";
+        fout << "static const std::vector<srgb_t> " << name << " = \n";
         fout << "{ \n";
+
+        static auto punc = []( const float t )
+        {
+            if ( std::fmodf( t, 1.f ) != 0.f ) {
+                return "f";
+            }
+
+            return ".f";
+        };
 
         for ( size_t i = 0; i < cmap.numStops(); i++ )
         {
             const auto& stop = cmap.stops().at( i );
-            fout << "    { " << stop.x << ", " << stop.y << ", " << stop.z << " }";
+            fout << "    { ";
+            fout << stop.x << punc( stop.x ) << ", ";
+            fout << stop.y << punc( stop.y ) << ", ";
+            fout << stop.z << punc( stop.z ) << " }";
 
             if ( i + 1 < cmap.numStops() ) {
                 fout << ",";

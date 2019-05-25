@@ -7,7 +7,7 @@ namespace vivid::rgb32 {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-uint32_t fromRgb( const col_t& rgb ) {
+uint32_t fromRgb( const rgb_t& rgb ) {
     return rgb32::fromRgb8( rgb8::fromRgb( rgb ) );
 }
 

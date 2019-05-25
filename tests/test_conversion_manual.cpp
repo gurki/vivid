@@ -12,10 +12,10 @@ TEST_CASE( "Manual Conversions", "[conversions]" )
     using namespace vivid;
 
     struct cieref {
-        col_t rgb;
-        col_t xyz;
-        col_t lab;
-        col_t lch;
+        srgb_t rgb;
+        xyz_t xyz;
+        lab_t lab;
+        lch_t lch;
     };
 
     //  sourced from Bruce Lindbloom's CIE Color Calculator [10]
@@ -96,7 +96,7 @@ TEST_CASE( "Manual Conversions", "[conversions]" )
         //  forward
 
         const auto rgb1 = ref.rgb;
-        const auto xyz1 = xyz::fromRgb( rgb1 );
+        const auto xyz1 = xyz::fromSrgb( rgb1 );
         const auto lab1 = lab::fromXyz( xyz1 );
         const auto lch1 = lch::fromLab( lab1 );
 
@@ -110,7 +110,7 @@ TEST_CASE( "Manual Conversions", "[conversions]" )
         const auto lch2 = ref.lch;
         const auto lab2 = lab::fromLch( lch2 );
         const auto xyz2 = xyz::fromLab( lab2 );
-        const auto rgb2 = rgb::fromXyz( xyz2 );
+        const auto rgb2 = srgb::fromXyz( xyz2 );
 
         CAPTURE( lch2, lab2, rlab, xyz2, rxyz, rgb2, rrgb );
         REQUIRE( fuzzyEqual( lab2, ref.lab ) );

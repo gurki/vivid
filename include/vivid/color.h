@@ -12,22 +12,30 @@ class Color
 
         enum Space {
             SpaceUndefined,
-            SpaceRgb,   //  assumes sRGB for XYZ conversion
+            SpaceRgb,   //  assumes sRGB, wording for confusion-free high-level API
             SpaceHsl,
             SpaceHsv,
-            SpaceLch    //  L*C*h(ab)
+            SpaceLch
         };
 
         Color() = default;        
-        Color( const col_t& value, const Space = SpaceRgb );
+        Color( const rgb_t& rgb );
+        Color( const hsl_t& hsl );
+        Color( const hsv_t& hsv );
+        Color( const lch_t& lch );
         Color( const col8_t& rgb8 );
         Color( const uint32_t rgb32 );
         Color( const uint8_t index );
         Color( const std::string& hexOrName );
+        Color( const col_t& value, const Space );
+        Color( const uint8_t r, const uint8_t g, const uint8_t b );
 
-        bool valid() const { return space_ != SpaceUndefined; }
+
+        bool valid() const;
         const col_t& value() const { return value_; }
         Space space() const { return space_; }
+        std::string info() const;
+        std::string quickInfo() const;
         std::string spaceInfo() const;
 
         Color rgb() const;
@@ -39,15 +47,25 @@ class Color
         uint8_t index() const;
         std::string hex() const;
         const std::string& name() const;
+        Color saturated() const;
+
+        //  implemented in src/interpolation.cpp
+        friend Color lerp( const Color&, const Color&, const float );
 
     private:
 
-        col_t value_ = {};
+        union {
+            col_t value_;
+            srgb_t srgb_;
+            hsv_t hsv_;
+            hsl_t hsl_;
+            lch_t lch_;
+        };
+
         Space space_ = SpaceUndefined;
 };
 
 
-Color lerp( const Color&, const Color&, const float );
 
 
 }   //  ::vivid

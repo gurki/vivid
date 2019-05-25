@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/functions.h"
+#include "vivid/utility.h"
 #include "vivid/data/xterm.h"
 
 #include <glm/glm.hpp>
@@ -13,9 +13,9 @@ namespace vivid::rgb {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRgb8( const col8_t& rgb8 )
+rgb_t fromRgb8( const col8_t& rgb8 )
 {
-    col_t rgb;
+    rgb_t rgb;
     rgb.x = rgb8.x / 255.f;
     rgb.y = rgb8.y / 255.f;
     rgb.z = rgb8.z / 255.f;
@@ -25,13 +25,13 @@ col_t fromRgb8( const col8_t& rgb8 )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromRgb32( const uint32_t rgb32 ) {
+rgb_t fromRgb32( const uint32_t rgb32 ) {
     return rgb::fromRgb8( rgb8::fromRgb32( rgb32 ) );
 }
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHsv( const col_t& hsv )
+rgb_t fromHsv( const hsv_t& hsv )
 {
     float h = ( hsv.x > 0.f ) ? ( std::fmodf( hsv.x, 1.f ) ) : ( 1.f + std::fmodf( hsv.x, 1.f ) );   //  wrap
     float s = glm::clamp( hsv.y, 0.f, 1.f );
@@ -41,7 +41,7 @@ col_t fromHsv( const col_t& hsv )
         return { v, v, v };
     }
 
-    col_t rgb = {};
+    rgb_t rgb = {};
 
     const float k = h * 6.f;
     const int d = int( std::floorf( k ) );
@@ -51,12 +51,12 @@ col_t fromHsv( const col_t& hsv )
 
     switch( d )
     {
-        case 0: rgb = col_t( C, X, 0.f ); break;
-        case 1: rgb = col_t( X, C, 0.f ); break;
-        case 2: rgb = col_t( 0.f, C, X ); break;
-        case 3: rgb = col_t( 0.f, X, C ); break;
-        case 4: rgb = col_t( X, 0.f, C ); break;
-        default: rgb = col_t( C, 0.f, X ); break;
+        case 0: rgb = { C, X, 0.f }; break;
+        case 1: rgb = { X, C, 0.f }; break;
+        case 2: rgb = { 0.f, C, X }; break;
+        case 3: rgb = { 0.f, X, C }; break;
+        case 4: rgb = { X, 0.f, C }; break;
+        default: rgb = { C, 0.f, X }; break;
     }
 
     rgb += m;
@@ -65,7 +65,7 @@ col_t fromHsv( const col_t& hsv )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromHsl( const col_t& hsl )
+rgb_t fromHsl( const hsl_t& hsl )
 {
     const float k = hsl.x * 6.f;
     const float C = ( 1.f - std::abs( 2.f * hsl.z - 1.f ) ) * hsl.y;
@@ -73,16 +73,16 @@ col_t fromHsl( const col_t& hsl )
     const float m = hsl.z - C / 2.f;
     const int d = int( std::floorf( k ) );
 
-    col_t rgb = {};
+    rgb_t rgb = {};
 
     switch( d )
     {
-        case 0: rgb = col_t( C, X, 0.f ); break;
-        case 1: rgb = col_t( X, C, 0.f ); break;
-        case 2: rgb = col_t( 0.f, C, X ); break;
-        case 3: rgb = col_t( 0.f, X, C ); break;
-        case 4: rgb = col_t( X, 0.f, C ); break;
-        default: rgb = col_t( C, 0.f, X ); break;
+        case 0: rgb = { C, X, 0.f }; break;
+        case 1: rgb = { X, C, 0.f }; break;
+        case 2: rgb = { 0.f, C, X }; break;
+        case 3: rgb = { 0.f, X, C }; break;
+        case 4: rgb = { X, 0.f, C }; break;
+        default: rgb = { C, 0.f, X }; break;
     }
 
     rgb += m;
@@ -91,39 +91,8 @@ col_t fromHsl( const col_t& hsl )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-col_t fromXyz( const col_t& xyz ) {
-    const col_t lrgb = xyz * matrices::xyz_to_rgb;
-    return rgb::saturate( srgb::fromLinear( lrgb ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromLch( const col_t& lch ) {
-    return rgb::fromXyz( xyz::fromLab( lab::fromLch( lch ) ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromHex( const std::string& hexStr ) {
+rgb_t fromHex( const std::string& hexStr ) {
     return rgb::fromRgb32( rgb32::fromHex( hexStr ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromIndex( const uint8_t index ) {
-    return rgb::fromRgb32( data::xterm.at( index ).rgb32 );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromName( const std::string& name ) {
-    return rgb::fromIndex( index::fromName( name ).value_or( 0 ) );
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-col_t fromAdobe( const col_t& adobe ) {
-    return rgb::fromXyz( xyz::fromAdobe( adobe ) );
 }
 
 

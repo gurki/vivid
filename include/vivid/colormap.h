@@ -3,7 +3,7 @@
 //  colormaps from [1], great job guys!
 
 /*
-    [9] https://github.com/BIDS/colormap
+    [1] https://github.com/BIDS/colormap
 
     mpl-colormaps by Nathaniel Smith & Stefan van der Walt
 
@@ -52,8 +52,8 @@ class ColorMap
 
         bool empty() const { return stops_.empty(); }
         size_t numStops() const { return stops_.size(); }
-        col_t at( const float t ) const;
-        const std::vector<col_t>& stops() const { return stops_; }
+        srgb_t at( const float t ) const;
+        const std::vector<srgb_t>& stops() const { return stops_; }
 
         Interpolation interpolation = InterpolationLinear;
 
@@ -61,8 +61,8 @@ class ColorMap
 
     private:
 
-        static std::vector<col_t> loadFromFile( const std::string& filename );
-        std::vector<col_t> stops_;
+        static std::vector<srgb_t> loadFromFile( const std::string& filename );
+        std::vector<srgb_t> stops_;
 };
 
 

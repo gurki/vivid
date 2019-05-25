@@ -1,8 +1,9 @@
 #include "vivid/colormap.h"
 #include "vivid/conversion.h"
-#include "vivid/functions.h"
+#include "vivid/utility.h"
 #include "vivid/data.h"
 #include "vivid/stream.h"
+#include "vivid/interpolation.h"
 
 #include <glm/common.hpp>
 #include <nlohmann/json.hpp>
@@ -38,7 +39,7 @@ ColorMap::ColorMap( const std::string& filename ) {
 
 
 ////////////////////////////////////////////////////////////////////////////////
-glm::vec3 ColorMap::at( const float t ) const
+srgb_t ColorMap::at( const float t ) const
 {
     if ( empty() ) {
         return {};
@@ -58,10 +59,24 @@ glm::vec3 ColorMap::at( const float t ) const
     switch ( interpolation )
     {
         case InterpolationNearest: return stops_[ k ];
-        case InterpolationLinear: return vivid::rgb::lerp( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHsv: return vivid::rgb::lerpHsv( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHsl: return vivid::rgb::lerpHsl( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationLch: return vivid::rgb::lerpLch( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationLinear: return lerp( stops_[ k ], stops_[ k + 1 ], u );
+        case InterpolationHsv: return rgb::fromHsv( lerp(
+            hsv::fromRgb( stops_[ k ] ),
+            hsv::fromRgb( stops_[ k + 1 ] ),
+            u
+        ));
+        case InterpolationHsl: return rgb::fromHsl( lerp(
+            hsl::fromRgb( stops_[ k ] ),
+            hsl::fromRgb( stops_[ k + 1 ] ),
+            u
+        ));
+        case InterpolationLch: return rgb::saturate(
+            srgb::fromLch( lerp(
+                lch::fromSrgb( stops_[ k ] ),
+                lch::fromSrgb( stops_[ k + 1 ] ),
+                u
+            )
+        ));
     }
 
     return {};
@@ -90,7 +105,7 @@ std::string ColorMap::nameForPreset( const Preset preset )
 
 
 ////////////////////////////////////////////////////////////////////////////////
-std::vector<col_t> ColorMap::loadFromFile( const std::string& filename )
+std::vector<srgb_t> ColorMap::loadFromFile( const std::string& filename )
 {
     std::ifstream fin;
     fin.open( filename );
@@ -107,11 +122,11 @@ std::vector<col_t> ColorMap::loadFromFile( const std::string& filename )
         return {};
     }
 
-    std::vector<col_t> stops;
+    std::vector<srgb_t> stops;
     stops.reserve( data.size() );
 
     for ( const auto& item : data ) {
-        col_t col( item[ 0 ], item[ 1 ], item[ 2 ] );
+        srgb_t col( item[ 0 ], item[ 1 ], item[ 2 ] );
         stops.push_back( col );
     }
 

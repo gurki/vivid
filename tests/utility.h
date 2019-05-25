@@ -25,7 +25,7 @@ inline int randi( const int from = 0, const int to = 255 )
 
 
 namespace vivid::rgb {
-    inline col_t rand() {
+    inline rgb_t rand() {
         return { randf(), randf(), randf() };
     }
 }

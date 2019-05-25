@@ -9,7 +9,8 @@ DEFINES += \
 
 SOURCES += \
     main.cpp
-    # convert_maps.cpp
+#    strong_types.cpp
+#     convert_maps.cpp
 
 DESTDIR = $$PWD/build/install/
 
