@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## Added
 - Introduce inheritance-based strong typing
 - Add color info strings
-- Add hand-picked default color
+- Add hand-picked default colors
 - Add color validity check
 - Add explicit ANSI grey scale map
 - Add white point and working space utilities
