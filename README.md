@@ -159,6 +159,9 @@ inline glm::mat3 workingSpaceMatrix( ... ) {
 
 Under the hood, `vivid` uses an extensive set of strongly-typed conversions between color spaces (c.f. _include/vivid/conversion.h_). All of these methods are built in a functional way, where colors get passed through converters, yielding new colors in different spaces. The following direct conversions are currently available.
 
+
+<details><summary>Click to expand conversions</summary><p>
+
     adobe ← xyz
     hex ← rgb8
     hsl ← rgb
@@ -174,11 +177,16 @@ Under the hood, `vivid` uses an extensive set of strongly-typed conversions betw
     srgb ← index, lrgb, xyz
     xyz ← adobe, lab, srgb
 
+</p></details>
+
+
 ### Working Spaces
 
-The `Color` class assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can however extend this freely and work with custom color spaces using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :).
+    Note: You can use this library as high- or low-level as you like!
 
-    You can use this library as high- or low-level as you like!
+<details><summary>Click to expand</summary><p>
+
+The `Color` class assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can however extend this freely and work with custom color spaces using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :).
 
 ```cpp
 //  manual wide-gamut rgb to xyz conversion
@@ -202,6 +210,8 @@ auto xyz65 = chromaticAdaptation( xyz50, profiles::xy_d50, profiles::xy_d65 );
 ```
 
 Note that `vivid` uses the _D65_ white point and _2° Standard Observer_, which is why we apply chromatic adaptation in the example above. This let's us subsequently use e.g. `srgb::fromXyz( xyz65 )`.
+
+</p></details>
 
 
 ## Interpolation
@@ -234,7 +244,6 @@ HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.pn
 ## Color Maps
 
 `vivid` comes with a set of pre-defined color maps, which I conveniently gathered under one umbrella. Thanks to the awesome community out there for their great work! [\^2,\^3]
-
 As shown in the example in the beginning, it's quick and easy to query colors from a certain color map. You can also create your own maps by simply loading an according _\*.json_ file.
 
 ```cpp
@@ -268,6 +277,8 @@ Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
 
 You can colorize console messages using the `ansi::fg()` and `ansi::bg()` helpers, or using one of the pre-defined constants, e.g. `ansi::white`. There's also a hand-picked set of the most useful™ and some of my favorite colors in there for you! You can take a look via `ansi::printColorPresets()`. Note, that for all of those your console must support `8-bit` colors, which however almost all modern consoles do.
 
+<details><summary>Click to expand example</summary><p>
+
 ```cpp
 std::cout << ansi::fg( 228 )  << "and tada, colorized font ";
 std::cout << ansi::lightRed << "(so pretty " << ansi::red << "<3" << ansi::lightRed << ") \n\n";
@@ -277,15 +288,27 @@ ansi::printColorPresets();
 
 ![colorpresets](docs/images/console/color-output.png)
 
+</p></details>
+
 To get an overview of all available xterm colors and associated codes or quickly check if your console has 8-bit color support, you can call `ansi::printColorTable()` (shoutout to Gawin [^4] for the layout idea).
 
+
+<details><summary>Click to expand table</summary><p>
+
 ![colortable](docs/images/console/color-table.png)
+
+</p></details>
 
 ### Debugging
 
 `vivid` in fact makes use of colored output itself! Any `Color` can be debugged using a one-line `Color::quickInfo()` or the more extensive `Color::info()`.
 
+
+<details><summary>Click to expand example</summary><p>
+
 ![colorinfo](docs/images/console/color-infos.png)
+
+</p></details>
 
 `ColorMaps` can also be quickly visualized directly in the terminal, or used to create some joyful text effects.
 
