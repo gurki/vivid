@@ -292,12 +292,7 @@ ansi::printColorPresets();
 
 To get an overview of all available xterm colors and associated codes or quickly check if your console has 8-bit color support, you can call `ansi::printColorTable()` (shoutout to Gawin [^4] for the layout idea).
 
-
-<details><summary>Click to expand table</summary><p>
-
 ![colortable](docs/images/console/color-table.png)
-
-</p></details>
 
 ### Debugging
 
@@ -314,7 +309,6 @@ std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 ```
 
 ![rainbows](docs/images/console/rainbow-text.png)
-
 
 ### HTML
 
