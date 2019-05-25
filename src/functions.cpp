@@ -163,10 +163,10 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
     for ( size_t i = 0; i < n; i++ ) {
         const float t = i / n;
         const uint8_t id = index::fromRgb( cmap.at( t ) );
-        ss << vivid::ansi::fg( id ) << text[ i ];
+        ss << ansi::fg( id ) << text[ i ];
     }
 
-    ss << vivid::ansi::reset;
+    ss << ansi::reset;
     return ss.str();
 }
 
@@ -175,10 +175,10 @@ std::string colorize( const std::string& text, const ColorMap& cmap )
 std::string colorize( const col_t& col, const std::string& label )
 {
     std::stringstream sstr;
-    sstr << grey100 << label << grey150 << "(" << ansi::reset;
-    sstr << std::setw( 3 ) << std::right << col.x << grey150 << "," << ansi::reset;
-    sstr << std::setw( 3 ) << std::right << col.y << grey150 << "," << ansi::reset;
-    sstr << std::setw( 3 ) << std::right << col.z << grey150 << ")" << ansi::reset;
+    sstr << ansi::subtleText << label << ansi::symbol << "(" << ansi::text;
+    sstr << std::setw( 3 ) << std::right << col.x << ansi::symbol << "," << ansi::text;
+    sstr << std::setw( 3 ) << std::right << col.y << ansi::symbol << "," << ansi::text;
+    sstr << std::setw( 3 ) << std::right << col.z << ansi::symbol << ")" << ansi::reset;
     return sstr.str();
 }
 
@@ -193,7 +193,7 @@ void printColorTable( const bool foreground, const bool background )
         char idstr[ 4 ];
         std::snprintf( idstr, 4, "%03d", id );
 
-        const std::string bgstr = ansi::bg( id ) + ansi::white + " " + idstr + " " + ansi::reset;
+        const std::string bgstr = ansi::bg( id ) + ansi::text + " " + idstr + " " + ansi::reset;
         const std::string fgstr = ansi::fg( id ) + " " + idstr + " " + ansi::reset;
 
         if ( ! background ) {

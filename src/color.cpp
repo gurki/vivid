@@ -142,7 +142,7 @@ std::string Color::spaceInfo() const
 std::string Color::quickInfo() const
 {
     const auto fg = ansi::fg( index() );
-    const auto split = ansi::grey150 + " // " + ansi::reset;
+    const auto split = ansi::symbol + " // " + ansi::reset;
 
     std::stringstream sstr;
     sstr << fg << hex();
@@ -158,8 +158,8 @@ std::string Color::quickInfo() const
 std::string Color::info() const
 {
     const auto fg = ansi::fg( index() );
-    const auto spacer = ansi::grey100 + "\u2022 " + ansi::reset;
-    const auto split = ansi::grey150 + " // " + ansi::reset;
+    const auto spacer = ansi::subtleSymbol + "\u2022 " + ansi::text;
+    const auto split = ansi::symbol + " // " + ansi::text;
 
     const auto rgb8 = this->rgb8();
     const auto srgb = this->rgb().srgb_;
@@ -173,22 +173,23 @@ std::string Color::info() const
 
     std::stringstream sstr;
     sstr << quickInfo() << "\n";
-    sstr << ansi::grey150 << "space: " << ansi::reset << spaceInfo() << ", ";
+    sstr << ansi::symbol << "space: " << ansi::text << spaceInfo() << ", ";
     sstr << ( valid() ? ( ansi::fg( "green"s ) + "valid" ) : ( ansi::fg( "red"s ) + "invalid" ) ) << "\n";
 
-    sstr << ansi::grey150 << "readable: \n";
+    sstr << ansi::symbol << "readable: \n";
     sstr << spacer << ansi::colorize( rgb8, "rgb" ) << "\n";
     sstr << spacer << ansi::colorize( hsv::readable( hsv ), "hsv" ) << "\n";
     sstr << spacer << ansi::colorize( hsl::readable( hsl ), "hsl" ) << "\n";
     sstr << spacer << ansi::colorize( xyz::readable( xyz ), "xyz" ) << "\n";
 
-    sstr << ansi::grey150 << "unscaled: \n";
+    sstr << ansi::symbol << "unscaled: \n";
     sstr << spacer << ansi::colorize( srgb, "rgb" ) << "\n";
     sstr << spacer << ansi::colorize( hsv, "hsv" ) << "\n";
     sstr << spacer << ansi::colorize( hsl, "hsl" ) << "\n";
     sstr << spacer << ansi::colorize( xyz, "xyz" ) << "\n";
     sstr << spacer << ansi::colorize( lab, "lab" ) << "\n";
     sstr << spacer << ansi::colorize( lch, "lch" );
+    sstr << ansi::reset;
 
     return sstr.str();
 }
