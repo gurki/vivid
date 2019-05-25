@@ -1,6 +1,6 @@
 #include "vivid/colormap.h"
 #include "vivid/conversion.h"
-#include "vivid/functions.h"
+#include "vivid/utility.h"
 #include "vivid/data.h"
 #include "vivid/stream.h"
 #include "vivid/interpolation.h"

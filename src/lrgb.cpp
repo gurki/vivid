@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/functions.h"
+#include "vivid/utility.h"
 
 namespace vivid::lrgb {
 

@@ -1,10 +1,10 @@
 #include "vivid/color.h"
 #include "vivid/conversion.h"
-#include "vivid/functions.h"
+#include "vivid/encoding.h"
 #include "vivid/interpolation.h"
 #include "vivid/stream.h"
+#include "vivid/utility.h"
 #include "vivid/data/xterm.h"
-#include "vivid/encoding.h"
 
 #include <sstream>
 

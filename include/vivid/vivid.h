@@ -23,7 +23,7 @@
 #include "vivid/conversion.h"
 #include "vivid/data.h"
 #include "vivid/encoding.h"
-#include "vivid/functions.h"
+#include "vivid/utility.h"
 #include "vivid/fuzzy.h"
 #include "vivid/interpolation.h"
 #include "vivid/profiles.h"

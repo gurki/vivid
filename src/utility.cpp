@@ -1,4 +1,4 @@
-#include "vivid/functions.h"
+#include "vivid/utility.h"
 #include "vivid/conversion.h"
 #include "vivid/stream.h"
 #include "vivid/encoding.h"

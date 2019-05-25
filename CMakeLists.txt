@@ -19,7 +19,6 @@ add_library( vivid SHARED
     src/adobe.cpp
     src/color.cpp
     src/colormap.cpp
-    src/functions.cpp
     src/hex.cpp
     src/hsl.cpp
     src/hsv.cpp
@@ -34,6 +33,7 @@ add_library( vivid SHARED
     src/rgb8.cpp
     src/srgb.cpp
     src/types.cpp
+    src/utility.cpp
     src/xyz.cpp
 )
 

@@ -22,23 +22,29 @@ int main( int, char* argv[] )
 
     //  high-level conversions
 
-    const Color color1 = { 0.7f, 0.3f, 0.3f };
-    const Color color2 = { 0.1f, 0.6f, 0.4f };
+    const Color color1 = rgb_t( 0.7f, 0.3f, 0.3f );
+    Color color2 = hsl_t( 0.1f, 0.6f, 0.4f );
+    color2 = color2.hsv();
 
-    std::cout << color1.hsv() << std::endl;
-    std::cout << lerpHsl( color1, color2, 0.5f ) << std::endl;
+    std::cout << color1.quickInfo() << std::endl;
+    std::cout << color2.quickInfo() << std::endl;
+    std::cout << lerpHsl( color1, color2, 0.7f ).info() << std::endl;
 
     //  encoding
 
     std::cout << std::endl;
-    std::cout << ansi::fg( 3 ) << "yay colors" << ansi::reset << std::endl;
     std::cout << html::fg( "#abc123" ) << "hex hex!" << html::close << std::endl;
-    std::cout << html::fg( col8_t( 100, 144, 159 ) ) << "html, aw yes" << html::close << std::endl;
+    std::cout << html::fg( color2 ) << "html, aw yes" << html::close << std::endl;
+    std::cout << ansi::lightBlue << "yay presets" << ansi::reset << std::endl;
     std::cout << std::endl;
 
     //  escape codes
 
-    printColorTable();
+    ansi::printColorTable();
+    std::cout << std::endl;
+
+    ansi::printColorPresets();
+    std::cout << std::endl;
 
     //  rainbow text
 

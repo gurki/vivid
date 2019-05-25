@@ -1,5 +1,5 @@
 #include "vivid/conversion.h"
-#include "vivid/functions.h"
+#include "vivid/utility.h"
 #include "vivid/data/xterm.h"
 
 #include <glm/glm.hpp>

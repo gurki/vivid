@@ -2,7 +2,7 @@
 
 #include "vivid/color.h"
 #include "vivid/conversion.h"
-#include "vivid/functions.h"
+#include "vivid/utility.h"
 
 #include <string>
 #include <sstream>

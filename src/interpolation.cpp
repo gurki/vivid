@@ -1,9 +1,9 @@
 #include "vivid/interpolation.h"
 #include "vivid/conversion.h"
 #include "vivid/color.h"
-#include "vivid/functions.h"
-
+#include "vivid/utility.h"
 #include "vivid/stream.h"
+
 #include <iostream>
 
 namespace vivid {
