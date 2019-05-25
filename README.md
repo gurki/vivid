@@ -88,7 +88,7 @@ cmake .. && make
 //  instantiation
 Color col1( "#abcdef" );
 Color col2 = { 255, 0, 128 };
-Color col3 = { 1.f, 0.3f, 0.6f }, Color::SpaceHsl );
+Color col3 = ( { 1.f, 0.3f, 0.6f }, Color::SpaceHsl );
 ```
 
 Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. Moving to one of the four native spaces will return another `Color` instance with its `value` converted and `space` set accordingly.
