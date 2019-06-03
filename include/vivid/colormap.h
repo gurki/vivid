@@ -25,25 +25,25 @@ class ColorMap
 {
     public:
 
-        enum Preset {
-            PresetBlueYellow,
-            PresetCoolWarm,
-            PresetInferno,
-            PresetMagma,
-            PresetPlasma,
-            PresetRainbow,
-            PresetHsl,
-            PresetHslPastel,
-            PresetViridis,
-            PresetVivid
+        enum class Preset {
+            BlueYellow,
+            CoolWarm,
+            Inferno,
+            Magma,
+            Plasma,
+            Rainbow,
+            Hsl,
+            HslPastel,
+            Viridis,
+            Vivid
         };
 
-        enum Interpolation {
-            InterpolationNearest,
-            InterpolationLinear,
-            InterpolationHsv,
-            InterpolationHsl,
-            InterpolationLch
+        enum class Interpolation {
+            Nearest,
+            Linear,
+            Hsv,
+            Hsl,
+            Lch
         };
 
         ColorMap() = default;
@@ -55,7 +55,7 @@ class ColorMap
         srgb_t at( const float t ) const;
         const std::vector<srgb_t>& stops() const { return stops_; }
 
-        Interpolation interpolation = InterpolationLinear;
+        Interpolation interpolation = Interpolation::Linear;
 
         static std::string nameForPreset( const Preset type );
 
