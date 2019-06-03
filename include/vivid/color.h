@@ -10,12 +10,12 @@ class Color
 {
     public:
 
-        enum Space {
-            SpaceUndefined,
-            SpaceRgb,   //  assumes sRGB, wording for confusion-free high-level API
-            SpaceHsl,
-            SpaceHsv,
-            SpaceLch
+        enum class Space {
+            Undefined,
+            Rgb,    //  assumes sRGB, wording for confusion-free high-level API
+            Hsl,
+            Hsv,
+            Lch
         };
 
         Color() = default;        
@@ -62,7 +62,7 @@ class Color
             lch_t lch_;
         };
 
-        Space space_ = SpaceUndefined;
+        Space space_ = Space::Undefined;
 };
 
 

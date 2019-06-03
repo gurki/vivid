@@ -140,13 +140,13 @@ int main( int, char* argv[] )
     srand( uint32_t( time( nullptr ) ));
 
     for ( size_t i = 0; i < 10; i++ ) {
-        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );
+        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::Space::Rgb );
         std::cout << col.quickInfo() << "\n";
     }
 
     for ( size_t i = 0; i < 3; i++ ) {
         std::cout << "\n";
-        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );
+        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::Space::Rgb );
         std::cout << col.info() << "\n";
     }
 
