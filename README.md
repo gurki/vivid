@@ -25,7 +25,7 @@ ColorMap cmap( ColorMap::Preset::Viridis );
 Color mid = cmap.at( 0.5f );
 
 //  ansi and html encodings
-std::cout << ansi::fg( c1 ) << "woah" << ansi::subtleText << "!!" << ansi::reset;
+std::cout << ansi::subtleText << "woah" << ansi::fg( c1 ) << "!!" << ansi::reset;
 fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 ```
 
