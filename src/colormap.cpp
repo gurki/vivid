@@ -18,16 +18,16 @@ ColorMap::ColorMap( const Preset preset )
 {
     switch ( preset )
     {
-        case PresetBlueYellow: stops_ = data::blue_yellow; break;
-        case PresetCoolWarm: stops_ = data::cool_warm; break;
-        case PresetInferno: stops_ = data::inferno; break;
-        case PresetMagma: stops_ = data::magma; break;
-        case PresetPlasma: stops_ = data::plasma; break;
-        case PresetRainbow: stops_ = data::rainbow; break;
-        case PresetHsl: stops_ = data::hsl; break;
-        case PresetHslPastel: stops_ = data::hsl_pastel; break;
-        case PresetViridis: stops_ = data::viridis; break;
-        case PresetVivid: stops_ = data::vivid; break;
+        case Preset::BlueYellow: stops_ = data::blue_yellow; break;
+        case Preset::CoolWarm: stops_ = data::cool_warm; break;
+        case Preset::Inferno: stops_ = data::inferno; break;
+        case Preset::Magma: stops_ = data::magma; break;
+        case Preset::Plasma: stops_ = data::plasma; break;
+        case Preset::Rainbow: stops_ = data::rainbow; break;
+        case Preset::Hsl: stops_ = data::hsl; break;
+        case Preset::HslPastel: stops_ = data::hsl_pastel; break;
+        case Preset::Viridis: stops_ = data::viridis; break;
+        case Preset::Vivid: stops_ = data::vivid; break;
     }
 }
 
@@ -58,19 +58,19 @@ srgb_t ColorMap::at( const float t ) const
 
     switch ( interpolation )
     {
-        case InterpolationNearest: return stops_[ k ];
-        case InterpolationLinear: return lerp( stops_[ k ], stops_[ k + 1 ], u );
-        case InterpolationHsv: return rgb::fromHsv( lerp(
+        case Interpolation::Nearest: return stops_[ k ];
+        case Interpolation::Linear: return lerp( stops_[ k ], stops_[ k + 1 ], u );
+        case Interpolation::Hsv: return rgb::fromHsv( lerp(
             hsv::fromRgb( stops_[ k ] ),
             hsv::fromRgb( stops_[ k + 1 ] ),
             u
         ));
-        case InterpolationHsl: return rgb::fromHsl( lerp(
+        case Interpolation::Hsl: return rgb::fromHsl( lerp(
             hsl::fromRgb( stops_[ k ] ),
             hsl::fromRgb( stops_[ k + 1 ] ),
             u
         ));
-        case InterpolationLch: return rgb::saturate(
+        case Interpolation::Lch: return rgb::saturate(
             srgb::fromLch( lerp(
                 lch::fromSrgb( stops_[ k ] ),
                 lch::fromSrgb( stops_[ k + 1 ] ),
@@ -88,16 +88,16 @@ std::string ColorMap::nameForPreset( const Preset preset )
 {
     switch ( preset )
     {
-        case PresetBlueYellow: return "blue-yellow";
-        case PresetCoolWarm: return "cool-warm";
-        case PresetInferno: return "inferno";
-        case PresetMagma: return "magma";
-        case PresetPlasma: return "plasma";
-        case PresetRainbow: return "rainbow";
-        case PresetHsl: return "hsl";
-        case PresetHslPastel: return "hsl-pastel";
-        case PresetViridis: return "viridis";
-        case PresetVivid: return "vivid";
+        case Preset::BlueYellow: return "blue-yellow";
+        case Preset::CoolWarm: return "cool-warm";
+        case Preset::Inferno: return "inferno";
+        case Preset::Magma: return "magma";
+        case Preset::Plasma: return "plasma";
+        case Preset::Rainbow: return "rainbow";
+        case Preset::Hsl: return "hsl";
+        case Preset::HslPastel: return "hsl-pastel";
+        case Preset::Viridis: return "viridis";
+        case Preset::Vivid: return "vivid";
     }
 
     return {};

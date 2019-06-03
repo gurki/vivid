@@ -8,7 +8,7 @@ int main( int, char* argv[] )
 
     //  introduction
 
-    const ColorMap hslMap( ColorMap::PresetHsl );
+    const ColorMap hslMap( ColorMap::Preset::Hsl );
     std::cout << ansi::colorize( "vivid", hslMap ) << std::endl;
     std::cout << std::endl;
 
@@ -48,7 +48,7 @@ int main( int, char* argv[] )
 
     //  rainbow text
 
-    const ColorMap rainbowMap( ColorMap::PresetRainbow );
+    const ColorMap rainbowMap( ColorMap::Preset::Rainbow );
     const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
     std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 

@@ -86,10 +86,10 @@ Color lerp( const Color& col1, const Color& col2, const float t )
 
     switch ( col1.space() )
     {
-        case Color::SpaceRgb: return Color( lerp( col1.srgb_, col2.srgb_, t ), Color::SpaceRgb );
-        case Color::SpaceHsl: return Color( lerp( col1.hsl_, col2.hsl_, t ), Color::SpaceHsl );
-        case Color::SpaceHsv: return Color( lerp( col1.hsv_, col2.hsv_, t ), Color::SpaceHsv );
-        case Color::SpaceLch: return Color( lerp( col1.lch_, col2.lch_, t ), Color::SpaceLch );
+        case Color::Space::Rgb: return Color( lerp( col1.srgb_, col2.srgb_, t ), Color::Space::Rgb );
+        case Color::Space::Hsl: return Color( lerp( col1.hsl_, col2.hsl_, t ), Color::Space::Hsl );
+        case Color::Space::Hsv: return Color( lerp( col1.hsv_, col2.hsv_, t ), Color::Space::Hsv );
+        case Color::Space::Lch: return Color( lerp( col1.lch_, col2.lch_, t ), Color::Space::Lch );
         default: return {};
     }
 }

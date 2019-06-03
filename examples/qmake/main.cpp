@@ -23,7 +23,7 @@ int main( int, char* argv[] )
 
     //  introduction
 
-    ColorMap hslMap( ColorMap::PresetHsl );
+    ColorMap hslMap( ColorMap::Preset::Hsl );
     std::cout << ansi::colorize( "vivid", hslMap ) << std::endl;
 
     //  escape codes
@@ -40,16 +40,16 @@ int main( int, char* argv[] )
     dir.cd( "colormaps/" );
 
     std::vector<ColorMap::Preset> presets = {
-        ColorMap::PresetBlueYellow,
-        ColorMap::PresetCoolWarm,
-        ColorMap::PresetInferno,
-        ColorMap::PresetMagma,
-        ColorMap::PresetPlasma,
-        ColorMap::PresetRainbow,
-        ColorMap::PresetHsl,
-        ColorMap::PresetHslPastel,
-        ColorMap::PresetViridis,
-        ColorMap::PresetVivid
+        ColorMap::Preset::BlueYellow,
+        ColorMap::Preset::CoolWarm,
+        ColorMap::Preset::Inferno,
+        ColorMap::Preset::Magma,
+        ColorMap::Preset::Plasma,
+        ColorMap::Preset::Rainbow,
+        ColorMap::Preset::Hsl,
+        ColorMap::Preset::HslPastel,
+        ColorMap::Preset::Viridis,
+        ColorMap::Preset::Vivid
     };
 
     std::cout << "\n";
@@ -59,7 +59,7 @@ int main( int, char* argv[] )
         std::cout << "Exporting " << ColorMap::nameForPreset( preset ) << " ..." << std::endl;
 
         ColorMap cmap( preset );
-        cmap.interpolation = ColorMap::InterpolationLch;
+        cmap.interpolation = ColorMap::Interpolation::Lch;
         QImage img( 512, 32, QImage::Format_RGB32 );
 
         for ( int c = 0; c < img.width(); c++ )
@@ -140,13 +140,13 @@ int main( int, char* argv[] )
     srand( uint32_t( time( nullptr ) ));
 
     for ( size_t i = 0; i < 10; i++ ) {
-        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );
+        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::Space::Rgb );
         std::cout << col.quickInfo() << "\n";
     }
 
     for ( size_t i = 0; i < 3; i++ ) {
         std::cout << "\n";
-        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::SpaceRgb );
+        Color col( glm::linearRand( col_t( 0 ), col_t( 1 ) ), Color::Space::Rgb );
         std::cout << col.info() << "\n";
     }
 
@@ -177,7 +177,7 @@ int main( int, char* argv[] )
 
     //  rainbow text
 
-    ColorMap rainbowMap( ColorMap::PresetRainbow );
+    ColorMap rainbowMap( ColorMap::Preset::Rainbow );
     const std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
 
     std::cout << "\n";
