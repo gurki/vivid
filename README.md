@@ -15,17 +15,17 @@ using namespace vivid;
 
 //  create and interpolate colors
 Color c1( "indianred" );
-Color c2 = hsl_t( 0.f, 0.4f, 0.5f );
+Color c2( { 0.f, 0.4f, 0.5f }, Color::Space::Hsl );
 
 auto interp = lerpLch( c1, c2, 0.5f );   //  perceptual interpolation in L*C*h(ab)
 std::string hex = interp.hex();
 
 //  quick access to popular colormaps for data visualization
-ColorMap cmap( ColorMap::PresetViridis );
+ColorMap cmap( ColorMap::Preset::Viridis );
 Color mid = cmap.at( 0.5f );
 
 //  ansi and html encodings
-std::cout << ansi::fg( c1 ) << "woah!!" << ansi::reset;
+std::cout << ansi::fg( c1 ) << "woah" << ansi::subtleText << "!!" << ansi::reset;
 fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 ```
 
@@ -88,7 +88,7 @@ cmake .. && make
 //  instantiation
 Color col1( "#abcdef" );
 Color col2 = { 255, 0, 128 };
-Color col3 = ( { 1.f, 0.3f, 0.6f }, Color::SpaceHsl );
+Color col3 = { { 1.f, 0.3f, 0.6f }, Color::SpaceHsl };
 ```
 
 Conversions to other color spaces are directly available using e.g. `col.hsl()` or `col.hex()`. Moving to one of the four native spaces will return another `Color` instance with its `value` converted and `space` set accordingly.
@@ -303,7 +303,7 @@ To get an overview of all available xterm colors and associated codes or quickly
 `ColorMaps` can also be quickly visualized directly in the terminal, or used to create some joyful text effects.
 
 ```cpp
-ColorMap rainbowMap( ColorMap::PresetRainbow );
+ColorMap rainbowMap( ColorMap::Preset::Rainbow );
 std::string text = "How can you tell? - Raaaaaaiiiinbooooooowwws.";
 std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
 ```
