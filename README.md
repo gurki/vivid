@@ -214,6 +214,10 @@ std::transform(
 image.save( "image_high-gamma.jpg" );
 ```
 
+Original                   |  Gamma Corrected (γ = 2.2)
+:-------------------------:|:-------------------------:
+![original](docs/images/processing/image.jpg)  |  ![gamma-corrected](docs/images/processing/image_high-gamma.jpg)
+
 </p></details>
 
 
