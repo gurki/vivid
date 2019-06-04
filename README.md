@@ -214,9 +214,9 @@ std::transform(
 image.save( "image_high-gamma.jpg" );
 ```
 
-Original                   |  Gamma Corrected (γ = 2.2)
+Original [^2]              |  Gamma Corrected (γ = 2.2)
 :-------------------------:|:-------------------------:
-![original](docs/images/processing/image.jpg)  |  ![gamma-corrected](docs/images/processing/image_high-gamma.jpg)
+![original](docs/images/processing/image.jpg) |  ![gamma-corrected](docs/images/processing/image_high-gamma.jpg)
 
 </p></details>
 
@@ -253,6 +253,8 @@ Note that `vivid` by default utilizes the _D65_ white point and _2° Standard Ob
 </p></details>
 
 [^1] http://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/
+[^2] Firewatch Background _© Michael Gustavsson_
+
 
 ## Interpolation
 
