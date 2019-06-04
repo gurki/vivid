@@ -42,6 +42,7 @@ class Color
         Color hsl() const;
         Color hsv() const;
         Color lch() const;
+        lrgb_t linearRgb() const;
         col8_t rgb8() const;
         uint32_t rgb32() const;
         uint8_t index() const;

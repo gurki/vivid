@@ -94,6 +94,7 @@ int main( int, char* argv[] )
         { lerpHsv, "lerpHsv" },
         { lerpHsl, "lerpHsl" },
         { lerpLch, "lerpLch" },
+        { lerpLinearRgb, "lerpLinearRgb" },
         { lerpHslClamp, "lerpHslClamped" }
     };
 

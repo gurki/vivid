@@ -268,6 +268,7 @@ Compare the following table to get an idea of interpolating in different color s
 Color Space   | Linear Interpolation
 --------------|-------------------------------------------------------------------
 RGB           | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
+Linear RGB    | ![lerp-linear-rgb](docs/images/interpolations/lerpLinearRgb.png)
 LCH           | ![lerp-lch](docs/images/interpolations/lerpLch.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
