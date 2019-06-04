@@ -188,7 +188,7 @@ If you have no idea what I'm talking about, don't worry - I didn't either a coup
 
     The `vivid::Color` class assumes a `sRGB` working space.
 
-`vivid` provides the `rgb_t` type as a general, working space agnostic `RGB` container, that interfaces directly with 8-bit, 32-bit, `HSV` and `HSL` conversions, as all of those are independent of the underlying representation. If you want to use this library e.g. to do image processing, consider using the low-level API and the strongly typed `srgb_t` and linearized `lrgb_t` classes. Note that there are much more performant libraries out there for these kinds of tasks. But hey, I actually found it pretty fun to experiment a little with `vivid` on image data, and `std::execution` makes it a breeze. 
+`vivid` provides the `rgb_t` type as a general, working space agnostic `RGB` container, that interfaces directly with 8-bit, 32-bit, `HSV` and `HSL` conversions, as all of those are independent of the underlying representation. If you want to use this library e.g. to do image processing, consider using the low-level API and the strongly typed `srgb_t` and linearized `lrgb_t` classes. Note that there are much more performant libraries out there for these kinds of tasks. But hey, I actually found it pretty fun to experiment a little with `vivid` on image data, and `std::execution` makes it a breeze.
 
 <details><summary>Click to expand example</summary><p>
 
@@ -200,14 +200,14 @@ auto img = QImage( "image.jpg" ).convertToFormat( QImage::Format_ARGB32 );
 auto dataPtr = reinterpret_cast<uint32_t*>( img.bits() );
 const auto imgSize = img.width() * img.height();
 
-std::for_each( std::execution::par_unseq, dataPtr, dataPtr + imgSize, []( uint32_t& argbPixel )
+std::transform(
+    std::execution::par_unseq,
+    dataPtr, dataPtr + imgSize, dataPtr,
+    []( uint32_t& argbPixel )
 {
     const auto srgb = static_cast<srgb_t>( rgb::fromRgb32( argbPixel ) );
-    const auto lrgb = lrgb::fromSrgb( srgb );
-    const auto corrRgb = rgb::gamma( lrgb, 1.f / gamma );
-    const auto corrSrgb = srgb::fromLrgb( corrRgb );
-
-    argbPixel = rgb32::fromRgb( corrSrgb );
+    const auto corrRgb = rgb::gamma( lrgb::fromSrgb( srgb ), 1.f / gamma );
+    return rgb32::fromRgb( srgb::fromLrgb( corrRgb ) );
 });
 
 img.save( "image_high-gamma.jpg" );
