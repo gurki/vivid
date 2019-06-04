@@ -200,7 +200,7 @@ auto image = QImage( "image.jpg" ).convertToFormat( QImage::Format_ARGB32 );
 auto dataPtr = reinterpret_cast<uint32_t*>( image.bits() );
 
 const auto gammaCorrect = []( uint32_t& argb ) {
-    const auto srgb = static_cast<srgb_t>( rgb::fromRgb32( argb ) );        //  get srgb color value
+    const auto srgb = srgb_t( rgb::fromRgb32( argb ) );                     //  get srgb color value
     const auto corrRgb = rgb::gamma( lrgb::fromSrgb( srgb ), 1.f / gamma ); //  linearize and apply gamma correction
     return rgb32::fromRgb( srgb::fromLrgb( corrRgb ) );                     //  convert back to srgb
 };

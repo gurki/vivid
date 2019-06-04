@@ -10,6 +10,8 @@
 #include <functional>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
+#include <execution>
 
 
 int main( int, char* argv[] )
@@ -184,6 +186,43 @@ int main( int, char* argv[] )
 
     std::cout << "\n";
     std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
+
+    //  image processing
+
+    dir.cdUp();
+    dir.mkdir( "processing/" );
+    dir.cd( "processing/" );
+
+    auto image = QImage( VIVID_ROOT_PATH "docs/images/processing/image.jpg" ).convertToFormat( QImage::Format_ARGB32 );
+    auto dataPtr = reinterpret_cast<uint32_t*>( image.bits() );
+
+    const auto pixelOperation = []( uint32_t& argb )
+    {
+        const auto srgb = srgb_t( rgb::fromRgb32( argb ) );                     //  get srgb color value
+
+        //  gamma correction
+//        const auto corrRgb = rgb::gamma( lrgb::fromSrgb( srgb ), 1.f / gamma ); //  linearize and apply gamma correction
+//        return rgb32::fromRgb( srgb::fromLrgb( corrRgb ) );                     //  convert back to srgb
+
+        //  fun with adjustments in LCh
+        auto lch = lch::fromSrgb( srgb );
+//        lch.x = std::abs( lch.x - 50.f ) + 50.f;    //  lightness triangle
+//        lch.y = std::min( lch.y * 2.f, 140.f );     //  chroma increase
+//        lch.y = lch.y / 2.f;                        //  chroma decrease
+//        lch.z = std::fmodf( lch.z + 40.f, 360.f );  //  hue shift
+        lch.z = 180.f;                              //  hue fix
+
+        auto res = srgb::fromLch( lch );
+        return rgb32::fromRgb( res );   //  convert back to srgb
+    };
+
+    std::transform(
+        std::execution::par_unseq,
+        dataPtr, dataPtr + image.width() * image.height(), dataPtr,
+        pixelOperation
+    );
+
+    image.save( "out/processing/processed.jpg" );
 
     return EXIT_SUCCESS;
 }
