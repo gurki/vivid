@@ -184,16 +184,43 @@ Under the hood, `vivid` uses an extensive set of strongly-typed conversions betw
 ### Gamma Correction
 When someone talks about `RGB` colors, it's not clear at all what he's actually refering to. `RGB` simply encodes red, green and blue components with values in a certain range. How those values are to be interpreted is a whole different story. What working space is the color in? Maybe it's linearized? Does it use gamma correction? If so, what sort?
 
-If you have no idea what I'm talking about, don't worry - I didn't either a couple weeks ago :). There is a great article from John Novak on this topic [^1], where he goes into the caveats of gamma correction and its implications. Give it a read, it'll grant you some interesting insights!
+If you have no idea what I'm talking about, don't worry - I didn't either a couple weeks ago :). There is a great article from John Novak on this topic [^1], where he goes into the caveats of gamma correction and its implications. Give it a read, it gives some fascinating insights!
 
-Now, the `vivid::Color` class assumes a `sRGB` working space. While this doesn't matter for `HSV` and `HSL` conversions, moving to `XYZ` relies on this. If you want to use this library to do some image processing, consider using the low-level API and the strongly typed `srgb_t` and linearized `lrgb_t` classes.
+    The `vivid::Color` class assumes a `sRGB` working space.
 
+`vivid` provides the `rgb_t` type as a general, working space agnostic `RGB` container, that interfaces directly with 8-bit, 32-bit, `HSV` and `HSL` conversions, as all of those are independent of the underlying representation. If you want to use this library e.g. to do image processing, consider using the low-level API and the strongly typed `srgb_t` and linearized `lrgb_t` classes. Note that there are much more performant libraries out there for these kinds of tasks. But hey, I actually found it pretty fun to experiment a little with `vivid` on image data, and `std::execution` makes it a breeze. 
+
+<details><summary>Click to expand example</summary><p>
+
+```cpp
+//  gamma correction on image data
+static const float gamma = 2.2f;
+
+auto img = QImage( "image.jpg" ).convertToFormat( QImage::Format_ARGB32 );
+auto dataPtr = reinterpret_cast<uint32_t*>( img.bits() );
+const auto imgSize = img.width() * img.height();
+
+std::for_each( std::execution::par_unseq, dataPtr, dataPtr + imgSize, []( uint32_t& argbPixel )
+{
+    const auto srgb = static_cast<srgb_t>( rgb::fromRgb32( argbPixel ) );
+    const auto lrgb = lrgb::fromSrgb( srgb );
+    const auto corrRgb = rgb::gamma( lrgb, 1.f / gamma );
+    const auto corrSrgb = srgb::fromLrgb( corrRgb );
+
+    argbPixel = rgb32::fromRgb( corrSrgb );
+});
+
+img.save( "image_high-gamma.jpg" );
+```
+
+</p></details>
 
 
 ### Working Spaces
 
-<details><summary>Click to expand section</summary><p>
+As seen above, any red-green-blue-triplet can represent colors in different `RGB` working spaces. `vivid` currently supports linearized `RGB`, `sRGB` and `Adobe RGB`. You can also implement your own conversions as demonstrated in the following example.
 
+<details><summary>Click to expand example</summary><p>
 
 ```cpp
 //  manual wide-gamut rgb to xyz conversion
@@ -216,7 +243,7 @@ auto xyz50 = xyz_t( wg_to_xyz * linear );
 auto xyz65 = chromaticAdaptation( xyz50, profiles::xy_d50, profiles::xy_d65 );
 ```
 
-Note that `vivid` uses the _D65_ white point and _2° Standard Observer_, which is why we apply chromatic adaptation in the example above. This let's us subsequently use e.g. `srgb::fromXyz( xyz65 )`.
+Note that `vivid` by default utilizes the _D65_ white point and _2° Standard Observer_, which is why we apply chromatic adaptation in the example above. This let's us subsequently use e.g. `srgb::fromXyz( xyz65 )`.
 
 </p></details>
 
