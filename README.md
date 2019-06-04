@@ -42,6 +42,7 @@ fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 - [Interpolation](#interpolation)
 - [Color Maps](#color-maps)
 - [Encodings](#encodings)
+- [Image Processing](#image-processing)
 - [Attributions](#attributions)
 
 <!-- /TOC -->
@@ -199,7 +200,7 @@ static const float gamma = 2.2f;
 auto image = QImage( "image.jpg" ).convertToFormat( QImage::Format_ARGB32 );
 auto dataPtr = reinterpret_cast<uint32_t*>( image.bits() );
 
-const auto gammaCorrect = []( uint32_t& argb ) {
+const auto pixelOperation = []( uint32_t& argb ) {
     const auto srgb = srgb_t( rgb::fromRgb32( argb ) );                     //  get srgb color value
     const auto corrRgb = rgb::gamma( lrgb::fromSrgb( srgb ), 1.f / gamma ); //  linearize and apply gamma correction
     return rgb32::fromRgb( srgb::fromLrgb( corrRgb ) );                     //  convert back to srgb
@@ -208,7 +209,7 @@ const auto gammaCorrect = []( uint32_t& argb ) {
 std::transform(
     std::execution::par_unseq,
     dataPtr, dataPtr + image.width() * image.height(), dataPtr,
-    gammaCorrect
+    pixelOperation
 );
 
 image.save( "image_high-gamma.jpg" );
@@ -364,6 +365,23 @@ fout << html::fg( col ) << "colorized html text!" << html::close;
 ```
 
 [^4] [Gawin's xterm color demo](https://github.com/gawin/bash-colors-256)
+
+
+## Image Processing
+
+While `vivid` is not designed for performance, it can be used for fun experiments and image processing!
+
+Gamma Corrected (γ = 2.2) | Lightness Triangle
+:-------------------------:|:-------------------------:
+![](docs/images/processing/image_high-gamma.jpg) | ![](docs/images/processing/image_lightness-triangle.jpg)
+
+Chroma Decrease | Chroma Increase  
+:-------------------------:|:-------------------------:
+![](docs/images/processing/image_chroma-decrease.jpg) | ![](docs/images/processing/image_chroma-increase.jpg)  
+
+Hue Shift | Hue Fix
+:-------------------------:|:-------------------------:
+![](docs/images/processing/image_hue-shift.jpg) | ![](docs/images/processing/image_hue-fix.jpg)  
 
 
 ## Attributions
