@@ -196,21 +196,22 @@ If you have no idea what I'm talking about, don't worry - I didn't either a coup
 //  gamma correction on image data
 static const float gamma = 2.2f;
 
-auto img = QImage( "image.jpg" ).convertToFormat( QImage::Format_ARGB32 );
-auto dataPtr = reinterpret_cast<uint32_t*>( img.bits() );
-const auto imgSize = img.width() * img.height();
+auto image = QImage( "image.jpg" ).convertToFormat( QImage::Format_ARGB32 );
+auto dataPtr = reinterpret_cast<uint32_t*>( image.bits() );
+
+const auto gammaCorrect = []( uint32_t& argb ) {
+    const auto srgb = static_cast<srgb_t>( rgb::fromRgb32( argb ) );
+    const auto corrRgb = rgb::gamma( lrgb::fromSrgb( srgb ), 1.f / gamma );
+    return rgb32::fromRgb( srgb::fromLrgb( corrRgb ) );
+};
 
 std::transform(
     std::execution::par_unseq,
-    dataPtr, dataPtr + imgSize, dataPtr,
-    []( uint32_t& argbPixel )
-{
-    const auto srgb = static_cast<srgb_t>( rgb::fromRgb32( argbPixel ) );
-    const auto corrRgb = rgb::gamma( lrgb::fromSrgb( srgb ), 1.f / gamma );
-    return rgb32::fromRgb( srgb::fromLrgb( corrRgb ) );
-});
+    dataPtr, dataPtr + image.width() * image.height(), dataPtr,
+    gammaCorrect
+);
 
-img.save( "image_high-gamma.jpg" );
+image.save( "image_high-gamma.jpg" );
 ```
 
 </p></details>
