@@ -112,6 +112,8 @@ lossy.hex();    //  #afafd7
 
 ### Strong Typing
 
+    Note: You can use this library as high- or low-level as you like!
+
 Under the hood, `vivid` uses _inheritance-based strong typing_. This means, that the compiler will give you a heads-up if e.g. you're trying to convert from the wrong color. This also enables `Colors` to be implicitly initialized from the native spaces.
 
 ```cpp
@@ -179,14 +181,19 @@ Under the hood, `vivid` uses an extensive set of strongly-typed conversions betw
     srgb ← index, lrgb, xyz
     xyz ← adobe, lab, srgb
 
+### Gamma Correction
+When someone talks about `RGB` colors, it's not clear at all what he's actually refering to. `RGB` simply encodes red, green and blue components with values in a certain range. How those values are to be interpreted is a whole different story. What working space is the color in? Maybe it's linearized? Does it use gamma correction? If so, what sort?
+
+If you have no idea what I'm talking about, don't worry - I didn't either a couple weeks ago :). There is a great article from John Novak on this topic [^1], where he goes into the caveats of gamma correction and its implications. Give it a read, it'll grant you some interesting insights!
+
+Now, the `vivid::Color` class assumes a `sRGB` working space. While this doesn't matter for `HSV` and `HSL` conversions, moving to `XYZ` relies on this. If you want to use this library to do some image processing, consider using the low-level API and the strongly typed `srgb_t` and linearized `lrgb_t` classes.
+
+
 
 ### Working Spaces
 
-    Note: You can use this library as high- or low-level as you like!
-
 <details><summary>Click to expand section</summary><p>
 
-The `Color` class assumes a default `sRGB` working space. Specifically, the conversion between `RGB` and `XYZ` applies `sRGB` compounding and inverse compounding. You can however extend this freely and work with custom color spaces using the low-level API. If you have no idea what I just said, don't worry - I didn't either a couple weeks ago :).
 
 ```cpp
 //  manual wide-gamut rgb to xyz conversion
@@ -213,6 +220,7 @@ Note that `vivid` uses the _D65_ white point and _2° Standard Observer_, which 
 
 </p></details>
 
+[^1] http://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/
 
 ## Interpolation
 
