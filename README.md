@@ -369,18 +369,42 @@ fout << html::fg( col ) << "colorized html text!" << html::close;
 
 ## Image Processing
 
-While `vivid` is not designed for performance, it can be used for fun experiments and image processing!
+While `vivid` is not designed for performance, it can very well be used for some fun experiments!
 
-Gamma Corrected (γ = 2.2) | Lightness Triangle
-:-------------------------:|:-------------------------:
-![](docs/images/processing/image_high-gamma.jpg) | ![](docs/images/processing/image_lightness-triangle.jpg)
+```cpp
 
-Chroma Decrease | Chroma Increase  
+const auto pixelOperation = []( uint32_t& argb )
+{
+    const auto srgb = srgb_t( rgb::fromRgb32( argb ) ); //  get srgb color value
+
+    //  gamma correction
+    const auto corrRgb = rgb::gamma( lrgb::fromSrgb( srgb ), 1.f / gamma ); //  [1] linearize and apply gamma correction
+    return rgb32::fromRgb( srgb::fromLrgb( corrRgb ) );                     //  convert back to srgb
+
+    //  mad science adjustments in LCh
+    auto lch = lch::fromSrgb( srgb );
+    lch.x += rand() % 100 * ( 50.f / 100.f ) - 25.f;    //  [2] luminance noise
+    lch.x = std::abs( lch.x - 50.f ) + 50.f;            //  [3] luminance triangle
+    lch.y = lch.y / 2.f;                                //  [4] chroma decrease
+    lch.y = std::min( lch.y * 2.f, 140.f );             //  [5] chroma increase
+    lch.z = std::fmodf( lch.z + 40.f, 360.f );          //  [6] hue shift
+    lch.z = 180.f;                                      //  [7] hue fix
+
+    return rgb32::fromRgb( srgb::fromLch( lch ) );   //  convert back to srgb
+};
+```
+
+Here are the results for above operations.
+
+| | |
 :-------------------------:|:-------------------------:
+Original | [1] Gamma Corrected (γ = 2.2)
+![](docs/images/processing/image.jpg) | ![](docs/images/processing/image_high-gamma.jpg)
+[2] Luminance Noise | [3] Luminance Triangle
+![](docs/images/processing/image_luminance-noise.jpg) | ![](docs/images/processing/image_luminance-triangle.jpg)
+[4] Chroma Decrease | [5] Chroma Increase  
 ![](docs/images/processing/image_chroma-decrease.jpg) | ![](docs/images/processing/image_chroma-increase.jpg)  
-
-Hue Shift | Hue Fix
-:-------------------------:|:-------------------------:
+[6] Hue Shift | [7] Hue Fix
 ![](docs/images/processing/image_hue-shift.jpg) | ![](docs/images/processing/image_hue-fix.jpg)  
 
 

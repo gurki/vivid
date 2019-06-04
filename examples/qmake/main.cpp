@@ -206,14 +206,14 @@ int main( int, char* argv[] )
 
         //  fun with adjustments in LCh
         auto lch = lch::fromSrgb( srgb );
-//        lch.x = std::abs( lch.x - 50.f ) + 50.f;    //  lightness triangle
-//        lch.y = std::min( lch.y * 2.f, 140.f );     //  chroma increase
-//        lch.y = lch.y / 2.f;                        //  chroma decrease
-//        lch.z = std::fmodf( lch.z + 40.f, 360.f );  //  hue shift
-        lch.z = 180.f;                              //  hue fix
+        lch.x += rand() % 100 * ( 50.f / 100.f ) - 25.f;    //  luminance noise
+//        lch.x = std::abs( lch.x - 50.f ) + 50.f;            //  lightness triangle
+//        lch.y = lch.y / 2.f;                                //  chroma decrease
+//        lch.y = std::min( lch.y * 2.f, 140.f );             //  chroma increase
+//        lch.z = std::fmodf( lch.z + 40.f, 360.f );          //  hue shift
+//        lch.z = 180.f;                                      //  hue fix
 
-        auto res = srgb::fromLch( lch );
-        return rgb32::fromRgb( res );   //  convert back to srgb
+        return rgb32::fromRgb( srgb::fromLch( lch ) );   //  convert back to srgb
     };
 
     std::transform(
