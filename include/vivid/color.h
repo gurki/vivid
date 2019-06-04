@@ -18,7 +18,7 @@ class Color
             Lch
         };
 
-        Color() = default;        
+        Color() = default;
         Color( const rgb_t& rgb );
         Color( const hsl_t& hsl );
         Color( const hsv_t& hsv );
@@ -29,7 +29,6 @@ class Color
         Color( const std::string& hexOrName );
         Color( const col_t& value, const Space );
         Color( const uint8_t r, const uint8_t g, const uint8_t b );
-
 
         bool valid() const;
         const col_t& value() const { return value_; }
