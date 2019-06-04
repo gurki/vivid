@@ -252,7 +252,7 @@ Note that `vivid` by default utilizes the _D65_ white point and _2° Standard Ob
 
 </p></details>
 
-[^1] http://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/
+[^1] http://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/ <br>
 [^2] Firewatch Background _© Michael Gustavsson_
 
 
