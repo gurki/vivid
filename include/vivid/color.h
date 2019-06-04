@@ -12,7 +12,7 @@ class Color
 
         enum class Space {
             Undefined,
-            Rgb,    //  assumes sRGB, wording for confusion-free high-level API
+            Rgb,    //  sRGB, simplified wording for easier high-level API
             Hsl,
             Hsv,
             Lch

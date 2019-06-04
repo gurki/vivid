@@ -219,7 +219,7 @@ image.save( "image_high-gamma.jpg" );
 
 ### Working Spaces
 
-As seen above, any red-green-blue-triplet can represent colors in different `RGB` working spaces. `vivid` currently supports linearized `RGB`, `sRGB` and `Adobe RGB`. You can also implement your own conversions as demonstrated in the following example.
+As seen above, any red-green-blue-triplet can represent colors in different `RGB` working spaces. `vivid` currently supports `Linear RGB`, `sRGB` and `Adobe RGB`. You can also implement your own conversions as demonstrated in the following example.
 
 <details><summary>Click to expand example</summary><p>
 
@@ -267,13 +267,13 @@ Compare the following table to get an idea of interpolating in different color s
 
 Color Space   | Linear Interpolation
 --------------|-------------------------------------------------------------------
-RGB           | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
+sRGB          | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
 Linear RGB    | ![lerp-linear-rgb](docs/images/interpolations/lerpLinearRgb.png)
 LCH           | ![lerp-lch](docs/images/interpolations/lerpLch.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
 
-`vivid` provides color interpolations in the four main spaces `RGB`, `HSL`, `HSV`, `LCH`. They can be accessed directly via e.g. `lch_t::lerp( const lch_t&, const lch_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
+`vivid` provides color interpolations in the four main spaces `RGB`, `HSL`, `HSV`, `LCH` and additionally `Linear RGB`. They can be accessed directly via e.g. `lch_t::lerp( const lch_t&, const lch_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
 
 [\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
 
