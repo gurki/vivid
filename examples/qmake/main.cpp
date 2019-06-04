@@ -10,8 +10,6 @@
 #include <functional>
 #include <sstream>
 #include <fstream>
-#include <algorithm>
-#include <execution>
 
 
 int main( int, char* argv[] )
@@ -185,28 +183,6 @@ int main( int, char* argv[] )
 
     std::cout << "\n";
     std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
-
-    //  gamma correction
-
-    QImage img( "img.jpg" );
-    img = img.convertToFormat( QImage::Format_RGBA8888 );
-    auto dataPtr = reinterpret_cast<uint32_t*>( img.bits() );
-    const auto imgSize = img.width() * img.height();
-
-    std::for_each ( std::execution::par_unseq, dataPtr, dataPtr + imgSize )
-    {
-        auto& data = dataPtr[ i ];
-        const auto srgb = static_cast<srgb_t>( rgb::fromRgb32( data ) );
-        const auto lrgb = lrgb::fromSrgb( srgb );
-        const auto corrRgb = rgb::gamma( lrgb, 1.f / 2.2f );
-        const auto corrSrgb = rgb::saturate( srgb::fromLrgb( corrRgb ) );
-
-//        std::cout << std::hex << data << std::endl;
-//        std::cout << srgb << ", " << corrSrgb << std::endl;
-        data = rgb32::fromRgb( corrSrgb );
-    }
-
-    img.save( "img_gamma.png" );
 
     return EXIT_SUCCESS;
 }
