@@ -100,8 +100,8 @@ int main( int, char* argv[] )
         { lerpHslClamp, "lerpHslClamped" }
     };
 
-    static const rgb_t c1( 0.7f, 0.3f, 0.3f );
-    static const rgb_t c2( 0.1f, 0.6f, 0.4f );
+    static const auto c1 = hsl_t{ 62.f / 360.f, 1.f, 0.9f };
+    static const auto c2 = hsl_t{ 222.f / 360.f, 0.3f, 0.2f };
 
     std::cout << "\n";
 
