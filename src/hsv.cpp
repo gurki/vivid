@@ -37,7 +37,7 @@ hsv_t fromRgb( const rgb_t& rgb )
     }
 
     hsv.x /= 6.f;
-    hsv.x = std::fmodf( hsv.x + 1.f, 1.f );
+    hsv.x = std::fmod( hsv.x + 1.f, 1.f );
 
     return hsv;
 }

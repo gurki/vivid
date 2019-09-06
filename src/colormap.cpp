@@ -10,6 +10,9 @@
 #include <fstream>
 #include <iostream>
 
+#include <cmath>
+#include <string>
+
 namespace vivid {
 
 
@@ -54,7 +57,7 @@ srgb_t ColorMap::at( const float t ) const
         return stops_.back();
     }
 
-    const auto u = std::fmodf( sf, 1.f );
+    const auto u = std::fmod( sf, 1.f );
 
     switch ( interpolation )
     {
