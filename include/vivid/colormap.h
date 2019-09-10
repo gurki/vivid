@@ -29,12 +29,13 @@ class ColorMap
         enum class Preset {
             BlueYellow,
             CoolWarm,
+            Hsl,
+            HslPastel,
             Inferno,
             Magma,
             Plasma,
             Rainbow,
-            Hsl,
-            HslPastel,
+            Turbo,
             Viridis,
             Vivid
         };
