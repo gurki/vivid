@@ -8,6 +8,7 @@
 #include "vivid/data/magma.h"
 #include "vivid/data/plasma.h"
 #include "vivid/data/rainbow.h"
+#include "vivid/data/turbo.h"
 #include "vivid/data/viridis.h"
 #include "vivid/data/vivid.h"
 #include "vivid/data/xterm.h"

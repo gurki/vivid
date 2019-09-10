@@ -52,6 +52,7 @@ HEADERS += \
     $$PWD/include/vivid/data/magma.h \
     $$PWD/include/vivid/data/plasma.h \
     $$PWD/include/vivid/data/rainbow.h \
+    $$PWD/include/vivid/data/turbo.h \
     $$PWD/include/vivid/data/viridis.h \
     $$PWD/include/vivid/data/vivid.h \
     $$PWD/include/vivid/data/xterm.h

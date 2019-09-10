@@ -42,12 +42,13 @@ int main( int, char* argv[] )
     std::vector<ColorMap::Preset> presets = {
         ColorMap::Preset::BlueYellow,
         ColorMap::Preset::CoolWarm,
+        ColorMap::Preset::Hsl,
+        ColorMap::Preset::HslPastel,
         ColorMap::Preset::Inferno,
         ColorMap::Preset::Magma,
         ColorMap::Preset::Plasma,
         ColorMap::Preset::Rainbow,
-        ColorMap::Preset::Hsl,
-        ColorMap::Preset::HslPastel,
+        ColorMap::Preset::Turbo,
         ColorMap::Preset::Viridis,
         ColorMap::Preset::Vivid
     };
