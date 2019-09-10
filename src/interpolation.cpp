@@ -30,7 +30,7 @@ hsl_t lerp( const hsl_t& hsl1, const hsl_t& hsl2, const float t )
     }
 
     auto hsl = hsl1a + t * ( hsl2 - hsl1a );
-    hsl.x = std::fmodf( hsl.x + 1.f, 1.f );
+    hsl.x = std::fmod( hsl.x + 1.f, 1.f );
 
     return static_cast<hsl_t>( hsl );
 }
@@ -51,7 +51,7 @@ hsv_t lerp( const hsv_t& hsv1, const hsv_t& hsv2, const float t )
     }
 
     auto hsv = hsv1a + t * ( hsv2 - hsv1a );
-    hsv.x = std::fmodf( hsv.x + 1.f, 1.f );
+    hsv.x = std::fmod( hsv.x + 1.f, 1.f );
 
     return static_cast<hsv_t>( hsv );
 }
@@ -72,7 +72,7 @@ lch_t lerp( const lch_t& lch1, const lch_t& lch2, const float t )
     auto interp = lch1 + t * delta;
 
     //  project back to [0; 360]
-    interp.z = std::fmodf( interp.z + 360.f, 360.f );
+    interp.z = std::fmod( interp.z + 360.f, 360.f );
     return static_cast<lch_t>( interp );
 }
 

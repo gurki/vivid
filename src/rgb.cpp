@@ -7,6 +7,7 @@
 #include <glm/gtc/constants.hpp>    //  pi
 #include <glm/gtx/string_cast.hpp>
 
+#include <cmath>
 #include <iostream>
 
 namespace vivid::rgb {
@@ -33,7 +34,7 @@ rgb_t fromRgb32( const uint32_t rgb32 ) {
 ////////////////////////////////////////////////////////////////////////////////
 rgb_t fromHsv( const hsv_t& hsv )
 {
-    float h = ( hsv.x > 0.f ) ? ( std::fmodf( hsv.x, 1.f ) ) : ( 1.f + std::fmodf( hsv.x, 1.f ) );   //  wrap
+    float h = ( hsv.x > 0.f ) ? ( std::fmod( hsv.x, 1.f ) ) : ( 1.f + std::fmod( hsv.x, 1.f ) );   //  wrap
     float s = glm::clamp( hsv.y, 0.f, 1.f );
     float v = glm::clamp( hsv.z, 0.f, 1.f );
 
@@ -44,9 +45,9 @@ rgb_t fromHsv( const hsv_t& hsv )
     rgb_t rgb = {};
 
     const float k = h * 6.f;
-    const int d = int( std::floorf( k ) );
+    const int d = int( std::floor( k ) );
     const float C = v * s;
-    const float X = C * ( 1.f - std::fabsf( std::fmodf( k, 2.f ) - 1.f ) );
+    const float X = C * ( 1.f - std::abs( std::fmod( k, 2.f ) - 1.f ) );
     const float m = v - C;
 
     switch( d )
@@ -69,9 +70,9 @@ rgb_t fromHsl( const hsl_t& hsl )
 {
     const float k = hsl.x * 6.f;
     const float C = ( 1.f - std::abs( 2.f * hsl.z - 1.f ) ) * hsl.y;
-    const float X = C * ( 1.f - std::abs( std::fmodf( k, 2.f ) - 1.f ) );
+    const float X = C * ( 1.f - std::abs( std::fmod( k, 2.f ) - 1.f ) );
     const float m = hsl.z - C / 2.f;
-    const int d = int( std::floorf( k ) );
+    const int d = int( std::floor( k ) );
 
     rgb_t rgb = {};
 

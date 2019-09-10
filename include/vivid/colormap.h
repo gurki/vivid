@@ -17,6 +17,7 @@
 
 #include "vivid/types.h"
 #include <vector>
+#include <string>
 
 namespace vivid {
 

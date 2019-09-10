@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdio>
+#include <cmath>
 
 namespace vivid {
 namespace rgb {
@@ -70,7 +71,7 @@ float inverseCompound( const float k )
         return k / 12.92f;
     }
 
-    return std::powf( ( k + 0.055f ) / 1.055f, 2.4f );
+    return std::pow( ( k + 0.055f ) / 1.055f, 2.4f );
 }
 
 

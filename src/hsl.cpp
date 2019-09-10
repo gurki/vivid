@@ -27,7 +27,7 @@ hsl_t fromRgb( const rgb_t& rgb )
     }
 
     if ( glm::epsilonEqual( cmax, rgb.x, glm::epsilon<float>() ) ) {
-        hsl.x = std::fmodf( ( rgb.y - rgb.z ) / delta, 6.f );
+        hsl.x = std::fmod( ( rgb.y - rgb.z ) / delta, 6.f );
     } else if ( glm::epsilonEqual( cmax, rgb.y, glm::epsilon<float>() ) ) {
         hsl.x = ( rgb.z - rgb.x ) / delta + 2.f;
     } else {
@@ -36,7 +36,7 @@ hsl_t fromRgb( const rgb_t& rgb )
 
     hsl.y = delta / ( 1.f - std::abs( 2.f * hsl.z - 1.f ) );
     hsl.x /= 6.f;
-    hsl.x = std::fmodf( hsl.x + 1.f, 1.f );
+    hsl.x = std::fmod( hsl.x + 1.f, 1.f );
 
     return hsl;
 }

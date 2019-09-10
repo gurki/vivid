@@ -9,11 +9,11 @@ namespace vivid::lch {
 ////////////////////////////////////////////////////////////////////////////////
 lch_t fromLab( const lab_t& lab )
 {
-    const float h = glm::degrees( std::atan2f( lab.z, lab.y ) );
+    const float h = glm::degrees( std::atan2( lab.z, lab.y ) );
 
     lch_t lch;
     lch.x = lab.x;
-    lch.y = std::sqrtf( lab.y * lab.y + lab.z * lab.z );
+    lch.y = std::sqrt( lab.y * lab.y + lab.z * lab.z );
     lch.z = ( h >= 0 ) ? h : ( h + 360.f );
 
     return lch;

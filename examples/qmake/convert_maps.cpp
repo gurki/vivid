@@ -43,7 +43,7 @@ int main( int, char*[] )
 
         static auto punc = []( const float t )
         {
-            if ( std::fmodf( t, 1.f ) != 0.f ) {
+            if ( std::fmod( t, 1.f ) != 0.f ) {
                 return "f";
             }
 

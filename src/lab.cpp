@@ -38,8 +38,8 @@ lab_t fromLch( const lch_t& lch )
 {
     lab_t lab;
     lab.x = lch.x;
-    lab.y = lch.y * std::cosf( glm::radians( lch.z ) );
-    lab.z = lch.y * std::sinf( glm::radians( lch.z ) );
+    lab.y = lch.y * std::cos( glm::radians( lch.z ) );
+    lab.z = lch.y * std::sin( glm::radians( lch.z ) );
 
     return lab;
 }
