@@ -1,6 +1,6 @@
 [submodule "dependencies/glm"]
 	path = dependencies/glm
-	url = git@github.com:g-truc/glm.git
+        url = https://github.com/g-truc/glm.git
 [submodule "dependencies/json"]
 	path = dependencies/json
-	url = git@github.com:nlohmann/json.git
+        url = https://github.com/nlohmann/json.git
