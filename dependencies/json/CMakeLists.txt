@@ -1,21 +1,30 @@
 cmake_minimum_required( VERSION 3.11 FATAL_ERROR )
-
-
 include( FetchContent )
 
-FetchContent_Declare( json
-    GIT_REPOSITORY https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent
-    GIT_TAG v3.9.1
+set( MODULE_NAME json )
+set( MODULE_URL https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent )
+set( MODULE_VERSION v3.9.1 )
+
+
+message( "adding ${MODULE_NAME} ..." )
+
+FetchContent_Declare( ${MODULE_NAME}
+    GIT_REPOSITORY ${MODULE_URL}
+    GIT_TAG ${MODULE_VERSION}
 )
 
-FetchContent_GetProperties( json )
+FetchContent_GetProperties( ${MODULE_NAME} )
 
-if ( NOT json_POPULATED )
-    FetchContent_Populate( json )
+if ( NOT ${${MODULE_NAME}_POPULATED} )
+    
+    message( "fetching ${MODULE_URL} @${MODULE_VERSION} ..." )
+
+    FetchContent_Populate( ${MODULE_NAME} )
+    
     add_subdirectory( 
-        ${json_SOURCE_DIR} 
-        ${json_BINARY_DIR} 
+        ${${MODULE_NAME}_SOURCE_DIR}
+        ${${MODULE_NAME}_BINARY_DIR}
         EXCLUDE_FROM_ALL 
     )
+    
 endif()
-

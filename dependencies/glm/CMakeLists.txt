@@ -1,21 +1,30 @@
 cmake_minimum_required( VERSION 3.11 FATAL_ERROR )
-
-
 include( FetchContent )
 
-FetchContent_Declare( glm
-    GIT_REPOSITORY https://github.com/g-truc/glm.git
-    GIT_TAG 0.9.9.8
+set( MODULE_NAME glm )
+set( MODULE_URL https://github.com/g-truc/glm.git )
+set( MODULE_VERSION 0.9.9.8 )
+
+
+message( "adding ${MODULE_NAME} ..." )
+
+FetchContent_Declare( ${MODULE_NAME}
+    GIT_REPOSITORY ${MODULE_URL}
+    GIT_TAG ${MODULE_VERSION}
 )
 
-FetchContent_GetProperties( glm )
+FetchContent_GetProperties( ${MODULE_NAME} )
 
-if ( NOT glm_POPULATED )
-    FetchContent_Populate( glm )
+if ( NOT ${${MODULE_NAME}_POPULATED} )
+    
+    message( "fetching ${MODULE_URL} @${MODULE_VERSION} ..." )
+
+    FetchContent_Populate( ${MODULE_NAME} )
+    
     add_subdirectory( 
-        ${glm_SOURCE_DIR} 
-        ${glm_BINARY_DIR} 
+        ${${MODULE_NAME}_SOURCE_DIR}
+        ${${MODULE_NAME}_BINARY_DIR}
         EXCLUDE_FROM_ALL 
     )
+    
 endif()
-
