@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.8 )
+cmake_minimum_required( VERSION 3.11 FATAL_ERROR )
 project(
     vivid
     VERSION 1.1.2
@@ -7,21 +7,11 @@ project(
     LANGUAGES CXX
 )
 
-set( VIVID_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
-add_compile_definitions( VIVID_ROOT_PATH="${VIVID_DIR}/")
+add_compile_definitions( VIVID_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}/")
 
-# make sure that custom modules are found
-list( INSERT CMAKE_MODULE_PATH 0 ${VIVID_DIR}/cmake )
+add_subdirectory( dependencies )
 
-find_package( nlohmann_json REQUIRED )
-find_package( glm REQUIRED )
-# add_subdirectory( dependencies/json )
-# add_subdirectory( dependencies/glm )
-
-message( STATUS "nlohmann-json included" )
-message( STATUS "glm included" )
-
-add_library( vivid SHARED
+add_library( ${PROJECT_NAME} STATIC
     src/adobe.cpp
     src/color.cpp
     src/colormap.cpp
@@ -43,9 +33,9 @@ add_library( vivid SHARED
     src/xyz.cpp
 )
 
-add_library( vivid::vivid ALIAS vivid )
+add_library( ${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME} )
 
-target_compile_features( vivid
+target_compile_features( ${PROJECT_NAME} 
     PUBLIC
         cxx_std_17  #  std::optional, nested namespaces
     PRIVATE
@@ -58,24 +48,26 @@ target_compile_features( vivid
         cxx_inline_namespaces
 )
 
-target_include_directories( vivid
+target_include_directories( ${PROJECT_NAME}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries( vivid
+target_link_libraries( ${PROJECT_NAME}
     PUBLIC
         nlohmann_json::nlohmann_json
-        glm
+        glm::glm
 )
+
+set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
+set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
 
 install(
-    DIRECTORY ${VIVID_DIR}/res/
-    DESTINATION res
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res
+    DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 )
-
-export( TARGETS vivid FILE vividConfig.cmake)
 
 
 ################################################################################
