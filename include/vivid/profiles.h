@@ -64,7 +64,7 @@ namespace matrices
 
     static const glm::mat3 bradford = {
         0.8951f,-0.7502f, 0.0389f,
-        0.2664f, 1.7135f, 0.0685f,
+        0.2664f, 1.7135f,-0.0685f,
        -0.1614f, 0.0367f, 1.0296f
     };
 
