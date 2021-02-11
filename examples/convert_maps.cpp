@@ -9,22 +9,23 @@ int main( int, char*[] )
     using namespace vivid;
 
     std::vector<ColorMap::Preset> defaults = {
-        ColorMap::PresetBlueYellow,
-        ColorMap::PresetCoolWarm,
-        ColorMap::PresetInferno,
-        ColorMap::PresetMagma,
-        ColorMap::PresetPlasma,
-        ColorMap::PresetRainbow,
-        ColorMap::PresetHsl,
-        ColorMap::PresetHslPastel,
-        ColorMap::PresetViridis,
-        ColorMap::PresetVivid
+        ColorMap::Preset::BlueYellow,
+        ColorMap::Preset::CoolWarm,
+        ColorMap::Preset::Inferno,
+        ColorMap::Preset::Magma,
+        ColorMap::Preset::Plasma,
+        ColorMap::Preset::Rainbow,
+        ColorMap::Preset::Hsl,
+        ColorMap::Preset::HslPastel,
+        ColorMap::Preset::Turbo,
+        ColorMap::Preset::Viridis,
+        ColorMap::Preset::Vivid
     };
 
     for ( const auto& type : defaults )
     {
         ColorMap cmap( type );
-        cmap.interpolation = ColorMap::InterpolationLch;
+        cmap.interpolation = ColorMap::Interpolation::Lch;
 
         auto name = ColorMap::nameForPreset( type );
         std::ofstream fout;
