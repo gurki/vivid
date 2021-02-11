@@ -1,13 +1,14 @@
-cmake_minimum_required( VERSION 3.11 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.14 FATAL_ERROR )
+
 project(
     vivid
-    VERSION 1.1.2
+    VERSION 2.2.1
     DESCRIPTION "A simple-to-use cpp color library"
     HOMEPAGE_URL "https://github.com/gurki/vivid"
     LANGUAGES CXX
 )
 
-add_compile_definitions( VIVID_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}/")
+add_compile_definitions( VIVID_ROOT_PATH="${CMAKE_CURRENT_SOURCE_DIR}/" )
 
 add_subdirectory( dependencies )
 
@@ -60,13 +61,21 @@ target_link_libraries( ${PROJECT_NAME}
         glm::glm
 )
 
-set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
-set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
-set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR} )
+
+################################################################################
+#  install
+################################################################################
 
 install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/res
-    DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    TARGETS ${PROJECT_NAME}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+)
+
+install( 
+    DIRECTORY include
+    DESTINATION ${CMAKE_INSTALL_PREFIX}
 )
 
 
