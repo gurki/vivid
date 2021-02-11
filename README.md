@@ -33,17 +33,25 @@ fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 
 <!-- TOC depthFrom:2 depthTo:2 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Content](#content)
-- [Motivation](#motivation)
-- [Getting Started](#getting-started)
-- [Dependencies](#dependencies)
-- [Types](#types)
-- [Color Spaces](#color-spaces)
-- [Interpolation](#interpolation)
-- [Color Maps](#color-maps)
-- [Encodings](#encodings)
-- [Image Processing](#image-processing)
-- [Attributions](#attributions)
+- [vivid 🌈](#vivid-)
+  - [Content](#content)
+  - [Motivation](#motivation)
+  - [Getting Started](#getting-started)
+  - [Dependencies](#dependencies)
+  - [Types](#types)
+    - [Strong Typing](#strong-typing)
+    - [Color Math](#color-math)
+  - [Color Spaces](#color-spaces)
+    - [Gamma Correction](#gamma-correction)
+    - [Working Spaces](#working-spaces)
+  - [Interpolation](#interpolation)
+  - [Color Maps](#color-maps)
+  - [Encodings](#encodings)
+    - [Console](#console)
+    - [Debugging](#debugging)
+    - [HTML](#html)
+  - [Image Processing](#image-processing)
+  - [Attributions](#attributions)
 
 <!-- /TOC -->
 
@@ -59,11 +67,10 @@ Things we create should be beautiful. Be it a console log message or a real-time
 
 ```bash
 git clone git@github.com:gurki/vivid.git
-git submodule update --init
 ```
 
-This repository comes with support for both `qmake` (_vivid.pri_) and `cmake` projects.
-You can try it out by simply opening up `examples/qmake/vivid.pro` in `Qt Creator`, or running
+This repository comes with support for both `cmake` and `qmake` (_vivid.pri_) projects.
+You can try it out by simply opening the project in e.g. `VSCode`, `Qt Creator`, or running
 
 ```bash
 mkdir build && cd build
@@ -143,7 +150,7 @@ auto xyz = static_cast<xyz_t>( src );   //  init from external source
 
 The base type _col_t_ aliases directly to _glm::vec<3, float>_ (c.f. _include/vivid/types.h_). This allows effective and efficient use of colors, providing all of `glm`'s vector goodness right out of the box.
 
-<details><summary>Click to expand example</summary><p>
+<details><summary><i>Click to expand code</i></summary><p>
 
 ```cpp
 //  some uses of _glm_ in _vivid_
@@ -161,6 +168,7 @@ inline glm::mat3 workingSpaceMatrix( ... ) {
 ```
 
 </p></details>
+<br>
 
 
 ## Color Spaces
@@ -191,7 +199,7 @@ If you have no idea what I'm talking about, don't worry - I didn't either a coup
 
 `vivid` provides the `rgb_t` type as a general, working space agnostic `RGB` container, that interfaces directly with 8-bit, 32-bit, `HSV` and `HSL` conversions, as all of those are independent of the underlying representation. If you want to use this library e.g. to do image processing, consider using the low-level API and the strongly typed `srgb_t` and linearized `lrgb_t` classes. Note that there are much more performant libraries out there for these kinds of tasks. But hey, I actually found it pretty fun to experiment a little with `vivid` on image data, and `std::execution` makes it a breeze.
 
-<details><summary>Click to expand example</summary><p>
+<details><summary><i>Click to expand code</i></summary><p>
 
 ```cpp
 //  gamma correction on image data
@@ -215,18 +223,20 @@ std::transform(
 image.save( "image_high-gamma.jpg" );
 ```
 
+</p></details>
+<br>
+
+
 Original [^2]              |  Gamma Corrected (γ = 2.2)
 :-------------------------:|:-------------------------:
 ![original](docs/images/processing/image.jpg) |  ![gamma-corrected](docs/images/processing/image_high-gamma.jpg)
-
-</p></details>
 
 
 ### Working Spaces
 
 As seen above, any red-green-blue-triplet can represent colors in different `RGB` working spaces. `vivid` currently supports `Linear RGB`, `sRGB` and `Adobe RGB`. You can also implement your own conversions as demonstrated in the following example.
 
-<details><summary>Click to expand example</summary><p>
+<details><summary><i>Click to expand example</i></summary><p>
 
 ```cpp
 //  manual wide-gamut rgb to xyz conversion
@@ -249,9 +259,10 @@ auto xyz50 = xyz_t( wg_to_xyz * linear );
 auto xyz65 = chromaticAdaptation( xyz50, profiles::xy_d50, profiles::xy_d65 );
 ```
 
-Note that `vivid` by default utilizes the _D65_ white point and _2° Standard Observer_, which is why we apply chromatic adaptation in the example above. This let's us subsequently use e.g. `srgb::fromXyz( xyz65 )`.
-
 </p></details>
+<br>
+
+Note that `vivid` by default utilizes the _D65_ white point and _2° Standard Observer_, which is why we apply chromatic adaptation in the example above. This let's us subsequently use e.g. `srgb::fromXyz(xyz65)`.
 
 [^1] http://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/ <br>
 [^2] Firewatch Background _© Michael Gustavsson_
@@ -321,7 +332,7 @@ Cool-Warm   | ![vivid](docs/images/colormaps/cool-warm.png)
 
 You can colorize console messages using the `ansi::fg()` and `ansi::bg()` helpers, or using one of the pre-defined constants, e.g. `ansi::white`. There's also a hand-picked set of the most useful™ and some of my favorite colors in there for you! You can take a look via `ansi::printColorPresets()`. Note, that for all of those your console must support `8-bit` colors, which however almost all modern consoles do.
 
-<details><summary>Click to expand example</summary><p>
+<details><summary><i>Click to expand code</i></summary><p>
 
 ```cpp
 std::cout << ansi::fg( 228 )  << "and tada, colorized font ";
@@ -330,9 +341,10 @@ std::cout << ansi::reset;  //  resets all formatting, i.e. white font, no backgo
 ansi::printColorPresets();
 ```
 
-![colorpresets](docs/images/console/color-output.png)
-
 </p></details>
+<br>
+
+![colorpresets](docs/images/console/color-output.png)
 
 To get an overview of all available xterm colors and associated codes or quickly check if your console has 8-bit color support, you can call `ansi::printColorTable()` (shoutout to Gawin [^4] for the layout idea).
 
@@ -371,6 +383,8 @@ fout << html::fg( col ) << "colorized html text!" << html::close;
 
 While `vivid` is not designed for performance, it can very well be used for some fun experiments!
 
+<details><summary><i>Click to expand code</i></summary><p>
+
 ```cpp
 
 const auto pixelOperation = []( uint32_t& argb )
@@ -394,17 +408,20 @@ const auto pixelOperation = []( uint32_t& argb )
 };
 ```
 
+</p></details>
+<br>
+
 Here are the results for above operations.
 
-| | |
+|||
 :-------------------------:|:-------------------------:
-Original | [1] Gamma Corrected (γ = 2.2)
+**Original** | [1] **Gamma Corrected** (γ = 2.2)
 ![](docs/images/processing/image.jpg) | ![](docs/images/processing/image_high-gamma.jpg)
-[2] Luminance Noise | [3] Luminance Triangle
+[2] **Luminance Noise** | [3] **Luminance Triangle**
 ![](docs/images/processing/image_luminance-noise.jpg) | ![](docs/images/processing/image_luminance-triangle.jpg)
-[4] Chroma Decrease | [5] Chroma Increase  
+[4] **Chroma Decrease** | [5] **Chroma Increase**  
 ![](docs/images/processing/image_chroma-decrease.jpg) | ![](docs/images/processing/image_chroma-increase.jpg)  
-[6] Hue Shift | [7] Hue Fix
+[6] **Hue Shift** | [7] **Hue Fix**
 ![](docs/images/processing/image_hue-shift.jpg) | ![](docs/images/processing/image_hue-fix.jpg)  
 
 
