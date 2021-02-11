@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Deprecate submodules in favor of FetchContent API (cmake >3.14)
-- Migrate qmake examples to cmake
+- Migrate qmake examples and tests to cmake
 - Update json to `v3.9.1` and replace implicit conversions
 
 
