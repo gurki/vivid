@@ -1,17 +1,16 @@
-cmake_minimum_required( VERSION 3.11 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.14 FATAL_ERROR )
+include( FetchContent )
 
-#-------------------------------------------------------------------------------
 
-set( MODULE_NAME json )
-set( MODULE_URL https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent )
-set( MODULE_VERSION v3.9.1 )
+FetchContent_Declare( json
+    GIT_REPOSITORY https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent
+    GIT_TAG v3.9.1
+)
 
-include ( FetchModule.cmake )
+FetchContent_Declare( glm
+    GIT_REPOSITORY https://github.com/g-truc/glm.git
+    GIT_TAG 0.9.9.8
+)
 
-#-------------------------------------------------------------------------------
 
-set( MODULE_NAME glm )
-set( MODULE_URL https://github.com/g-truc/glm.git )
-set( MODULE_VERSION 0.9.9.8 )
-
-include ( FetchModule.cmake )
+FetchContent_MakeAvailable( json glm )
