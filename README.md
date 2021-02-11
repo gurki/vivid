@@ -160,7 +160,6 @@ inline glm::mat3 workingSpaceMatrix( ... ) {
 ```
 
 </p></details>
-<br>
 
 
 ## Color Spaces
@@ -216,7 +215,6 @@ image.save( "image_high-gamma.jpg" );
 ```
 
 </p></details>
-<br>
 
 
 Original [^2]              |  Gamma Corrected (γ = 2.2)
@@ -252,7 +250,6 @@ auto xyz65 = chromaticAdaptation( xyz50, profiles::xy_d50, profiles::xy_d65 );
 ```
 
 </p></details>
-<br>
 
 Note that `vivid` by default utilizes the _D65_ white point and _2° Standard Observer_, which is why we apply chromatic adaptation in the example above. This let's us subsequently use e.g. `srgb::fromXyz(xyz65)`.
 
@@ -335,7 +332,6 @@ ansi::printColorPresets();
 ```
 
 </p></details>
-<br>
 
 ![colorpresets](docs/images/console/color-output.png)
 
@@ -402,7 +398,6 @@ const auto pixelOperation = []( uint32_t& argb )
 ```
 
 </p></details>
-<br>
 
 Here are the results for above operations.
 
