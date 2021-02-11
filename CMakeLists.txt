@@ -83,5 +83,5 @@ install(
 #  examples and tests
 ################################################################################
 
-add_subdirectory( examples/cmake )
+add_subdirectory( examples )
 add_subdirectory( tests )
