@@ -31,27 +31,19 @@ fout << html::bg( "#abc123" ) << "styled background color" << html::close;
 
 ##  Content
 
-<!-- TOC depthFrom:2 depthTo:2 withLinks:1 updateOnSave:1 orderedList:0 -->
+<!-- TOC depthfrom:2 depthto:2 withlinks:true updateonsave:true orderedlist:false -->
 
-- [vivid 🌈](#vivid-)
-  - [Content](#content)
-  - [Motivation](#motivation)
-  - [Getting Started](#getting-started)
-  - [Dependencies](#dependencies)
-  - [Types](#types)
-    - [Strong Typing](#strong-typing)
-    - [Color Math](#color-math)
-  - [Color Spaces](#color-spaces)
-    - [Gamma Correction](#gamma-correction)
-    - [Working Spaces](#working-spaces)
-  - [Interpolation](#interpolation)
-  - [Color Maps](#color-maps)
-  - [Encodings](#encodings)
-    - [Console](#console)
-    - [Debugging](#debugging)
-    - [HTML](#html)
-  - [Image Processing](#image-processing)
-  - [Attributions](#attributions)
+- [Content](#content)
+- [Motivation](#motivation)
+- [Getting Started](#getting-started)
+- [Dependencies](#dependencies)
+- [Types](#types)
+- [Color Spaces](#color-spaces)
+- [Interpolation](#interpolation)
+- [Color Maps](#color-maps)
+- [Encodings](#encodings)
+- [Image Processing](#image-processing)
+- [Attributions](#attributions)
 
 <!-- /TOC -->
 
