@@ -1,7 +1,6 @@
 cmake_minimum_required( VERSION 3.14 FATAL_ERROR )
 
-project(
-    vivid
+project( vivid
     VERSION 2.2.2
     DESCRIPTION "A simple-to-use cpp color library"
     HOMEPAGE_URL "https://github.com/gurki/vivid"

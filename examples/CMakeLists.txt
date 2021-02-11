@@ -1,17 +1,27 @@
 cmake_minimum_required( VERSION 3.14 FATAL_ERROR )
 
+project( vivid_examples 
+    VERSION 2.0.0
+    LANGUAGES CXX
+)
 
-add_executable( vivid_basics basics.cpp )
-target_link_libraries( vivid_basics PRIVATE vivid )
+add_executable( ${PROJECT_NAME}_basics basics.cpp )
+target_link_libraries( ${PROJECT_NAME}_basics PRIVATE vivid )
 
-add_executable( vivid_strong_types strong_types.cpp )
-target_link_libraries( vivid_strong_types PRIVATE vivid )
+add_executable( ${PROJECT_NAME}_strong_types strong_types.cpp )
+target_link_libraries( ${PROJECT_NAME}_strong_types PRIVATE vivid )
 
 
-find_package( Qt5 COMPONENTS Core Gui REQUIRED ) 
+# examples with qt dependency (QImage, QColor)
 
-add_executable( vivid_advanced advanced.cpp )
-target_link_libraries( vivid_advanced PUBLIC Qt5::Core Qt5::Gui vivid )
+find_package( Qt5 COMPONENTS Core Gui QUIET ) 
 
-add_executable( vivid_convert_maps convert_maps.cpp )
-target_link_libraries( vivid_convert_maps PUBLIC Qt5::Core Qt5::Gui vivid )
+if ( Qt5_FOUND )
+
+    add_executable( ${PROJECT_NAME}_advanced advanced.cpp )
+    target_link_libraries( ${PROJECT_NAME}_advanced PUBLIC Qt5::Core Qt5::Gui vivid )
+
+    add_executable( ${PROJECT_NAME}_convert_maps convert_maps.cpp )
+    target_link_libraries( ${PROJECT_NAME}_convert_maps PUBLIC Qt5::Core Qt5::Gui vivid )
+
+endif()
