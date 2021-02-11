@@ -12,13 +12,13 @@ class Color
 
         enum class Space {
             Undefined,
-            Rgb,    //  assumes sRGB, wording for confusion-free high-level API
+            Rgb,    //  sRGB, simplified wording for easier high-level API
             Hsl,
             Hsv,
             Lch
         };
 
-        Color() = default;        
+        Color() = default;
         Color( const rgb_t& rgb );
         Color( const hsl_t& hsl );
         Color( const hsv_t& hsv );
@@ -29,7 +29,6 @@ class Color
         Color( const std::string& hexOrName );
         Color( const col_t& value, const Space );
         Color( const uint8_t r, const uint8_t g, const uint8_t b );
-
 
         bool valid() const;
         const col_t& value() const { return value_; }
@@ -42,6 +41,7 @@ class Color
         Color hsl() const;
         Color hsv() const;
         Color lch() const;
+        lrgb_t linearRgb() const;
         col8_t rgb8() const;
         uint32_t rgb32() const;
         uint8_t index() const;

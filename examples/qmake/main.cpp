@@ -10,6 +10,8 @@
 #include <functional>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
+#include <execution>
 
 
 int main( int, char* argv[] )
@@ -94,11 +96,12 @@ int main( int, char* argv[] )
         { lerpHsv, "lerpHsv" },
         { lerpHsl, "lerpHsl" },
         { lerpLch, "lerpLch" },
+        { lerpLinearRgb, "lerpLinearRgb" },
         { lerpHslClamp, "lerpHslClamped" }
     };
 
-    static const rgb_t c1( 0.7f, 0.3f, 0.3f );
-    static const rgb_t c2( 0.1f, 0.6f, 0.4f );
+    static const auto c1 = hsl_t{ 62.f / 360.f, 1.f, 0.9f };
+    static const auto c2 = hsl_t{ 222.f / 360.f, 0.3f, 0.2f };
 
     std::cout << "\n";
 
@@ -183,6 +186,43 @@ int main( int, char* argv[] )
 
     std::cout << "\n";
     std::cout << ansi::colorize( text, rainbowMap ) << std::endl;
+
+    //  image processing
+
+    dir.cdUp();
+    dir.mkdir( "processing/" );
+    dir.cd( "processing/" );
+
+    auto image = QImage( VIVID_ROOT_PATH "docs/images/processing/image.jpg" ).convertToFormat( QImage::Format_ARGB32 );
+    auto dataPtr = reinterpret_cast<uint32_t*>( image.bits() );
+
+    const auto pixelOperation = []( uint32_t& argb )
+    {
+        const auto srgb = srgb_t( rgb::fromRgb32( argb ) );                     //  get srgb color value
+
+        //  gamma correction
+//        const auto corrRgb = rgb::gamma( lrgb::fromSrgb( srgb ), 1.f / gamma ); //  linearize and apply gamma correction
+//        return rgb32::fromRgb( srgb::fromLrgb( corrRgb ) );                     //  convert back to srgb
+
+        //  fun with adjustments in LCh
+        auto lch = lch::fromSrgb( srgb );
+        lch.x += rand() % 100 * ( 50.f / 100.f ) - 25.f;    //  luminance noise
+//        lch.x = std::abs( lch.x - 50.f ) + 50.f;            //  lightness triangle
+//        lch.y = lch.y / 2.f;                                //  chroma decrease
+//        lch.y = std::min( lch.y * 2.f, 140.f );             //  chroma increase
+//        lch.z = std::fmodf( lch.z + 40.f, 360.f );          //  hue shift
+//        lch.z = 180.f;                                      //  hue fix
+
+        return rgb32::fromRgb( srgb::fromLch( lch ) );   //  convert back to srgb
+    };
+
+    std::transform(
+        std::execution::par_unseq,
+        dataPtr, dataPtr + image.width() * image.height(), dataPtr,
+        pixelOperation
+    );
+
+    image.save( "out/processing/processed.jpg" );
 
     return EXIT_SUCCESS;
 }

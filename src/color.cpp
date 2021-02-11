@@ -252,6 +252,20 @@ Color Color::lch() const
 
 
 ////////////////////////////////////////////////////////////////////////////////
+lrgb_t Color::linearRgb() const
+{
+    switch ( space_ )
+    {
+        case Space::Rgb: return lrgb::fromSrgb( srgb_ );
+        case Space::Hsl: return lrgb::fromSrgb( rgb::fromHsl( hsl_ ) );
+        case Space::Hsv: return lrgb::fromSrgb( rgb::fromHsv( hsv_ ) );
+        case Space::Lch: return lrgb::fromSrgb( srgb::fromLch( lch_ ) );
+        default: assert( true ); return {};
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
 col8_t Color::rgb8() const
 {
     switch ( space_ )

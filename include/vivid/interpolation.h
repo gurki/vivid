@@ -16,6 +16,7 @@ Color lerpRgb( const Color&, const Color&, const float );
 Color lerpHsv( const Color&, const Color&, const float );
 Color lerpHsl( const Color&, const Color&, const float );
 Color lerpLch( const Color&, const Color&, const float );   //  NOTE: saturates
+Color lerpLinearRgb( const Color&, const Color&, const float );
 
 
 }   //  ::vivid

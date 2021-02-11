@@ -119,4 +119,11 @@ Color lerpLch( const Color& col1, const Color& col2, const float t ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
+Color lerpLinearRgb( const Color& col1, const Color& col2, const float t ) {
+    const lrgb_t lrgb = lerp( col1.linearRgb(), col2.linearRgb(), t );
+    return srgb::fromLrgb( lrgb );
+}
+
+
 }   //  ::vivid

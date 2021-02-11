@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [unreleased]
 
+## Added
+- Add convenience `Color::linearRgb()` getter
+- Add interpolation in `Linear RGB` for `Color`
+- Add gamma correction section and example to README
+- Clarify `Color::Space::Rgb` usage and default `sRGB` working space
+
 ### Changed
 - Deprecate submodules in favor of FetchContent API (cmake >3.14)
 - Update json to `v3.9.1` and replace implicit conversions
