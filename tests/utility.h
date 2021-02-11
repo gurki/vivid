@@ -9,7 +9,7 @@ inline float randf( const float from = 0.f, const float to = 1.f )
     static std::random_device rd;
     static std::mt19937 mt( rd() );
 
-    std::uniform_real_distribution<> dist( from, to );
+    std::uniform_real_distribution<float> dist( from, to );
     return dist( mt );
 };
 
@@ -19,7 +19,7 @@ inline int randi( const int from = 0, const int to = 255 )
     static std::random_device rd;
     static std::mt19937 mt( rd() );
 
-    std::uniform_int_distribution<> dist( from, to );
+    std::uniform_int_distribution<int> dist( from, to );
     return dist( mt );
 };
 
