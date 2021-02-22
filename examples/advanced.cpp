@@ -101,8 +101,14 @@ int main( int, char* argv[] )
         { lerpHslClamp, "lerpHslClamped" }
     };
 
-    static const auto c1 = hsl_t{ 62.f / 360.f, 1.f, 0.9f };
-    static const auto c2 = hsl_t{ 222.f / 360.f, 0.3f, 0.2f };
+    // static const Color c1( "#21313E" );
+    // static const Color c2( "#EFEE69" );
+
+    // static const auto c1 = hsl_t{ 62.f / 360.f, 1.f, 0.9f };
+    // static const auto c2 = hsl_t{ 222.f / 360.f, 0.3f, 0.2f };
+
+    static const rgb_t c1{ 1.f, 1.f, 1.f };
+    static const rgb_t c2{ 0, 0, 1.f };
 
     std::cout << "\n";
 
