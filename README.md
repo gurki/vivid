@@ -17,7 +17,7 @@ using namespace vivid;
 Color c1( "indianred" );
 Color c2( { 0.f, 0.4f, 0.5f }, Color::Space::Hsl );
 
-auto interp = lerpLch( c1, c2, 0.5f );   //  perceptual interpolation in L*C*h(ab)
+auto interp = lerpOklab( c1, c2, 0.5f );   //  perceptual interpolation in Oklab
 std::string hex = interp.hex();
 
 //  quick access to popular colormaps for data visualization
@@ -61,7 +61,7 @@ Things we create should be beautiful. Be it a console log message or a real-time
 git clone git@github.com:gurki/vivid.git
 ```
 
-This repository comes with support for both `cmake` and `qmake` (_vivid.pri_) projects.
+This repository comes with support for both `cmake` and `qmake`[^1] projects.
 You can try it out by simply opening the project in e.g. `VSCode`, `Qt Creator`, or running
 
 ```bash
@@ -69,6 +69,9 @@ mkdir build && cd build
 cmake .. && make
 ./examples/cmake/vivid_example
 ```
+
+
+[\^1] c.f. _vivid.pri_. Note that submodules have been deprecated with v3.0.0. You need to manually add `nlohmann_json` and `glm` to `dependencies/`.
 
 
 ## Dependencies

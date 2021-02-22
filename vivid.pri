@@ -3,6 +3,8 @@ DEFINES += \
 
 INCLUDEPATH += \
     $$PWD/include/ \
+    # v3.0.0: deprecate pri support
+    # you can still add these two manually if you depend on it.
     $$PWD/dependencies/json/single_include \
     $$PWD/dependencies/glm
 
@@ -19,6 +21,7 @@ SOURCES += \
     $$PWD/src/lch.cpp \
     $$PWD/src/lrgb.cpp \
     $$PWD/src/name.cpp \
+    $$PWD/src/oklab.cpp \
     $$PWD/src/rgb.cpp \
     $$PWD/src/rgb32.cpp \
     $$PWD/src/rgb8.cpp \
