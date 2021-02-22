@@ -85,6 +85,17 @@ struct xyz_t : public col_t
 };
 
 
+//  Oklab from Björn Ottoson [1]
+//  [1] https://bottosson.github.io/posts/oklab/
+struct oklab_t : public col_t
+{
+    oklab_t() = default;
+    oklab_t( const float x, const float y, const float z ) : col_t( x, y, z ) {}
+
+    explicit oklab_t( const col_t& col ) : col_t( col ) {}
+};
+
+
 ////////////////////////////////////////////////////////////////////////////////
 //  derived rgb working spaces
 

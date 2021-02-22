@@ -24,6 +24,7 @@ add_library( ${PROJECT_NAME} STATIC
     src/lch.cpp
     src/lrgb.cpp
     src/name.cpp
+    src/oklab.cpp
     src/rgb.cpp
     src/rgb32.cpp
     src/rgb8.cpp

@@ -50,5 +50,10 @@ srgb_t fromName( const std::string& name ) {
 }
 
 
+////////////////////////////////////////////////////////////////////////////////
+srgb_t fromOklab( const oklab_t& oklab ) {
+    return srgb::fromLrgb( lrgb::fromOklab( oklab ) );
+}
+
 
 }   //  ::vivid::srgb
