@@ -49,7 +49,7 @@ namespace srgb {
 namespace lrgb {
     lrgb_t fromSrgb( const srgb_t& );
     lrgb_t fromRgb( const rgb_t&, const float gamma );
-    lrgb_t fromOklab( const oklab_t );
+    lrgb_t fromOklab( const oklab_t& );
 }
 
 
