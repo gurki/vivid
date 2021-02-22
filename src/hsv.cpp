@@ -20,11 +20,12 @@ hsv_t fromRgb( const rgb_t& rgb )
 
     hsv_t hsv = { 0.f, 0.f, cmax };
 
-    if ( cmax != 0.f ) {
+    if ( glm::epsilonNotEqual( cmax, 0.f, glm::epsilon<float>() ) ) {
         hsv.y = delta / cmax;
-    } else {
-        hsv.x = 0;
-        hsv.y = 0;
+    }    
+
+    //  grey tone
+    if ( glm::epsilonEqual( delta, 0.f, glm::epsilon<float>() ) ) {
         return hsv;
     }
 

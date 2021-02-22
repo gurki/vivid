@@ -16,6 +16,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Migrate qmake examples and tests to cmake
 - Update json to `v3.9.1` and replace implicit conversions
 
+### Fixed
+- Faulty HSV conversion from greys
+
 
 ## [v2.2.2] - 2020-11-20
 
