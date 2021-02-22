@@ -284,7 +284,7 @@ HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.pn
 
 `vivid` provides color interpolations in the five main spaces `RGB`, `HSL`, `HSV`, `LCH`, `Oklab` and additionally `Linear RGB`. They can be accessed directly via e.g. `lerp( const oklab_t&, const oklab_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
 
-[\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
+[\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)<br>
 [\^2] [Björn Ottosson (2020) - A perceptual color space for image processing](https://bottosson.github.io/posts/oklab/)
 
 ## Color Maps
