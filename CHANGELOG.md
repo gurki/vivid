@@ -3,28 +3,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [unreleased]
+## [v3.0.0] - 2021-02-22
 
 ## Added
-- Add convenience `Color::linearRgb()` getter
 - Add interpolation in `Linear RGB` for `Color`
+- Add convenience `Color::linearRgb()` getter
 - Add gamma correction section and example to README
-- Add Björn Ottoson's Oklab perceptual color space
 - Clarify `Color::Space::Rgb` usage and default `sRGB` working space
+- Add [Björn Ottoson's Oklab](https://bottosson.github.io/posts/oklab/) perceptual color space [\#13](https://github.com/gurki/vivid/pull/13)
 
 ### Changed
-- Deprecate submodules in favor of FetchContent API (cmake >3.14)
-- Migrate qmake examples and tests to cmake
-- Update json to `v3.9.1` and replace implicit conversions
+- Update json to `v3.9.1` and replace implicit conversions [\#9](https://github.com/gurki/vivid/pull/9)
+- Deprecate submodules in favor of FetchContent API (cmake >3.14) [\#10](https://github.com/gurki/vivid/pull/10)
+- Migrate qmake examples and tests to cmake [\#11](https://github.com/gurki/vivid/pull/11) [\#12](https://github.com/gurki/vivid/pull/12)
 
 ### Fixed
-- Faulty HSV conversion from greys
+- Faulty HSV conversion from greys [\#14](https://github.com/gurki/vivid/pull/14)
 
 
 ## [v2.2.2] - 2020-11-20
 
 ### Fixed
-- Missing sign in bradford's constant
+- Missing sign in bradford's constant [\#8](https://github.com/gurki/vivid/issues/8)
 
 
 ## [v2.2.1] - 2019-09-19
