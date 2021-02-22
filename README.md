@@ -172,8 +172,9 @@ Under the hood, `vivid` uses an extensive set of strongly-typed conversions betw
     hsv ← rgb
     index ← name, rgb8
     lab ← lch, xyz
+    oklab ← lrgb 
     lch ← lab
-    lrgb ← srgb
+    lrgb ← srgb, oklab
     name ← index
     rgb ← hsl, hsv, rgb8
     rgb32 ← hex, rgb
@@ -268,7 +269,7 @@ for ( auto& pixel : image ) {
 }
 ```
 
-Color interpolation is an interesting topic. What should the color halfway in-between <span style="color:rgb(178, 76, 76)">red</span> and <span style="color:rgb(25, 153, 102)">green</span> look like? There is a great article introducing this topic by Grego Aisch [^1]. In order to do a perceptually linear transition from one color to another, we can't simply linearly interpolate two `RGB`-vectors. Rather, we move to a more suitable color space, interpolate there, and then move back again. Namely, we use the `CIE L*C*h(ab)` space, or `LCH`, which matches the human visual system rather well. There are more suitable color spaces nowadays to do so, but `LCH` has a nice balance between complexity (code and computation) and outcome.
+Color interpolation is an interesting topic. What should the color halfway in-between <span style="color:rgb(178, 76, 76)">red</span> and <span style="color:rgb(25, 153, 102)">green</span> look like? There is a great article introducing this topic by Grego Aisch [^1]. In order to do a perceptually linear transition from one color to another, we can't simply linearly interpolate two `RGB`-vectors. Rather, we move to a more suitable color space, interpolate there, and then move back again. Namely, we use the Björn Ottosson's `Oklab` space [^2], which matches the human visual system rather well. There are more suitable color spaces nowadays to do so, but `Oklab` has a nice balance between complexity (code and computation) and outcome.
 
 Compare the following table to get an idea of interpolating in different color spaces.
 
@@ -276,14 +277,15 @@ Color Space   | Linear Interpolation
 --------------|-------------------------------------------------------------------
 sRGB          | ![lerp-rgb](docs/images/interpolations/lerpRgb.png)
 Linear RGB    | ![lerp-linear-rgb](docs/images/interpolations/lerpLinearRgb.png)
+Oklab         | ![lerp-oklab](docs/images/interpolations/lerpOklab.png)
 LCH           | ![lerp-lch](docs/images/interpolations/lerpLch.png)
 HSV           | ![lerp-hsv](docs/images/interpolations/lerpHsv.png)
 HSL (Clamped) | ![lerp-hsl-clamped](docs/images/interpolations/lerpHslClamped.png)
 
-`vivid` provides color interpolations in the four main spaces `RGB`, `HSL`, `HSV`, `LCH` and additionally `Linear RGB`. They can be accessed directly via e.g. `lch_t::lerp( const lch_t&, const lch_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
+`vivid` provides color interpolations in the five main spaces `RGB`, `HSL`, `HSV`, `LCH`, `Oklab` and additionally `Linear RGB`. They can be accessed directly via e.g. `lerp( const oklab_t&, const oklab_t&, const float )`, or more conveniently via e.g. `lerpLch( const Color&, const Color&, const float )`.
 
-[\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)
-
+[\^1] [Grego Aisch (2011) - How To Avoid Equidistant HSV Colors](https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/)<br>
+[\^2] [Björn Ottosson (2020) - A perceptual color space for image processing](https://bottosson.github.io/posts/oklab/)
 
 ## Color Maps
 

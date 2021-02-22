@@ -36,6 +36,12 @@ Color::Color( const lch_t& lch ) :
 
 
 ////////////////////////////////////////////////////////////////////////////////
+Color::Color( const oklab_t& oklab ) :
+    Color( oklab, Space::Oklab )
+{}
+
+
+////////////////////////////////////////////////////////////////////////////////
 Color::Color( const col_t& value, const Space space ) :
     value_( value ),
     space_( space )
@@ -99,6 +105,7 @@ Color Color::saturated() const
         case Space::Hsl: return Color( rgb::saturate( srgb_ ), Space::Hsl );
         case Space::Hsv: return Color( rgb::saturate( srgb_ ), Space::Hsv );
         case Space::Lch: return Color( lch::saturate( lch_ ), Space::Lch );
+        case Space::Oklab: return Color( oklab_, Space::Lch );  //  TODO: haven't looked into oklab ranges yet
         default: assert( true ); return {};
     }
 }
@@ -110,6 +117,10 @@ bool Color::valid() const
     if ( space_ == Space::Undefined ) {
         return false;
     }
+
+    if ( space_ == Space::Oklab ) {
+        return true;    //  TODO: investigate oklab ranges
+    } 
 
     //  concerned space values are non-negative
     if ( glm::any( glm::lessThan( value_, {} ) )) {
@@ -133,6 +144,7 @@ std::string Color::spaceInfo() const
         case Space::Hsl: return "hsl";
         case Space::Hsv: return "hsv";
         case Space::Lch: return "lch";
+        case Space::Oklab: return "oklab";
         default: assert( true ); return {};
     }
 }
@@ -165,9 +177,10 @@ std::string Color::info() const
     const auto srgb = this->rgb().srgb_;
     const auto hsv = this->hsv().hsv_;
     const auto hsl = this->hsl().hsl_;
-    const auto lch = this->lch().lch_;
     const auto xyz = xyz::fromSrgb( srgb );
+    const auto lch = this->lch().lch_;
     const auto lab = lab::fromXyz( xyz );
+    const auto oklab = this->oklab().oklab_;
 
     using namespace std::string_literals;
 
@@ -187,8 +200,9 @@ std::string Color::info() const
     sstr << spacer << ansi::colorize( hsv, "hsv" ) << "\n";
     sstr << spacer << ansi::colorize( hsl, "hsl" ) << "\n";
     sstr << spacer << ansi::colorize( xyz, "xyz" ) << "\n";
+    sstr << spacer << ansi::colorize( lch, "lch" ) << "\n";
     sstr << spacer << ansi::colorize( lab, "lab" ) << "\n";
-    sstr << spacer << ansi::colorize( lch, "lch" );
+    sstr << spacer << ansi::colorize( oklab, "oklab" );
     sstr << ansi::reset;
 
     return sstr.str();
@@ -204,6 +218,7 @@ Color Color::rgb() const
         case Space::Hsl: return Color( rgb::fromHsl( hsl_ ), Space::Rgb );
         case Space::Hsv: return Color( rgb::fromHsv( hsv_ ), Space::Rgb );
         case Space::Lch: return Color( srgb::fromLch( lch_ ), Space::Rgb );
+        case Space::Oklab: return Color( srgb::fromOklab( oklab_ ), Space::Rgb );
         default: assert( true ); return {};
     }
 }
@@ -218,6 +233,7 @@ Color Color::hsl() const
         case Space::Hsl: return Color( hsl_, Space::Hsl );
         case Space::Hsv: return Color( hsl::fromHsv( hsv_ ), Space::Hsl );
         case Space::Lch: return Color( hsl::fromRgb( srgb::fromLch( lch_ ) ), Space::Hsl );
+        case Space::Oklab: return Color( hsl::fromRgb( srgb::fromOklab( oklab_ ) ), Space::Hsl );
         default: assert( true ); return {};
     }
 }
@@ -232,6 +248,22 @@ Color Color::hsv() const
         case Space::Hsl: return Color( hsv::fromHsl( hsl_ ), Space::Hsv );
         case Space::Hsv: return Color( hsv_, Space::Hsv );
         case Space::Lch: return Color( hsv::fromRgb( srgb::fromLch( lch_ ) ), Space::Hsv );
+        case Space::Oklab: return Color( hsv::fromRgb( srgb::fromOklab( oklab_ ) ), Space::Hsv );
+        default: assert( true ); return {};
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+Color Color::oklab() const
+{
+    switch ( space_ )
+    {
+        case Space::Rgb: return Color( oklab::fromSrgb( srgb_ ), Space::Oklab );
+        case Space::Hsl: return Color( oklab::fromSrgb( static_cast<srgb_t>( rgb::fromHsl( hsl_ ) )), Space::Oklab );
+        case Space::Hsv: return Color( oklab::fromSrgb( static_cast<srgb_t>( rgb::fromHsv( hsv_ ) )), Space::Oklab );
+        case Space::Lch: return Color( oklab::fromSrgb( srgb::fromLch( lch_ ) ), Space::Oklab );
+        case Space::Oklab: return Color( oklab_, Space::Oklab );
         default: assert( true ); return {};
     }
 }
@@ -246,6 +278,7 @@ Color Color::lch() const
         case Space::Hsl: return Color( lch::fromSrgb( static_cast<srgb_t>( rgb::fromHsl( hsl_ ) )), Space::Lch );
         case Space::Hsv: return Color( lch::fromSrgb( static_cast<srgb_t>( rgb::fromHsv( hsv_ ) )), Space::Lch );
         case Space::Lch: return Color( lch_, Space::Lch );
+        case Space::Oklab: return Color( lch::fromXyz( xyz::fromSrgb( srgb::fromOklab( oklab_ ) )), Space::Lch ); //  what a mess ... :D
         default: assert( true ); return {};
     }
 }
@@ -260,6 +293,7 @@ lrgb_t Color::linearRgb() const
         case Space::Hsl: return lrgb::fromSrgb( rgb::fromHsl( hsl_ ) );
         case Space::Hsv: return lrgb::fromSrgb( rgb::fromHsv( hsv_ ) );
         case Space::Lch: return lrgb::fromSrgb( srgb::fromLch( lch_ ) );
+        case Space::Oklab: return lrgb::fromOklab( oklab_ );
         default: assert( true ); return {};
     }
 }
@@ -274,6 +308,7 @@ col8_t Color::rgb8() const
         case Space::Hsl: return rgb8::fromRgb( rgb::fromHsl( hsl_ ) );
         case Space::Hsv: return rgb8::fromRgb( rgb::fromHsv( hsv_ ) );
         case Space::Lch: return rgb8::fromRgb( srgb::fromLch( lch_ ) );
+        case Space::Oklab: return rgb8::fromRgb( srgb::fromOklab( oklab_ ) );
         default: assert( true ); return {};
     }
 }
@@ -288,6 +323,7 @@ uint32_t Color::rgb32() const
         case Space::Hsl: return rgb32::fromRgb( rgb::fromHsl( hsl_ ) );
         case Space::Hsv: return rgb32::fromRgb( rgb::fromHsv( hsv_ ) );
         case Space::Lch: return rgb32::fromRgb( srgb::fromLch( lch_ ) );
+        case Space::Oklab: return rgb32::fromRgb( srgb::fromOklab( oklab_ ) );
         default: assert( true ); return {};
     }
 }
@@ -302,6 +338,7 @@ uint8_t Color::index() const
         case Space::Hsl: return index::fromHsl( hsl_ );
         case Space::Hsv: return index::fromRgb( rgb::fromHsv( hsv_ ) );
         case Space::Lch: return index::fromRgb( srgb::fromLch( lch_ ) );
+        case Space::Oklab: return index::fromRgb( srgb::fromOklab( oklab_ ) );
         default: assert( true ); return {};
     }
 }
@@ -316,6 +353,7 @@ std::string Color::hex() const
         case Space::Hsl: return hex::fromRgb( rgb::fromHsl( hsl_ ) );
         case Space::Hsv: return hex::fromRgb( rgb::fromHsv( hsv_ ) );
         case Space::Lch: return hex::fromRgb( srgb::fromLch( lch_ ) );
+        case Space::Oklab: return hex::fromRgb( srgb::fromOklab( oklab_ ) );
         default: assert( true ); return {};
     }
 }
@@ -330,6 +368,7 @@ const std::string& Color::name() const
         case Space::Hsl: return name::fromRgb( rgb::fromHsl( hsl_ ) );
         case Space::Hsv: return name::fromRgb( rgb::fromHsv( hsv_ ) );
         case Space::Lch: return name::fromRgb( srgb::fromLch( lch_ ) );
+        case Space::Oklab: return name::fromRgb( srgb::fromOklab( oklab_ ) );
         default: assert( true ); return data::xterm.at( 0 ).name;
     }
 }
