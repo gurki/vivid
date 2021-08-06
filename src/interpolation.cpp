@@ -66,7 +66,7 @@ lch_t lerp( const lch_t& lch1, const lch_t& lch2, const float t )
     if ( delta.z > 180.f ) {
         delta.z -= 360.f;
     } else if ( delta.z < - 180.f ) {
-        delta.z += 380.f;
+        delta.z += 360.f;
     }
 
     auto interp = lch1 + t * delta;
