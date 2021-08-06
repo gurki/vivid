@@ -11,6 +11,7 @@ set( SOURCES
     test_main.cpp
     test_conversion_manual.cpp
     test_profiles.cpp
+    test_wrapping.cpp
 )
 
 set( DEPENDENCIES vivid )
