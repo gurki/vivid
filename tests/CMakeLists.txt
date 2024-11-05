@@ -5,16 +5,28 @@ project( vivid_tests
     LANGUAGES CXX
 )
 
-find_package( Qt5 COMPONENTS Core Gui QUIET ) 
+include( FetchContent )
+
+FetchContent_Declare( Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG        v3.4.0
+)
+
+FetchContent_MakeAvailable( Catch2 )
 
 set( SOURCES 
-    test_main.cpp
+    # test_main.cpp
     test_conversion_manual.cpp
     test_profiles.cpp
     test_wrapping.cpp
 )
 
-set( DEPENDENCIES vivid )
+set( DEPENDENCIES 
+    vivid 
+    Catch2::Catch2WithMain
+)
+
+find_package( Qt5 COMPONENTS Core Gui QUIET ) 
 
 if ( Qt5_FOUND )
     
@@ -43,3 +55,8 @@ target_link_libraries( ${PROJECT_NAME}
     PRIVATE 
         ${DEPENDENCIES}
 )
+
+
+include( CTest )
+include( Catch )
+catch_discover_tests( ${PROJECT_NAME} )

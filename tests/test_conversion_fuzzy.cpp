@@ -1,9 +1,8 @@
 #include "utility.h"
-#include "catch.hpp"
-
 #include "vivid/conversion.h"
 #include "vivid/stream.h"
 
+#include <catch2/catch_all.hpp>
 #include <glm/glm.hpp>
 #include <QColor>
 

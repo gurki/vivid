@@ -3,7 +3,8 @@
 #include "vivid/profiles.h"
 #include "vivid/fuzzy.h"
 
-#include "catch.hpp"
+#include <catch2/catch_all.hpp>
+
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtx/component_wise.hpp>

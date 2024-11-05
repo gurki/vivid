@@ -3,7 +3,7 @@
 #include "vivid/conversion.h"
 #include "vivid/stream.h"
 
-#include "catch.hpp"
+#include <catch2/catch_all.hpp>
 
 
 ////////////////////////////////////////////////////////////////////////////////
