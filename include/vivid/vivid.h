@@ -18,6 +18,7 @@
 //    https://www.vis4.net/blog/2011/12/avoid-equidistant-hsv-colors/
 //
 
+#include "vivid/blend.h"
 #include "vivid/color.h"
 #include "vivid/colormap.h"
 #include "vivid/conversion.h"
