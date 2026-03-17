@@ -37,7 +37,12 @@ class ColorMap
             Rainbow,
             Turbo,
             Viridis,
-            Vivid
+            Vivid,
+            ScientificBatlow,
+            ScientificRoma,
+            ScientificRomaO,
+            ScientificVik,
+            ScientificVikO
         };
 
         enum class Interpolation {
@@ -51,6 +56,7 @@ class ColorMap
         ColorMap() = default;
         ColorMap( const Preset type );
         ColorMap( const std::string& file );
+        ColorMap( std::vector<srgb_t> stops );
 
         bool empty() const { return stops_.empty(); }
         size_t numStops() const { return stops_.size(); }
