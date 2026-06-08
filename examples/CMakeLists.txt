@@ -13,6 +13,10 @@ add_executable( ${PROJECT_NAME}_strong_types strong_types.cpp )
 target_link_libraries( ${PROJECT_NAME}_strong_types PRIVATE vivid )
 target_compile_definitions( ${PROJECT_NAME}_strong_types PRIVATE GLM_ENABLE_EXPERIMENTAL )
 
+add_executable( ${PROJECT_NAME}_convert_maps convert_maps.cpp )
+target_link_libraries( ${PROJECT_NAME}_convert_maps PRIVATE vivid )
+target_compile_definitions( ${PROJECT_NAME}_convert_maps PRIVATE GLM_ENABLE_EXPERIMENTAL )
+
 
 # examples with qt dependency (QImage, QColor)
 
@@ -25,8 +29,5 @@ if ( Qt6_FOUND )
     target_link_libraries( ${PROJECT_NAME}_advanced PUBLIC Qt::Core Qt::Gui vivid )
     target_compile_definitions( ${PROJECT_NAME}_advanced PRIVATE GLM_ENABLE_EXPERIMENTAL )
 
-    add_executable( ${PROJECT_NAME}_convert_maps convert_maps.cpp )
-    target_link_libraries( ${PROJECT_NAME}_convert_maps PUBLIC Qt::Core Qt::Gui vivid )
-    target_compile_definitions( ${PROJECT_NAME}_convert_maps PRIVATE GLM_ENABLE_EXPERIMENTAL )
 
 endif()
