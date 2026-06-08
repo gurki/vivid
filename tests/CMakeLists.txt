@@ -26,9 +26,11 @@ set( DEPENDENCIES
     Catch2::Catch2WithMain
 )
 
-find_package( Qt5 COMPONENTS Core Gui QUIET ) 
 
-if ( Qt5_FOUND )
+add_compile_definitions(QT_DISABLE_DEPRECATED_UP_TO=0x060A00)
+find_package( Qt6  COMPONENTS Gui QUIET ) 
+
+if ( Qt6_FOUND )
     
     set( SOURCES 
         ${SOURCES}
@@ -37,8 +39,7 @@ if ( Qt5_FOUND )
 
     set( DEPENDENCIES 
         ${DEPENDENCIES}
-        Qt5::Core
-        Qt5::Gui
+        Qt::Gui
     )
 
 endif()

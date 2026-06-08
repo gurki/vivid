@@ -13,19 +13,21 @@ add_executable( ${PROJECT_NAME}_strong_types strong_types.cpp )
 target_link_libraries( ${PROJECT_NAME}_strong_types PRIVATE vivid )
 target_compile_definitions( ${PROJECT_NAME}_strong_types PRIVATE GLM_ENABLE_EXPERIMENTAL )
 
+add_executable( ${PROJECT_NAME}_convert_maps convert_maps.cpp )
+target_link_libraries( ${PROJECT_NAME}_convert_maps PRIVATE vivid )
+target_compile_definitions( ${PROJECT_NAME}_convert_maps PRIVATE GLM_ENABLE_EXPERIMENTAL )
+
 
 # examples with qt dependency (QImage, QColor)
 
-find_package( Qt5 COMPONENTS Core Gui QUIET ) 
+add_compile_definitions(QT_DISABLE_DEPRECATED_UP_TO=0x060A00)
+find_package( Qt6 COMPONENTS Core Gui QUIET ) 
 
-if ( Qt5_FOUND )
+if ( Qt6_FOUND )
 
     add_executable( ${PROJECT_NAME}_advanced advanced.cpp )
-    target_link_libraries( ${PROJECT_NAME}_advanced PUBLIC Qt5::Core Qt5::Gui vivid )
+    target_link_libraries( ${PROJECT_NAME}_advanced PUBLIC Qt::Core Qt::Gui vivid )
     target_compile_definitions( ${PROJECT_NAME}_advanced PRIVATE GLM_ENABLE_EXPERIMENTAL )
 
-    add_executable( ${PROJECT_NAME}_convert_maps convert_maps.cpp )
-    target_link_libraries( ${PROJECT_NAME}_convert_maps PUBLIC Qt5::Core Qt5::Gui vivid )
-    target_compile_definitions( ${PROJECT_NAME}_convert_maps PRIVATE GLM_ENABLE_EXPERIMENTAL )
 
 endif()
