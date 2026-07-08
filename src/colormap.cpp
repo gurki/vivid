@@ -31,6 +31,11 @@ ColorMap::ColorMap( const Preset preset )
         case Preset::Turbo: stops_ = data::turbo; break;
         case Preset::Viridis: stops_ = data::viridis; break;
         case Preset::Vivid: stops_ = data::vivid; break;
+        case Preset::ScientificBatlow: stops_ = data::batlow; break;
+        case Preset::ScientificRoma: stops_ = data::roma; break;
+        case Preset::ScientificRomaO: stops_ = data::romaO; break;
+        case Preset::ScientificVik: stops_ = data::vik; break;
+        case Preset::ScientificVikO: stops_ = data::vikO; break;
     }
 }
 
@@ -38,6 +43,12 @@ ColorMap::ColorMap( const Preset preset )
 ////////////////////////////////////////////////////////////////////////////////
 ColorMap::ColorMap( const std::string& filename ) {
     stops_ = loadFromFile( filename );
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+ColorMap::ColorMap( std::vector<srgb_t> stops ) {
+    stops_ = std::move( stops );
 }
 
 
